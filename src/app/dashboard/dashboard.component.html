@@ -1,0 +1,21 @@
+<!--<app-header></app-header>-->
+<div class="col-md-12">
+    <div class="col-md-6 form_field">
+        <mat-form-field appearance="outline" hintLabel="Max 10 characters">
+            <mat-label>Enter your Email</mat-label>
+            <input matInput #email maxlength="10" placeholder="Placeholder">
+            <mat-icon matSuffix>sentiment_very_satisfied</mat-icon>
+            <mat-hint align="end">{{email.value?.length || 0}}/10</mat-hint>
+        </mat-form-field>
+    </div>
+    <div class="col-md-6 form_field">
+        <mat-form-field appearance="outline">
+            <mat-label>Enter your password</mat-label>
+            <input matInput [type]="hide ? 'password' : 'text'">
+            <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+        </mat-form-field>
+    </div>
+
+</div>

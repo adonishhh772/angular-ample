@@ -1,8 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
-import {MatSidenavModule} from '@angular/material/sidenav';
 import {HeaderComponent} from './header/header.component';
 
 
@@ -11,9 +10,7 @@ import {HeaderComponent} from './header/header.component';
     declarations: [HeaderComponent],
     imports: [
         MatIconModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatSidenavModule,
+        MatToolbarModule,
         CommonModule
     ],
     exports: [HeaderComponent]

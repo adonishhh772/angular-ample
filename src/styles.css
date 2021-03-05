@@ -8,6 +8,28 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     cursor: pointer;
 }
 
+.flex {
+    display: flex;
+}
+
+.menu_header {
+    background-color: #6EC1E4;
+    margin: 0;
+    height: 50px;
+}
+
+.menu_header h2 {
+    margin-left: 10px;
+    margin-top: 10px;
+    color: white;
+}
+
+
+.row{
+    float: left;
+
+}
+
 .no-border-btn:active{
     border: none;
 }

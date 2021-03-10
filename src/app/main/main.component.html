@@ -3,19 +3,23 @@
         <div class="menu_header flex"><img src="../assets/ampleLogo.png">
             <h2>{{title}}</h2></div>
         <mat-list id="drawerItem" class="side_menu_nav">
-            <mat-list-item title="Dashboard" class="menu_item" (click)="changeRoute($event,'','','Dashboard','dashboard','dashboard')">
+            <mat-list-item title="Dashboard" class="menu_item"
+                           (click)="changeRoute($event,'','','Dashboard','dashboard','dashboard')">
                 <mat-icon matSuffix>dashboard</mat-icon>
                 <span class="menu_title">Dashboard</span></mat-list-item>
-            <mat-list-item title="All Contacts" class="menu_item" (click)="changeRoute($event,'','','All Contacts','about','people')">
+            <mat-list-item title="All Contacts" class="menu_item"
+                           (click)="changeRoute($event,'','','All Contacts','about','people')">
                 <mat-icon matSuffix>people</mat-icon>
                 <span class="menu_title">All Contacts</span>
                 <div class="col-md-5"></div>
                 <span class="menu_badge" matBadge="4" matBadgeOverlap="false"></span></mat-list-item>
-            <mat-list-item title="Leads Manager" class="menu_item" (click)="changeRoute($event,'','','Lead Manager','leads','groups')">
+            <mat-list-item title="Leads Manager" class="menu_item"
+                           (click)="changeRoute($event,'','','Lead Manager','leads','groups')">
                 <mat-icon matSuffix>groups</mat-icon>
                 <span class="menu_title">Leads Manager</span></mat-list-item>
             <mat-accordion>
-                <mat-expansion-panel title="Application Manager" class="menu_item_accordian" (opened)="panelOpenState = true"
+                <mat-expansion-panel title="Application Manager" class="menu_item_accordian"
+                                     (opened)="panelOpenState = true"
                                      (closed)="panelOpenState = false">
                     <mat-expansion-panel-header class="menu_accordian_header">
                         <mat-panel-title class="menu_accordian_title">
@@ -52,25 +56,40 @@
                         </span>
                     </div>
 
-                    <div *ngIf="isMiddleResolution" class="search_bar col-md-4">
+                    <div *ngIf="isMiddleResolution" class="search_bar col-md-4L">
                         <div class="search-wrapper {{active}}">
                             <div class="input-holder">
                                 <input type="text" class="search-input" placeholder="Type to search">
-                                <button mat-icon-button matSuffix class="search-icon no-border-btn" (click)="searchTrigger()"><mat-icon>search</mat-icon></button>
+                                <button mat-icon-button matSuffix class="search-icon no-border-btn"
+                                        (click)="searchTrigger()">
+                                    <mat-icon>search</mat-icon>
+                                </button>
                             </div>
-                            <button mat-icon-button matSuffix class="close" (click)="closeSearch()"><mat-icon>close</mat-icon></button>
+                            <button mat-icon-button matSuffix class="close" (click)="closeSearch()">
+                                <mat-icon>close</mat-icon>
+                            </button>
                         </div>
                     </div>
-                    <div class="menu_bar_items col-md-4">
-                        <button *ngIf="!isMiddleResolution" mat-icon-button matSuffix (click)="toggleSearchBar()" class="no-border-btn">
+                    <div class="menu_bar_items col-md-2">
+                        <button *ngIf="!isMiddleResolution" mat-icon-button matSuffix (click)="toggleSearchBar()"
+                                class="no-border-btn">
                             <mat-icon>search</mat-icon>
                         </button>
-                        <button mat-icon-button matSuffix (click)="openMail()" [matMenuTriggerFor]="menu_notify" class="no-border-btn">
+                        <button mat-icon-button matSuffix (click)="openMail()" [matMenuTriggerFor]="menu_notify"
+                                class="no-border-btn">
                             <mat-icon>{{mailIcon}}</mat-icon>
                         </button>
-                        <button mat-icon-button matSuffix  matBadge="7" [matBadgeHidden]="hidden" (click)="toggleBadgeVisibility()" [matMenuTriggerFor]="menu_notify" class="no-border-btn">
+                        <button mat-icon-button matSuffix matBadge="7" [matBadgeHidden]="hidden"
+                                (click)="toggleBadgeVisibility()" [matMenuTriggerFor]="menu_notify"
+                                class="no-border-btn">
                             <mat-icon class="icon-anim-pulse">notifications</mat-icon>
                         </button>
+                        <button mat-icon-button (click)="toggleProfile()" class="no-border-btn marginl10 profile">
+                            <img src="../../assets/avatar.png">
+                        </button>
+                        <div class="col-md-4 dropdown-menu-lg bg-info dropdown-menu dropdown-menu-right {{show}}">
+                            <app-profile></app-profile>
+                        </div>
                         <mat-menu #menu_notify="matMenu">
                             <h2>{{menuTile}}</h2>
                             <button mat-menu-item>Item 1</button>
@@ -81,7 +100,10 @@
                         <div class="search-wrapper active">
                             <div class="input-holder">
                                 <input type="text" class="search-input" placeholder="Type to search">
-                                <button mat-icon-button matSuffix class="search-icon no-border-btn" (click)="searchTrigger()"><mat-icon>search</mat-icon></button>
+                                <button mat-icon-button matSuffix class="search-icon no-border-btn"
+                                        (click)="searchTrigger()">
+                                    <mat-icon>search</mat-icon>
+                                </button>
                             </div>
                         </div>
                     </div>

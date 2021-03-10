@@ -1,10 +1,51 @@
 .image_placeholder{
-    border-right: 2px solid #6EC1E4;
     background-color: #6EC1E4;
+    margin: auto;
+    text-align-last: center;
+}
+
+.image_placeholder img{
+    width: 87.6%;
+    /*height: auto;*/
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.mat_form_fields{
+    width: 50%;
+}
+
+.frgt_psswrd{
+    cursor: pointer;
+}
+
+.frgt_psswrd:hover{
+    text-decoration: underline;
+}
+
+.mat_form_spinner{
+    margin-left: 40px;
+}
+
+.mat_form_fields_checkbox{
+    float: right;
+}
+
+.mat_form_label{
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.form_field{
+    text-align: center;
+    padding: 10px;
 }
 
 
-
-.form_field{
-    padding: 10px;
+@media only screen and (min-width: 550px) {
+    .center{
+        position: absolute;
+        top: 50%;
+        left: 55%;
+        transform: translateY(-50%)
+    }
 }

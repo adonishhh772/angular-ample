@@ -11,7 +11,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatInputModule} from '@angular/material/input';
 import { MainComponent } from './main.component';
 import {MainRoutingModule} from './main-routing';
-
+import {ComponentModule} from '../Components/component.module';
 
 
 @NgModule({
@@ -27,7 +27,8 @@ import {MainRoutingModule} from './main-routing';
       MatProgressBarModule,
       MatMenuModule,
       MatToolbarModule,
-      MatInputModule
+      MatInputModule,
+      ComponentModule
   ]
 })
 export class MainModule { }

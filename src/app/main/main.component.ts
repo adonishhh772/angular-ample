@@ -16,6 +16,7 @@ export class MainComponent implements AfterViewInit {
     mailIcon = 'mail';
     menuTile = '';
     active = '';
+    show = '';
     openSearch = '';
     isMiddleResolution = true;
     menu = [{icon: 'dashboard', text: 'Dashboard'}, {icon: '', text: ''}];
@@ -28,13 +29,28 @@ export class MainComponent implements AfterViewInit {
     ngAfterViewInit() {
         const el = this.elRef.nativeElement.querySelector('.menu_item');
         this.renderer.addClass(el, 'selected_side_nav');
-        if(window.innerWidth < 600){
+        if (window.innerWidth < 600){
             this.isMiddleResolution = false;
             this.active = '';
         }else{
             this.openSearch = '';
             this.isMiddleResolution = true;
         }
+
+        this.renderer.listen('window', 'click', (e: Event) => {
+            let profile = this.elRef.nativeElement.querySelector('.profile');
+            let dropdown = this.elRef.nativeElement.querySelector('.dropdown-menu');
+            /**
+             * Only run when toggleButton is not clicked
+             * If we don't check this, all clicks (even on the toggle button) gets into this
+             * section which in the result we might never see the menu open!
+             * And the menu itself is checked here, and it's where we check just outside of
+             * the menu and button the condition abbove must close the menu
+             */
+            if (!profile.contains(e.target) && !dropdown.contains(e.target)) {
+                this.show = '';
+            }
+        });
     }
 
     toggleNav(drawer: any) {
@@ -114,7 +130,7 @@ export class MainComponent implements AfterViewInit {
     }
 
     searchTrigger(){
-        if(this.isMiddleResolution){
+        if (this.isMiddleResolution){
             this.active = 'active';
         }
 
@@ -126,24 +142,32 @@ export class MainComponent implements AfterViewInit {
 
     @HostListener('window:resize')
     onWindowResize() {
-        if(window.innerWidth < 600){
+        if (window.innerWidth < 600){
             this.isMiddleResolution = false;
             this.active = '';
         }else{
             this.openSearch = '';
             this.isMiddleResolution = true;
         }
-        console.log(window.innerWidth);
+        // console.log(window.innerWidth);
     }
 
 
     toggleSearchBar(){
-        if(this.openSearch == ''){
+        if (this.openSearch == ''){
             this.openSearch = 'open';
         }else{
             this.openSearch = '';
         }
 
+    }
+
+    toggleProfile(){
+        if (this.show == ''){
+            this.show = 'show';
+        }else{
+            this.show = '';
+        }
     }
 
 }

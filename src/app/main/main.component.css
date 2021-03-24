@@ -1,8 +1,8 @@
 .side_menu {
     width: 17%;
     background: rgb(34, 45, 49);
-    position: fixed;
     border: 1px;
+    transition: 0.5s;
 }
 
 .menu_accordian_pointer::after {
@@ -31,6 +31,10 @@
 
 .menu_item:hover {
     background: rgba(0, 0, 0, 0.04);
+}
+
+.menu_item:hover > .treeview{
+    display: none;
 }
 
 .menu_item_accordian {
@@ -81,13 +85,19 @@
     padding: 0;
 }
 
+.drawer_content{
+    transition: 0.5s;
+    margin: 0px !important;
+    width: 83%;
+}
+
 .side_menu_nav mat-list-item {
     color: rgb(185, 200, 207);
     cursor: pointer;
 }
 
 .menu-content {
-    height: 672px;
+    height: 650px;
 }
 
 .breadcurm_text {
@@ -247,6 +257,8 @@ button.close {
     position: absolute;
     content: '';
 }
+
+
 .search-wrapper {
     position: relative;
     float: right;
@@ -289,6 +301,10 @@ button.close {
         width: 55px;
     }
 
+    .breadcrum{
+        width: 35% !important;
+    }
+
     .menu_toggle{
         display: none;
     }
@@ -305,21 +321,98 @@ button.close {
         height: 50px;
     }
 
+    .drawer_content{
+        width: 97%;
+    }
+
+    .menu_title{
+        display: none;
+    }
+
     .side_menu_nav .menu_title, .menu_header h2, .side_menu_nav .menu_badge {
         display: none;
     }
 
 }
 
+@media only screen and (max-width: 1225px) {
+    .menu_bar_items{
+        width: auto !important;
+    }
+}
+
+@media only screen and (max-width: 1225px) and (min-width: 1000px) {
+    .breadcrum{
+        width: 30% !important;
+    }
+
+}
+
+
+
+@media only screen and (max-width: 998px) and (min-width: 960px) {
+    .breadcrum{
+        width: 50% !important;
+    }
+}
+
+@media only screen and (max-width: 960px) and (min-width: 765px) {
+    .breadcrum{
+        width: 55% !important;
+    }
+}
+
+
+@media only screen and (max-width: 765px) and (min-width: 700px){
+    .breadcrum{
+        width: 50% !important;
+    }
+}
+
+@media only screen and (max-width: 700px) and (min-width: 640px){
+    .breadcrum{
+        width: 45% !important;
+    }
+}
+
+
+@media only screen and (max-width: 550px){
+    .breadcrum{
+        width: auto !important;
+    }
+}
+
+@media only screen and (max-width: 800px) {
+    /*.search-*/
+    .search_bar{
+        width: auto !important;
+    }
+}
 
 @media only screen and (max-width: 960px) {
     .breadcurm_text p {
         display: none;
     }
+    .menu_bar mat-icon{
+        font-size: 20px;
+    }
 
+    .mr-1{
+        margin-right: 0px !important;
+    }
+
+    .no-border-btn img{
+        width: 25px;
+        height: 25px;
+    }
+
+    .menu_bar_items{
+        width: auto !important;
+    }
 
 
 }
+
 
 .app_header_app_mobile {
     visibility: hidden;
@@ -389,7 +482,7 @@ button.close {
     margin: .125rem;
     position: absolute;
     top: 85%;
-    left: 57.5%;
+    left: 56.5%;
     z-index: 1000;
     display: none;
     float: left;
@@ -404,8 +497,31 @@ button.close {
     border-radius: .25rem;
 }
 
+.tree-menu{
+    border-radius: 0px 10px 10px 0px;
+    list-style: none;
+    position: fixed;
+    background: rgb(34, 45, 49);
+    margin-left: 39px;
+    margin-top: 6.7%;
+    padding: 10px;
+}
+
 
 .bg-info {
     background-color: #6EC1E4 !important;
+}
+
+.mr-1{
+    margin-right: 10px;
+}
+
+.appln_rotate{
+    -ms-transform: rotate(20deg); /* IE 9 */
+    transform: rotate(20deg);
+}
+
+.side_nav_close{
+    width: 55px !important;
 }
 

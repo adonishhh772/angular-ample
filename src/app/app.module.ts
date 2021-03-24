@@ -14,7 +14,7 @@ export function tokenGetter() {
 
 @NgModule({
     declarations: [
-        AppComponent,
+        AppComponent
     ],
     imports: [
         BrowserModule,
@@ -24,8 +24,8 @@ export function tokenGetter() {
         JwtModule.forRoot({
             config: {
                 tokenGetter: tokenGetter,
-                allowedDomains: ['localhost:8080'],
-                disallowedRoutes: ['localhost:8080/ample/api/v1/']
+                allowedDomains: ['localhost:3030'],
+                disallowedRoutes: ['localhost:3030/ample/api/v1/']
             }
         })
 

@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {FormGroup, Validators, FormControl} from '@angular/forms';
-import { AuthService } from '../Services/auth.service';
-import { Router } from '@angular/router';
-import { first } from 'rxjs/operators';
+import {AuthService} from '../Services/auth.service';
+import {Router, ActivatedRoute} from '@angular/router';
+import {finalize} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Subscription} from 'rxjs';
+
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+    selector: 'app-login',
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
     hideLoginPass = true;
     hidePass = true;
+    private subscription: Subscription | undefined;
     hideRePass = true;
     isInForgotPassword = false;
     isSubmitted = false;
@@ -26,40 +29,44 @@ export class LoginComponent implements OnInit {
         resPass: new FormControl('', [Validators.required, Validators.minLength(8)]),
         conformPass: new FormControl('', [Validators.required, Validators.minLength(8)]),
     });
-  constructor(private auth: AuthService, private router: Router, private _snackBar: MatSnackBar) { }
 
-  ngOnInit(): void {
-
-  }
-
-    toggleLogin(): void{
-    if(!this.isInForgotPassword){
-        this.isInForgotPassword = true;
-    }else{
-        this.isInForgotPassword = false;
+    constructor(private auth: AuthService,
+                private route: ActivatedRoute, private router: Router, private _snackBar: MatSnackBar) {
     }
 
+    ngOnInit(): void {
     }
 
-    login(){
+    toggleLogin(): void {
+        if (!this.isInForgotPassword) {
+            this.isInForgotPassword = true;
+        } else {
+            this.isInForgotPassword = false;
+        }
+
+    }
+
+    login() {
         this.isSubmitted = true;
         if (!this.loginForm.valid) {
             return false;
         } else {
             this.isValidated = true;
-            this.auth.login(this.loginForm.value.email,this.loginForm.value.password)
-                .pipe(first())
+            const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
+            this.auth.login(this.loginForm.value.email, this.loginForm.value.password)
+                .pipe(finalize(() => (this.isSubmitted = false)))
                 .subscribe(
-                    result => {
-                        this.router.navigate(['/']);
-                        },
-                    err => {
-                        console.log(err.error.msg);
-                        this.isSubmitted = false;
-                        this._snackBar.open(err.error.msg, '',{
-                            duration: 2000,
-                        });
-
+                    () => {
+                        this.router.navigate([returnUrl]);
+                    },
+                    (error) => {
+                        if (error.error !== undefined) {
+                            this._snackBar.open(error.error.msg, '', {
+                                duration: 2000,
+                            });
+                        } else {
+                            this.router.navigate([returnUrl]);
+                        }
                     }
                 );
             return true;
@@ -67,7 +74,7 @@ export class LoginComponent implements OnInit {
 
     }
 
-    resetPass(){
+    resetPass() {
 
     }
 
@@ -76,8 +83,12 @@ export class LoginComponent implements OnInit {
         return this.loginForm.controls;
     }
 
-    get err(){
-      return this.resetForm.controls;
+    get err() {
+        return this.resetForm.controls;
+    }
+
+    ngOnDestroy(): void {
+        this.subscription?.unsubscribe();
     }
 
 }

@@ -8,7 +8,7 @@
                         <img width="42" class="rounded-circle" src="" alt="">
                     </div>
                     <div class="widget-content-left">
-                        <div class="widget-heading" (click)="gotoProfile()">{{profile.name}}</div>
+                        <div class="widget-heading" (click)="gotoProfile($event)">{{profile.name}}</div>
                         <div class="widget-subheading opacity-8">Member Since {{profile.create_date | date:'longDate' }}</div>
                         <div class="widget-subheading opacity-8">{{profile.role}}</div>
                     </div>

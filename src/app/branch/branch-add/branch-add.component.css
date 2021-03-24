@@ -1,0 +1,20 @@
+.branch .row{
+    float: none;
+}
+
+.rotate{
+    transform: rotate(270deg);
+}
+
+
+.branch_body{
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.branch_footer{
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+    padding: 10px;
+    text-align: right;
+}

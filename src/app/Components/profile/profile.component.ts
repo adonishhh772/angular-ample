@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import {Router} from '@angular/router';
 import {AuthService} from '../../Services/auth.service';
-import {environment} from '../../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+
 
 @Component({
   selector: 'app-profile',
@@ -11,37 +10,28 @@ import {HttpClient} from '@angular/common/http';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-    private readonly apiUrl = `${environment.apiUrl}users/`;
-  errorMessage = '';
-  profile: any = [];
-  constructor(private authService: AuthService, private router: Router, private http: HttpClient) { }
+    @Input() profile: any = [];
+    @Input() errorMessage = '';
 
-  ngOnInit(): void {
-    this.getUsers();
+  constructor(private authService: AuthService, private router: Router) { }
+  ngOnInit(): void {}
 
-  }
 
   logout(): void{
     this.authService.logout();
     this.router.navigate(['login']);
   }
 
-    getUsers(): any{
-        const headers = { 'Authorization': 'Bearer ' + localStorage.getItem('access_token') };
-        this.http.get<any>(`${this.apiUrl + localStorage.getItem('uid')}`, {headers}).subscribe({
-            next: data => {
-                this.profile = data.data;
-            },
-            error: error => {
-                this.errorMessage =  error.message;
-            }
-        });
-    }
 
 
-    gotoProfile(): void{
-      console.log('sdadasda');
+    gotoProfile(e: any): void{
+      if(e.target.offsetParent.offsetParent.offsetParent.offsetParent.offsetParent.className.includes('show')){
+          e.target.offsetParent.offsetParent.offsetParent.offsetParent.offsetParent.className = e.target.offsetParent.offsetParent.offsetParent.offsetParent.offsetParent.className.replace(' show', '');
+      }
+      
+      this.router.navigate(['profile-details'], {state: {data: this.profile}});
     }
+
 
 
 

@@ -1,0 +1,23 @@
+.table_responsive{
+    width: 100%;
+    margin-top: -30px;
+}
+
+.branch_container{
+    padding: 15px 15px 0 22px;
+}
+
+.branch_container button{
+    float: right;
+    margin: 10px;
+    background:#6EC1E4 !important
+}
+
+.components_container{
+    top: 0 !important;
+}
+
+.table_header{
+    font-size: 18px;
+    color: white;
+}

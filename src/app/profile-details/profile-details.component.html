@@ -1,1 +1,139 @@
-<p>profile-details works!</p>
+<div class="components_container">
+            <div class="col-md-12 row gutters-sm">
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="col-md-12">
+                            <button *ngIf="!editAble" (click)="toggleEdit()" mat-mini-fab color="primary" class="fab-button-small">
+                                <mat-icon class="fab_icon_small">create</mat-icon>
+                            </button>
+                        </div>
+
+                        <div class="card-body p-0">
+                            <div class="d-flex flex-column align-items-center text-center">
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                                <div class="mt-3">
+                                    <h4>{{profileName}}</h4>
+                                    <p class="text-secondary mb-1">{{profileRole}}</p>
+                                    <p class="text-muted font-size-sm">Member Since {{memberDate | date:'longDate' }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="card col-md-12 mb-3">
+                        <div class="card-body">
+                            <div *ngIf="!editAble">
+                                <div *ngFor="let profile of naviagtionData" class="row col-md-5L mb-10">
+                                    <div class="col-md-12 row border p-10">
+                                        <div class="col-md-2 pt-7">
+                                            <span class="material-icons">{{profile.icon}}</span>
+                                        </div>
+                                        <div class="col-md-10 text-left">
+                                            <h6 class="mb-0">{{profile.key}}</h6>
+                                            <div *ngIf="profile.nameKey != 'birthday'" class="text-secondary">
+                                                {{profile.value ===''?'-':profile.value}}
+                                            </div>
+                                            <div *ngIf="profile.nameKey == 'birthday'" class="text-secondary">
+                                                {{profile.value | date:'yyyy-MM-dd'}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div *ngIf="editAble">
+                                <form [formGroup]="updateProfileForm" (ngSubmit)="updateProfile()">
+                                    <div *ngFor="let profile of naviagtionData" class="row h-75 col-md-5L mb-10">
+                                        <div [className]="isSubmitted &&errorControl[profile.nameKey].errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                                            <div class="col-md-2 {{padding}}">
+                                                <span class="material-icons">{{profile.icon}}</span>
+                                            </div>
+                                            <div class="col-md-10 text-left">
+                                                <div *ngIf="profile.inputType !== 'radio'">
+                                                    <div *ngIf="!profile.disabled && profile.inputType !== 'date' && profile.inputType !== 'select'">
+                                                        <mat-form-field class="col-md-12">
+                                                            <mat-label>{{profile.key}} {{profile.required?'*':''}}</mat-label>
+                                                            <input matInput type="{{profile.inputType}}" value="{{profile.value}}" formControlName="{{profile.nameKey}}" ngDefaultControl>
+                                                            <mat-hint *ngIf="profile.key === 'Reply Email' && !errorControl[profile.nameKey].errors">Enter Email in which clients will reply when email sent by this user</mat-hint>
+                                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.required">
+                                                                {{profile.key}} is required.</mat-hint>
+                                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.pattern">
+                                                                Please provide valid {{profile.key}}.</mat-hint>
+                                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.maxlength">
+                                                                Maximum value for {{profile.key}} is 10.</mat-hint>
+                                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.minlength">
+                                                                Minimum value for {{profile.key}} is 10.</mat-hint>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div *ngIf="!profile.disabled && profile.inputType == 'date' && profile.inputType !== 'select'">
+                                                        <mat-form-field class="col-md-12">
+                                                            <mat-label>{{profile.key}} {{profile.required?'*':''}}</mat-label>
+                                                            <input matInput type="{{profile.inputType}}" value="{{profile.value}}" [ngModel]="profile.value | date:'yyyy-MM-dd'" formControlName="{{profile.nameKey}}" ngDefaultControl>
+                                                            <mat-hint *ngIf="profile.key === 'Reply Email' && !errorControl[profile.nameKey].errors">Enter Email in which clients will reply when email sent by this user</mat-hint>
+                                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.required">
+                                                                {{profile.key}} is required.</mat-hint>
+                                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.pattern">
+                                                                Please provide valid {{profile.key}}.</mat-hint>
+                                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.maxlength">
+                                                                Maximum value for {{profile.key}} is 10.</mat-hint>
+                                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.minlength">
+                                                                Minimum value for {{profile.key}} is 10.</mat-hint>
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div *ngIf="profile.disabled">
+                                                        <mat-form-field class="col-md-12">
+                                                            <mat-label>{{profile.key}} {{profile.required?'*':''}}</mat-label>
+                                                            <input matInput type="{{profile.inputType}}" value="{{profile.value}}" disabled>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div *ngIf="!profile.disabled &&  profile.inputType == 'select' && profile.nameKey === 'country'">
+                                                        <mat-form-field class="col-md-12">
+                                                            <mat-label>{{profile.key}} {{profile.required?'*':''}}</mat-label>
+                                                            <mat-select formControlName="{{profile.nameKey}}" ngDefaultControl>
+                                                                <mat-option *ngFor="let county of country" [value]="county.name">
+                                                                    {{county.name}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                    <div *ngIf="!profile.disabled &&  profile.inputType == 'select' && profile.nameKey === 'timezone'">
+                                                        <mat-form-field class="col-md-12">
+                                                            <mat-label>{{profile.key}} {{profile.required?'*':''}}</mat-label>
+                                                            <mat-select formControlName="{{profile.nameKey}}" ngDefaultControl>
+                                                                <mat-option *ngFor="let time of timeZone" [value]="time.value">
+                                                                    {{time.text}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="profile.inputType === 'radio'">
+                                                    <mat-radio-group aria-label="Select an option" formControlName="{{profile.nameKey}}">
+                                                        <h6 class="mb-0">{{profile.key}} {{profile.required?'*':''}}</h6>
+                                                        <mat-radio-button class="pr-10" value="male">Male</mat-radio-button>
+                                                        <mat-radio-button value="female">Female</mat-radio-button>
+                                                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.required">
+                                                            {{profile.key}} is required.</mat-hint>
+                                                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl[profile.nameKey].errors?.pattern">
+                                                            Please provide valid {{profile.key}}.</mat-hint>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                        <div *ngIf="editAble" class="card_footer">
+                            <button [disabled]="isProcessing" mat-raised-button (click)="updateProfile()" color="primary" class="mr-10">Update</button>
+                            <button [disabled]="isProcessing" mat-raised-button (click)="toggleEdit()" color="warn">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>

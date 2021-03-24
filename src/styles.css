@@ -59,8 +59,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 100%;
 }
 
+.col-md-10{
+    width: 90%;
+}
+
 .col-md-5{
     width: 40%;
+}
+
+.col-md-2{
+    width: 10%;
 }
 
 .col-md-6{
@@ -89,8 +97,96 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     box-shadow: 0 0.46875rem 2.1875rem rgb(4 9 20 / 3%), 0 0.9375rem 1.40625rem rgb(4 9 20 / 3%), 0 0.25rem 0.53125rem rgb(4 9 20 / 5%), 0 0.125rem 0.1875rem rgb(4 9 20 / 3%);
 }
 
+.components_container{
+    margin: 0 20px;
+    position: relative;
+    top: 20px;
+    background-color: white;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+    border-radius: 3px;
+}
+
+.heading{
+    padding: 10px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+    margin: 0 !important;
+}
+
+
+.border{
+    border: 1px solid;
+    border-radius: 25px;
+    border-color:  rgba(0, 0, 0, 0.13);
+}
+
+.border_btm{
+    border-bottom: 1px solid;
+}
+
+.text-left{
+    text-align: left;
+}
+
+.mb-10{
+    margin: 10px;
+}
+
+.mb-0{
+    margin: 0px;
+}
+
+.p-10{
+    padding: 10px;
+}
+
+.p-0{
+    padding: 0px;
+}
+
+.mr-10{
+    margin-right: 10px !important;
+}
+
+.pt-7{
+    padding-top: 7px;
+}
+
+.pt-15{
+    padding-top: 15px;
+}
+
+.h-75{
+    height: 75px;
+}
+
+.col-md-5L{
+    width: 47%;
+}
+
+.pr-10{
+    padding-right: 10px;
+}
+
+.row {
+    display: -ms-flexbox;
+    display: flex;
+}
+
+.col-sm-2{
+    width: 7%;
+}
+
+.pt-15{
+    padding-top: 15px;
+}
+
 @media only screen and (max-width: 550px) {
     .col-md-5{
         width: 30%;
     }
+
+    .col-md-4{
+        width: auto;
+    }
 }
+

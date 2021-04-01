@@ -126,7 +126,9 @@ $app-theme: mat-light-theme((
 .mat-sort-header-arrow{
   color: white;
 }
-
+.mat-expansion-indicator{
+  display: none;
+}
 @media only screen and (max-width: 1400px) and (min-width: 1300px) {
 
   .mat-tab-disabled:first-child{

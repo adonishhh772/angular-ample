@@ -1,0 +1,48 @@
+.components_container{
+    background-color: transparent !important;
+}
+
+.agent_detail{
+    border-top: 2px solid #3c8dbc;
+}
+
+.text-disabled{
+    color: #777;
+}
+
+.header{
+    font-weight: 500;
+}
+
+.sub_card_agent_header{
+    display: flex !important;
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+}
+
+.agent_company .agent_detail .sub_card_content .border_btm_disabled:hover{
+    background-color: rgba(0,0,0,0.2);
+}
+
+.text_right{
+    text-align: right;
+}
+
+.btn-top{
+    position: relative;
+    bottom: 10px;
+}
+
+.border_btm_disabled{
+    border-bottom: 1px solid rgba(0,0,0,0.5);
+}
+
+.icon_text{
+    position: relative;
+    bottom: 5px;
+    font-size: 15px !important;
+    padding-left: 5px;
+}
+
+.agent_company{
+    margin: 0 50px;
+}

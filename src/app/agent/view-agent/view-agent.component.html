@@ -1,0 +1,112 @@
+<div class="components_container" *ngIf="isLoaded">
+    <div class="col-md-12 flex mb-20">
+        <div class="col-md-4">
+            <mat-card class="agent_detail">
+                <mat-card-header>
+                    <mat-card-title class="sub_card_header">
+                        <span class="">{{naviagtionData[0].company_name}}</span>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="sub_card_content">
+                        <div class="col-md-12 text-disabled prtb-10 border_btm_disabled">Agent Id: {{naviagtionData[0].agent_no}}</div>
+                        <div class="col-md-12 prtb-10 border_btm_disabled">
+                            <div class="col-md-12 header"><span class="material-icons">calendar_today</span><span class="icon_text">Created At</span></div>
+                            <div class="col-md-12 text-disabled">{{naviagtionData[0].created_date | date:'longDate'}}</div>
+                        </div>
+                        <div class="col-md-12 prtb-10 border_btm_disabled">
+                            <div class="col-md-12 header"><span class="material-icons">add_circle</span><span class="icon_text">Added By</span></div>
+                            <div class="col-md-12 text-disabled">{{naviagtionData[0].added_by}}</div>
+                        </div>
+                        <div class="col-md-12 prtb-10 border_btm_disabled">
+                            <div class="col-md-12 header"><span class="material-icons">description</span><span class="icon_text">Description</span></div>
+                            <div class="col-md-12 text-disabled">{{naviagtionData[0].description}}</div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col-md-8 agent_company">
+            <mat-card class="agent_detail">
+                <mat-card-header>
+                    <mat-card-title class="sub_card_agent_header col-md-12">
+                        <div class="col-md-10">Company Details</div>
+                        <div class="col-md-2 text_right">
+                            <button mat-icon-button class="ample_button btn-top">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="sub_card_content">
+                        <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                            <div class="col-md-4 header"><span class="icon_text"> Agent ID </span></div>
+                            <div class="col-md-8 text-disabled">{{naviagtionData[0].agent_no}}</div>
+                        </div>
+                        <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                            <div class="col-md-4 header"><span class="icon_text">Company Name</span></div>
+                            <div class="col-md-8 text-disabled">{{naviagtionData[0].company_name}}</div>
+                        </div>
+                        <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                            <div class="col-md-4 header"><span class="icon_text">Phone Number</span></div>
+                            <div class="col-md-8 text-disabled">{{naviagtionData[0].phoneNo}}</div>
+                        </div>
+                        <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                            <div class="col-md-4 header"><span class="icon_text">Email</span></div>
+                            <div class="col-md-8 text-disabled">{{naviagtionData[0].email}}</div>
+                        </div>
+                        <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                            <div class="col-md-4 header"><span class="icon_text">Website</span></div>
+                            <div class="col-md-8 text-disabled">{{naviagtionData[0].website}}</div>
+                        </div>
+                        <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                            <div class="col-md-4 header"><span class="icon_text">Invoice To</span></div>
+                            <div class="col-md-8 text-disabled">{{naviagtionData[0].invoice_to}}</div>
+                        </div>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+
+<div class="col-md-12 flex">
+    <div class="col-md-4"></div>
+    <div class="col-md-8 agent_company">
+        <mat-card class="agent_detail">
+            <mat-card-header>
+                <mat-card-title class="sub_card_agent_header col-md-12 pb-10">
+                    <div class="col-md-12">Address Details</div>
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="sub_card_content">
+                    <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                        <div class="col-md-4 header"><span class="icon_text">Street</span></div>
+                        <div class="col-md-8 text-disabled">{{naviagtionData[0].street}}</div>
+                    </div>
+                    <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                        <div class="col-md-4 header"><span class="icon_text">Suburb</span></div>
+                        <div class="col-md-8 text-disabled">{{naviagtionData[0].suburb }}</div>
+                    </div>
+                    <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                        <div class="col-md-4 header"><span class="icon_text">Postcode</span></div>
+                        <div class="col-md-8 text-disabled">{{naviagtionData[0].post_code}}</div>
+                    </div>
+                    <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                        <div class="col-md-4 header"><span class="icon_text">State</span></div>
+                        <div class="col-md-8 text-disabled">{{naviagtionData[0].state}}</div>
+                    </div>
+                    <div class="col-md-12 prtb-10 border_btm_disabled flex">
+                        <div class="col-md-4 header"><span class="icon_text">Country</span></div>
+                        <div class="col-md-8 text-disabled">{{naviagtionData[0].country}}</div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>
+
+
+</div>

@@ -11,7 +11,7 @@ import {AuthService} from '../Services/auth.service';
     styleUrls: ['./main.component.css']
 })
 export class MainComponent implements AfterViewInit, OnInit {
-    private readonly apiUrl = `${environment.apiUrl}users/`;
+    private readonly apiUrl = `${environment.apiUrl}`;
     // title = '';
     title = 'Ample Education';
     icon = 'dashboard';
@@ -24,8 +24,10 @@ export class MainComponent implements AfterViewInit, OnInit {
     hasShrunk = false;
     menuTile = '';
     started = false;
+    agentCount = 0;
     active = '';
     errorMessage = '';
+    branchCount = 0;
     profile: any = [];
     column = 'col-md-4';
     show = '';
@@ -36,6 +38,8 @@ export class MainComponent implements AfterViewInit, OnInit {
 
     constructor(private authService: AuthService, private router: Router, private renderer: Renderer2, private elRef: ElementRef, private http: HttpClient) {
         this.router.navigate(['dashboard']);
+        this.getBranch();
+        this.getAgent();
         this.router.events.subscribe(val => {
             if (val instanceof NavigationStart) {
                 this.started = true;
@@ -43,6 +47,8 @@ export class MainComponent implements AfterViewInit, OnInit {
                     case '/profile-details':
                         this.menu[0].text = 'Profile Details';
                         this.menu[0].icon = 'groups';
+                        this.menu[1].text = '';
+                        this.menu[1].icon = '';
                         break;
 
                     case '/branch/add':
@@ -58,6 +64,39 @@ export class MainComponent implements AfterViewInit, OnInit {
                             this.menu[1].text = 'Add Branch';
                             this.menu[1].icon = 'add_circle';
                         }
+                        break;
+
+                    case '/branch/all':
+                        this.menu[0].text = 'Branch Manager';
+                        this.menu[0].icon = 'account_tree';
+                        this.menu[1].text = 'All Branches';
+                        this.menu[1].icon = 'view_list';
+                        break;
+                    case '/agent/add':
+                        const selectedAgent = this.elRef.nativeElement.querySelector('.selected_side_nav').nextSibling;
+                        if (selectedAgent.nextSibling !== null) {
+                            const el = this.elRef.nativeElement.querySelectorAll('.menu_item');
+                            el.forEach((cl: any) => {
+                                this.renderer.removeClass(cl, 'selected_side_nav');
+                            });
+                            this.renderer.addClass(selectedAgent, 'selected_side_nav');
+                            this.menu[0].text = 'Agent';
+                            this.menu[0].icon = 'support_agent';
+                            this.menu[1].text = 'Add Agent';
+                            this.menu[1].icon = 'add_circle';
+                        }
+                        break;
+                    case '/agent/all':
+                        this.menu[0].text = 'Agents';
+                        this.menu[0].icon = 'support_agent';
+                        this.menu[1].text = 'All Agents';
+                        this.menu[1].icon = 'view_list';
+                        break;
+                    case '/agent/view':
+                        this.menu[0].text = 'Agents';
+                        this.menu[0].icon = 'support_agent';
+                        this.menu[1].text = 'Agent';
+                        this.menu[1].icon = 'remove_red_eye';
                         break;
                 }
                 // Show loading indicator
@@ -274,10 +313,32 @@ export class MainComponent implements AfterViewInit, OnInit {
     }
 
     getUsers(): any {
-        this.http.get<any>(`${this.apiUrl + this.authService.userId}`).subscribe({
+        this.http.get<any>(this.apiUrl + 'users/' + this.authService.userId).subscribe({
             next: data => {
                 this.show = 'show';
                 this.profile = data.data;
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
+    }
+
+    getBranch(): any {
+        this.http.get<any>(this.apiUrl + 'branch/').subscribe({
+            next: data => {
+                this.branchCount = data.data.length;
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
+    }
+
+    getAgent(): any {
+        this.http.get<any>(this.apiUrl + 'agent/').subscribe({
+            next: data => {
+                this.agentCount = data.data.length;
             },
             error: error => {
                 this.errorMessage = error.message;

@@ -70,6 +70,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .col-md-2{
     width: 10%;
 }
+.col-md-2L{
+    width: 18%;
+}
 
 .col-md-6{
     width: 49.98%;
@@ -106,10 +109,23 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-radius: 3px;
 }
 
+.ample_button{
+    background: #6EC1E4;
+    color: white;
+}
+
+.prtb-10{
+    padding: 10px 10px 10px 0;
+}
+
 .heading{
     padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.13);
     margin: 0 !important;
+}
+
+.error{
+    border-color: #f44336 !important;
 }
 
 
@@ -129,6 +145,14 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mb-10{
     margin: 10px;
+}
+
+.mb-20{
+    margin-bottom: 20px;
+}
+
+.pb-10{
+    padding-bottom: 10px;
 }
 
 .mb-0{
@@ -179,6 +203,27 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .pt-15{
     padding-top: 15px;
 }
+
+.exports_button{
+    padding: 10px;
+    float: right;
+
+}
+
+.exports_button button{
+    margin-right:5px ;
+}
+
+.exports_button button:first-child:hover{
+    background-color: #34A853;
+}
+.exports_button button:nth-child(2):hover{
+    background-color: #f44336;
+}
+.exports_button button:nth-child(3):hover{
+    background: rgba(0, 0, 0, 0.04);
+}
+
 
 @media only screen and (max-width: 550px) {
     .col-md-5{

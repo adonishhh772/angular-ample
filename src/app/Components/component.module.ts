@@ -11,11 +11,13 @@ import { RecentComponent } from './recent/recent.component';
 import {MatSelectModule} from '@angular/material/select';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTreeModule} from '@angular/material/tree';
+import { DialogComponent } from './dialog/dialog.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 
 
 @NgModule({
-    declarations: [HeaderComponent, ProfileComponent, TasksComponent, EventsComponent, RecentComponent],
+    declarations: [HeaderComponent, ProfileComponent, TasksComponent, EventsComponent, RecentComponent, DialogComponent],
     imports: [
         MatIconModule,
         MatToolbarModule,
@@ -24,7 +26,8 @@ import {MatTreeModule} from '@angular/material/tree';
         MatCardModule,
         MatButtonModule,
         MatTreeModule,
+        MatProgressSpinnerModule,
     ],
-    exports: [HeaderComponent, ProfileComponent, TasksComponent, EventsComponent, RecentComponent]
+    exports: [HeaderComponent, ProfileComponent, TasksComponent, EventsComponent, RecentComponent, DialogComponent]
 })
 export class ComponentModule { }

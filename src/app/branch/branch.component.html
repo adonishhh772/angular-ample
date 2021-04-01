@@ -4,31 +4,55 @@
         <mat-label>Search</mat-label>
         <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
-
-    <button mat-raised-button routerLink="/branch/add">Add Branch</button>
+    <button mat-raised-button *ngIf="isDelete" (click)="deleteSelected()" color="warn">Delete Selected Branches</button>
+    <button mat-raised-button class="add_branch" routerLink="/branch/add">Add Branch</button>
 </div>
 
 
 <div class="components_container">
 <div class="mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort class="table_responsive">
+    <table matTableExporter mat-table [dataSource]="dataSource" matSort #exporter="matTableExporter" class="table_responsive">
 
+        <ng-container matColumnDef="select">
+            <th mat-header-cell *matHeaderCellDef>
+                <mat-checkbox color="primary" (change)="$event ? masterToggle() : null"
+                              [checked]="selection.hasValue() && isAllSelected()"
+                              [indeterminate]="selection.hasValue() && !isAllSelected()"
+                              [aria-label]="checkboxLabel()">
+                </mat-checkbox>
+            </th>
+            <td mat-cell *matCellDef="let row">
+                <mat-checkbox color="primary" (click)="$event.stopPropagation()"
+                              (change)="selectBox($event,row)"
+                              [checked]="selection.isSelected(row)"
+                              [aria-label]="checkboxLabel(row)">
+                </mat-checkbox>
+            </td>
+        </ng-container>
         <!-- ID Column -->
-        <ng-container matColumnDef="branch">
+        <ng-container matColumnDef="branch_no">
             <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Branch No. </th>
-            <td mat-cell *matCellDef="let row"> {{row.id}} </td>
+            <td mat-cell *matCellDef="let row"> {{row.branch_no}} </td>
         </ng-container>
 
         <!-- Progress Column -->
-        <ng-container matColumnDef="name">
+        <ng-container matColumnDef="branch_name">
             <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Branch Name </th>
-            <td mat-cell *matCellDef="let row"> {{row.progress}}% </td>
+            <td mat-cell *matCellDef="let row"> {{row.branch_name}} </td>
         </ng-container>
 
         <!-- Name Column -->
-        <ng-container matColumnDef="secondary">
-            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Secondary </th>
-            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
+        <ng-container matColumnDef="branch_address">
+            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Branch Address </th>
+            <td mat-cell *matCellDef="let row"> {{row.branch_address}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="is_secondary">
+            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Secondary Branch</th>
+            <td mat-cell *matCellDef="let row">
+                <mat-icon *ngIf="row.is_secondary" color="primary">check_circle</mat-icon>
+                <mat-icon *ngIf="!row.is_secondary" color="accent">dangerous</mat-icon>
+            </td>
         </ng-container>
 
         <!-- Color Column -->
@@ -38,7 +62,7 @@
                 <button mat-icon-button matTooltip="Edit Branch">
                     <mat-icon color="primary">create</mat-icon>
                 </button>
-                <button mat-icon-button matTooltip="Delete Branch">
+                <button mat-icon-button matTooltip="Delete Branch" (click)="openDialog(row.id)">
                     <mat-icon color="warn">delete</mat-icon>
                 </button>
             </td>
@@ -55,5 +79,10 @@
 
     <mat-paginator class="paginator" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
 </div>
+    <div class="exports_button">
+        <button mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:'Ample_branch_'+date, sheet: 'all_agent', Props: {Author: 'Ample'}})">Excel</button>
+        <button mat-raised-button (click)="exporter.exportTable('csv', {fileName:'Ample_branch_'+date})">Csv</button>
+        <button mat-raised-button (click)="exporter.exportTable('txt', {fileName:'Ample_branch_'+date})">Txt</button>
+    </div>
 
 </div>

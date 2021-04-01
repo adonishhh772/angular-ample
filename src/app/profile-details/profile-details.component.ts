@@ -1,11 +1,12 @@
 import {Component, OnInit, Output} from '@angular/core';
-import {FormGroup, FormControl, FormBuilder, Validators} from '@angular/forms';
+import {FormGroup, FormControl, Validators} from '@angular/forms';
 import {DatePipe} from '@angular/common';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {UserService} from '../Services/user.service';
 import {finalize} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {environment} from '../../environments/environment';
 
 
 @Component({
@@ -26,6 +27,8 @@ export class ProfileDetailsComponent implements OnInit {
     naviagtionData: any[] = [];
     country: any[] = [];
     timeZone: any[] = [];
+    private readonly apiUrl = `${environment.apiUrl}branch/`;
+    branches: any[] = [];
     currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     updateProfileForm!: FormGroup;
     errorMessage = '';
@@ -33,6 +36,7 @@ export class ProfileDetailsComponent implements OnInit {
 
     constructor(public userSerivce: UserService, private http: HttpClient, private _snackBar: MatSnackBar) {
         this.getAllCountries();
+        this.getAllBranches();
         this.getJSON().subscribe(data => {
             this.timeZone = data;
         });
@@ -151,7 +155,7 @@ export class ProfileDetailsComponent implements OnInit {
                         icon: 'group_work',
                         required: false,
                         disabled: false,
-                        inputType: 'text'
+                        inputType: 'select'
                     }
                 );
                 break;
@@ -294,7 +298,7 @@ export class ProfileDetailsComponent implements OnInit {
                 icon: 'traffic',
                 disabled: false,
                 required: false,
-                inputType: 'text'
+                inputType: 'select'
             });
         }
 
@@ -348,8 +352,7 @@ export class ProfileDetailsComponent implements OnInit {
             this.isProcessing = true;
             this.userSerivce.updateProfile(this.updateProfileForm.value).pipe(finalize(() => {
                 this.isProcessing = false;
-            }))
-                .subscribe(
+            })).subscribe(
                     (result) => {
                         this.assignValuesAgain(result.data);
                         this.profileName = result.data.name;
@@ -463,5 +466,17 @@ export class ProfileDetailsComponent implements OnInit {
         for (const keys of this.naviagtionData) {
             keys.value = data[keys.nameKey];
         }
+    }
+
+    private getAllBranches(): any {
+        this.http.get<any>(`${this.apiUrl}`).subscribe({
+            next: data => {
+                this.branches = data.data;
+                // this.currentCountry = ;
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
     }
 }

@@ -1,0 +1,52 @@
+.card_header{
+    padding: 15px;
+    background-color: #6EC1E4;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+}
+
+.task-card-title{
+    color: white;
+}
+
+.agent_summary{
+    border-radius: 5px;
+    padding: 0 !important;
+}
+
+.card-icon{
+    position: relative;
+    top: 4px;
+}
+
+.task_link{
+    padding-left: 5px;
+}
+
+.card_content{
+    background: #f4f4f4;
+}
+
+.sub_card_header{
+    padding: 15px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.count{
+  color: #6EC1E4;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.today{
+    background-color: #f44336;
+    border-bottom-left-radius: 5px;
+    color: white;
+}
+
+.weekly{
+    background-color: #00c0ef !important;
+    border-bottom-right-radius: 5px;
+    color: white;
+}

@@ -5,9 +5,10 @@ import {BranchAddComponent} from './branch-add/branch-add.component';
 
 const routes: Routes = [
     {
-        path: '',
+        path: 'all',
         component: BranchComponent
     },
+    {path: 'add', component: BranchAddComponent},
 ];
 
 @NgModule({

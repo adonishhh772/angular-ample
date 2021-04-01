@@ -45,7 +45,8 @@
                                (mouseover)="openLiBranch = false; openLiApplication = true;">
                     <mat-icon matSuffix>school</mat-icon>
                     <span class="menu_title"></span>
-                    <ul class="tree-menu" *ngIf="hasShrunk && openLiApplication" (mouseleave)="openLiApplication = false">
+                    <ul class="tree-menu" *ngIf="hasShrunk && openLiApplication"
+                        (mouseleave)="openLiApplication = false">
                         <li><a href="https://icondatcrm.com/condat/5/applications/dashboard"><i
                                 class="fa fa-circle-o"></i>
                             Application Dashboard</a></li>
@@ -80,13 +81,17 @@
                                 <mat-icon matSuffix>account_tree</mat-icon>
                                 <span class="menu_title">Branch Manager</span>
                             </mat-panel-title>
+                            <mat-panel-description>
+                                <span class="menu_badge branch_badge" matBadge="{{branchCount}}"
+                                      matBadgeOverlap="false"></span>
+                            </mat-panel-description>
                         </mat-expansion-panel-header>
                         <mat-list-item class="menu_item"
                                        (click)="changeRoute($event,'Branch Manager','account_tree','All Branches','branch/all','view_list')">
                             <mat-icon matSuffix>view_list</mat-icon>
                             <span class="menu_title">All Branch</span>
                             <div class="col-md-4"></div>
-                            <span class="menu_badge" matBadge="4" matBadgeOverlap="false"></span></mat-list-item>
+                        </mat-list-item>
                         <mat-list-item class="menu_item"
                                        (click)="changeRoute($event,'Branch Manager','account_tree','Add Branch','branch/add','add_circle')">
                             <mat-icon matSuffix>add_circle</mat-icon>
@@ -123,6 +128,65 @@
 
                     </ul>
                 </mat-list-item>
+
+                <mat-accordion *ngIf="!hasShrunk">
+                    <mat-expansion-panel title="Institute" class="menu_item_accordian"
+                                         (opened)="panelOpenState = true"
+                                         (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header class="menu_accordian_header">
+                            <mat-panel-title class="menu_accordian_title">
+                                <mat-icon matSuffix>foundation</mat-icon>
+                                <span class="menu_title">Institutes</span>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <span class="menu_badge institute_badge" matBadge="{{agentCount}}"
+                                      matBadgeOverlap="false"></span>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-list-item class="menu_item"
+                                       (click)="changeRoute($event,'Institutes','foundation','All Institutes','institute/all','view_list')">
+                            <mat-icon matSuffix>view_list</mat-icon>
+                            <span class="menu_title">Institute List</span>
+                            <div class="col-md-4"></div>
+                        </mat-list-item>
+                        <mat-list-item class="menu_item"
+                                       (click)="changeRoute($event,'Institutes','foundation','Add Institutes','institute/add','add_circle')">
+                            <mat-icon matSuffix>add_circle</mat-icon>
+                            <span class="menu_title">Add Institute</span></mat-list-item>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+                <mat-accordion *ngIf="!hasShrunk">
+                    <mat-expansion-panel title="Agents" class="menu_item_accordian"
+                                         (opened)="panelOpenState = true"
+                                         (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header class="menu_accordian_header">
+                            <mat-panel-title class="menu_accordian_title">
+                                <mat-icon matSuffix>support_agent</mat-icon>
+                                <span class="menu_title">Agents</span>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <span class="menu_badge agent_badge" matBadge="{{agentCount}}"
+                                      matBadgeOverlap="false"></span>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-list-item class="menu_item"
+                                       (click)="changeRoute($event,'Agents','support_agent','Agent Dasnboard','agent','dashboard')">
+                            <mat-icon matSuffix>dashboard</mat-icon>
+                            <span class="menu_title">Agent Dashboard</span>
+                        </mat-list-item>
+                        <mat-list-item class="menu_item"
+                                       (click)="changeRoute($event,'Agents','support_agent','All Agents','agent/all','view_list')">
+                            <mat-icon matSuffix>view_list</mat-icon>
+                            <span class="menu_title">All Agents</span>
+                            <div class="col-md-4"></div>
+                        </mat-list-item>
+                        <mat-list-item class="menu_item"
+                                       (click)="changeRoute($event,'Agents','support_agent','Add Agent','agent/add','add_circle')">
+                            <mat-icon matSuffix>add_circle</mat-icon>
+                            <span class="menu_title">Add Agent</span></mat-list-item>
+                    </mat-expansion-panel>
+                </mat-accordion>
 
             </mat-list>
 

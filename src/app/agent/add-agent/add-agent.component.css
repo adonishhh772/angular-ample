@@ -1,4 +1,4 @@
-.branch .row{
+.agent .row{
     float: none;
 }
 
@@ -7,14 +7,18 @@
 }
 
 
-.branch_body{
+.agent_body{
     flex: 1 1 auto;
     min-height: 1px;
     padding: 1rem;
 }
 
-.branch_footer{
+.agent_footer{
     border-top: 1px solid rgba(0, 0, 0, 0.13);
     padding: 10px;
     text-align: right;
+}
+
+.agent{
+    border-top: 2px solid #6EC1E4;
 }

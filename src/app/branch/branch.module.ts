@@ -10,8 +10,11 @@ import {MatSortModule} from '@angular/material/sort';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import { BranchAddComponent } from './branch-add/branch-add.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import {BranchAddComponent} from './branch-add/branch-add.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 
 @NgModule({
@@ -19,6 +22,7 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     imports: [
         CommonModule,
         BranchRoutingModule,
+        MatTableExporterModule,
         MatTableModule,
         MatPaginatorModule,
         MatInputModule,
@@ -27,8 +31,11 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
         MatButtonModule,
         MatIconModule,
         MatTooltipModule,
-        MatSlideToggleModule
-    ]
+        MatSlideToggleModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatCheckboxModule
+    ],
 })
 export class BranchModule {
 }

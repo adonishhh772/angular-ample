@@ -3,18 +3,30 @@
     margin-top: -30px;
 }
 
-.branch_container{
+.agent_container{
     padding: 15px 15px 0 22px;
 }
 
-.branch_container button{
+.agent_container button{
     float: right;
-    margin: 10px;
-
 }
 
-.branch_container .add_branch{
+.add_agent{
+    margin: 10px;
+}
+
+.delete{
+    margin-bottom: 5px;
+}
+
+.agent_container .add_agent{
     background:#6EC1E4 !important
+}
+
+.ample_delete{
+    margin-top: 8px !important;
+    background-color: #f44336;
+    color: white;
 }
 
 .components_container{
@@ -25,4 +37,3 @@
     font-size: 18px;
     color: white;
 }
-

@@ -1,0 +1,236 @@
+<script src="task.component.ts"></script>
+<div class="components_container task">
+    <h2 class="heading">All Tasks</h2>
+    <div class="task_body">
+        <div class="col-md-12 row">
+
+            <div class="col-md-6 mb-10">
+                <mat-card class="task">
+                    <mat-card-header class="card_header">
+                        <mat-card-title class="task-card-title">
+                            <div class="col-md-4"><i class="material-icons card-icon">task</i><span class="task_list">Task List</span></div>
+                            <div class="title_left">
+                                <mat-form-field class="mat_select_form" appearance="fill">
+                                    <mat-label class="pl-10 task_center">All Tasks</mat-label>
+                                    <mat-select (selectionChange)="filterTask($event.value)">
+                                        <mat-option value="pending">
+                                           Pending Tasks
+                                        </mat-option>
+                                        <mat-option value="completed">
+                                        Completed Tasks
+                                    </mat-option>
+                                        <mat-option value="all">
+                                        All Tasks
+                                    </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field class="mat_select_form" appearance="fill">
+                                    <mat-label class="pl-10 task_center">Sort By</mat-label>
+                                    <mat-select (selectionChange)="filterTask($event.value)">
+                                        <mat-option value="assigned_date">
+                                            Assigned Date
+                                        </mat-option> <mat-option value="due_date">
+                                        Due Date
+                                    </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <button class="task_add_btn" [disabled]="isProcessing" mat-raised-button (click)="showAddTask()">Add Task</button>
+                            </div>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="card_content">
+                        <div class="p-10" *ngIf="!hasTask">
+                            <p>No Task Assigned for now.</p>
+                        </div>
+                        <div class="p-10" *ngIf="hasTask">
+                            <div *ngFor="let task of allTasks; let i = index" [className]="task.isCompleted ? 'taskLists completed' : 'taskLists'" (click)="updateTask(task,$event,i)">
+                                <div class="comment" matBadge="{{taskCommentCount[i]}}" matBadgeOverlap="false">
+                                    <mat-icon>chat_bubble</mat-icon>
+                                </div>
+                                <div *ngIf="task.due_date !== null" [className]="this.isDue[i] ? 'task_due is_due' : 'task_due'" title="Due Date">{{task.due_date | date: 'dd/MM/yyyy'}}</div>
+                                <div *ngIf="task.title !== null" [className]="task.due_date !== null ? 'task_text col-md-6' : 'task_text col-md-7L'">{{task.title}}</div>
+                                <div *ngIf="task.added_by !== null" class="task_added"><mat-icon class="task_icon">history</mat-icon>{{task.added_by}}</div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col-md-6 mb-10" *ngIf="isAddTask">
+                <mat-card class="task">
+                    <mat-card-header class="card_header">
+                        <mat-card-title class="task-card-title col-md-12">
+                            <div class="col-md-9"><span class="task_list">Add Task</span></div>
+                            <div class="col-md-2">
+                                <button class="task_add_btn" mat-raised-button (click)="addTasks()">Save</button>
+                            </div>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="card_content">
+                        <form [formGroup]="addTaskForm" (ngSubmit)="addTasks()">
+                            <div class="row">
+                                    <div class="col-md-12 row p-10">
+                                        <div class="col-sm-2 pt-15">
+                                            <span class="material-icons">add_task</span>
+                                        </div>
+                                        <mat-form-field class="col-md-12">
+                                            <mat-label>Title</mat-label>
+                                            <input formControlName="title" type="text" matInput #input>
+                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlTask.title.errors?.required">
+                                                Title is required.</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                            </div>
+
+                            <div class="row">
+                                    <div class="col-md-12 row p-10">
+                                        <div class="col-sm-2 pt-15">
+                                            <span class="material-icons">description</span>
+                                        </div>
+                                        <mat-form-field class="col-md-12">
+                                            <mat-label>Description</mat-label>
+                                            <textarea formControlName="description" matInput #input></textarea>
+                                        </mat-form-field>
+                                    </div>
+                            </div>
+                            <div class="row">
+                                    <div class="col-md-12 row p-10">
+                                        <div class="col-sm-2 pt-15">
+                                            <span class="material-icons">calendar_today</span>
+                                        </div>
+                                        <mat-form-field class="col-md-12">
+                                            <mat-label>Due Date</mat-label>
+                                            <input formControlName="due_date" type="date" [min]="today | date: 'yyyy-MM-dd'" matInput #input>
+                                        </mat-form-field>
+                                    </div>
+                            </div>
+                            <div class="row" *ngIf="isUser">
+                                    <div class="col-md-12 row p-10">
+                                        <div class="col-sm-2 pt-15">
+                                            <span class="material-icons">account_box</span>
+                                        </div>
+                                        <mat-form-field class="col-md-12">
+                                            <mat-label>Assign Users</mat-label>
+                                            <mat-select formControlName="userArr" ngDefaultControl multiple (selectionChange)="changeSelection('user',$event.value)">
+                                                <mat-option *ngFor="let usr of users" [value]="usr._id">
+                                                    {{usr.name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                            </div>
+                            <div>
+                                <div class="row" *ngIf="isBranch && isUser">
+                                    <p class="col-md-12 task_center">----OR-----</p>
+                                </div>
+                                <div class="row" *ngIf="isBranch">
+                                    <div class="col-md-12 row p-10">
+                                        <div class="col-sm-2 pt-15">
+                                            <span class="material-icons">account_tree</span>
+                                        </div>
+                                        <mat-form-field class="col-md-12">
+                                            <mat-label>Assign Branches</mat-label>
+                                            <mat-select formControlName="branchArr" ngDefaultControl multiple (selectionChange)="changeSelection('branch',$event.value)">
+                                                <mat-option *ngFor="let branch of branches" [value]="branch._id">
+                                                    {{branch.branch_name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 row p-10">
+                                    <div class="col-sm-2 pt-15">
+                                        <span class="material-icons">face</span>
+                                    </div>
+                                    <mat-form-field class="col-md-12">
+                                        <mat-label>Assign Clients</mat-label>
+                                        <mat-select formControlName="clientArr" ngDefaultControl multiple>
+                                            <mat-option *ngFor="let client of clients" [value]="client._id">
+                                                {{client.name}},{{client.phone}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col-md-6 mb-10" *ngIf="isEditTask">
+                <mat-card class="task">
+                    <mat-card-header class="card_header">
+                        <mat-card-title class="task-card-title col-md-12">
+                            <div class="col-md-8">
+                                <button *ngIf="!complete" class="task_edit" mat-raised-button (click)="editTasks()">Edit</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button *ngIf="!complete" class="task_add_btn" mat-raised-button (click)="completeTask()">Mark Complete</button>
+                                <button *ngIf="complete" class="task_add_btn" mat-raised-button disabled>Task Completed</button>
+                            </div>
+
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="card_content">
+                        <div class="col-md-12 show_task_title">{{taskTitle}}</div>
+                        <div class="col-md-12 show_task_assigned">Assigned to: <span class="task_due">{{assignedTo}}</span> </div>
+                        <div class="col-md-12 show_task_client">Assigned Client: <span class="task_due">{{assignedClient}}</span> </div>
+                        <div class="col-md-12 show_task_desc"><p>{{taskDesc}}</p> </div>
+                        <div class="col-md-12 show_task_info">
+                            <div [className]="onlyDays ? 'col-md-7 show_task_due' : 'col-md-5L show_task_due'">Due <span *ngIf="taskDue !== ''" class="showTask">{{taskDue | date: 'dd/MM/yyyy'}}</span></div>
+                            <div class="show_task_all"><span class="task_added"><mat-icon class="task_icon">history</mat-icon>{{createdTime}} ago | {{addedBy}}</span></div>
+                        </div>
+
+                        <div class="col-md-12">
+                            <form [formGroup]="addCommentForm" (ngSubmit)="addComment()">
+                                <div class="row">
+                                    <div class="col-md-12 row p-10">
+                                        <div class="col-sm-2 pt-15">
+                                            <span class="material-icons">comment</span>
+                                        </div>
+                                        <mat-form-field class="col-md-12">
+                                            <mat-label>Comment</mat-label>
+                                            <input formControlName="description" type="text" matInput #input>
+                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmittedComment &&errorControlComment.description.errors?.required">
+                                               Comment is required.</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </form>
+                            <div class="col-md-12 flex">
+                                <div class="col-md-8"></div>
+                                <div class="col-md-4">
+                                    <button class="task_edit" [disabled]="isProcessingComment" color="warn" mat-raised-button (click)="addComment()">Comment</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 comment_border_lists" *ngIf="comments.length > 0">
+                            <div class="p-10">
+                                <div class="comment_chat_list" *ngFor="let comment of comments">
+                                    <div class="col-md-12">
+                                      <span class="chat_name">
+                                        {{comment.added_by}}
+                                    </span>
+                                        <span class="chat_time">
+                                        {{comment.create_date}}
+                                    </span>
+                                    </div>
+                                    <div class="col-md-12 flex">
+                                        <img class="chat_face" src="../../assets/avatar.png">
+                                        <div class="chat_all_text col-md-12">
+                                            {{comment.description}}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+

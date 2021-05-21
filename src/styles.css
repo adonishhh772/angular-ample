@@ -12,6 +12,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     display: flex;
 }
 
+.margin_bottom10{
+    margin-bottom: 10px !important;
+}
+
 .margin_top10{
     margin-top: 10px;
 }
@@ -19,6 +23,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .margin_top50{
     margin-top: 50px;
 }
+
 
 .middle{
     margin-left: auto;
@@ -70,6 +75,11 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .col-md-2{
     width: 10%;
 }
+
+.col-md-9{
+    width: 85%;
+}
+
 .col-md-2L{
     width: 18%;
 }
@@ -118,6 +128,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding: 10px 10px 10px 0;
 }
 
+
 .heading{
     padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.13);
@@ -128,6 +139,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     border-color: #f44336 !important;
 }
 
+.pl-30{
+    padding-left: 30px;
+}
+
+.padding-top10{
+    padding-top: 10px !important;
+}
 
 .border{
     border: 1px solid;
@@ -143,6 +161,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     text-align: left;
 }
 
+
+.btn-top{
+    position: relative;
+    bottom: 10px;
+}
+
 .mb-10{
     margin: 10px;
 }
@@ -151,16 +175,24 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin-bottom: 20px;
 }
 
+.mt-20{
+    margin-top: 20px;
+}
+
+.m0{
+    margin: 0px !important;
+}
+
 .pb-10{
     padding-bottom: 10px;
 }
 
 .mb-0{
-    margin: 0px;
+    margin: 0 !important;
 }
 
 .p-10{
-    padding: 10px;
+    padding: 10px !important;
 }
 
 .p-0{
@@ -175,9 +207,6 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     padding-top: 7px;
 }
 
-.pt-15{
-    padding-top: 15px;
-}
 
 .h-75{
     height: 75px;
@@ -200,8 +229,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     width: 7%;
 }
 
+.col-md-7L{
+    width: 68%;
+}
+
 .pt-15{
     padding-top: 15px;
+}
+
+.pl-45{
+    padding-left: 45px;
 }
 
 .exports_button{
@@ -212,6 +249,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .exports_button button{
     margin-right:5px ;
+}
+
+.table_responsive{
+    width: 100%;
 }
 
 .exports_button button:first-child:hover{
@@ -233,5 +274,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     .col-md-4{
         width: auto;
     }
+}
+
+.ck-editor__editable_inline {
+    min-height: 200px !important;
 }
 

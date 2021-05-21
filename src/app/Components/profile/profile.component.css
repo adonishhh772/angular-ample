@@ -48,6 +48,10 @@
     z-index: 10;
 }
 
+.widget-subheading{
+    text-transform: capitalize;
+}
+
 @keyframes fade-in2{0%{margin-top:-50px;visibility:hidden;opacity:0}100%{margin-top:0px;visibility:visible;opacity:1}}
 .text-left {
     text-align: left !important;

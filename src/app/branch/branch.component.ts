@@ -8,6 +8,7 @@ import {DialogComponent} from '../Components/dialog/dialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {SelectionModel} from '@angular/cdk/collections';
 import {BranchService} from '../Services/branch.service';
+import {Router} from '@angular/router';
 
 export interface Branch {
     id: string;
@@ -39,7 +40,12 @@ export class BranchComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
-    constructor(private renderer: Renderer2, private branchService: BranchService, private elRef: ElementRef, private http: HttpClient, private matDialog: MatDialog) {
+    constructor(private renderer: Renderer2,
+                private router: Router,
+                private branchService: BranchService,
+                private elRef: ElementRef,
+                private http: HttpClient,
+                private matDialog: MatDialog) {
         this.getAllBranch();
     }
 
@@ -129,9 +135,9 @@ export class BranchComponent implements OnInit, AfterViewInit {
 
     }
 
-    deleteSelected(): any{
+    deleteSelected(): any {
         this.selection.selected.forEach((value, index) => {
-          this.branchId.push(value.id);
+            this.branchId.push(value.id);
         });
         const dialogRef = this.matDialog.open(DialogComponent, {
             data: {id: this.branchId, type: 'branch', title: 'Are you sure you want to delete selected branch?'}
@@ -172,18 +178,10 @@ export class BranchComponent implements OnInit, AfterViewInit {
 
     }
 
+    editBranch(row: any): any {
+        this.router.navigate(['branch/add'], {state: {data: row}});
+    }
 }
 
-//
-// function createNewUser(id: number): UserData {
-
-//
-//     return {
-//         id: id.toString(),
-//         name: name,
-//         progress: Math.round(Math.random() * 100).toString(),
-//         color: COLORS[Math.round(Math.random() * (COLORS.length - 1))]
-//     };
-// }
 
 

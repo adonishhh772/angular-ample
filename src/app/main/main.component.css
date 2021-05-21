@@ -5,8 +5,18 @@
     transition: 0.5s;
 }
 
+.side_menu .logo_text{
+    width: auto;
+    margin-top: 5px;
+    margin-left: 5px;
+}
+
 .menu_accordian_pointer::after {
     color: white;
+}
+
+.matMenu_footer{
+text-align-last: center;
 }
 
 .container {
@@ -526,5 +536,10 @@ button.close {
 
 .side_nav_close{
     width: 55px !important;
+}
+
+.task_badge{
+    top: 0 !important;
+    left: 40px !important;
 }
 

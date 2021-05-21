@@ -1,0 +1,25 @@
+.institute_requirements{
+    margin: 10px;
+    border-top: 2px solid #3c8dbc;
+}
+
+.sub_card_header{
+    display: flex !important;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+
+.requirement_container{
+    margin-top: 10px;
+}
+
+.req_label{
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.requirement_footer{
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+    padding: 10px;
+    text-align: right;
+}

@@ -1,0 +1,39 @@
+ample_delete.table_responsive{
+    width: 100%;
+    margin-top: -30px;
+}
+
+.institute_container{
+    padding: 15px 15px 0 22px;
+}
+
+.institute_container button{
+    float: right;
+}
+
+.add_institute{
+    margin: 10px;
+}
+
+.delete{
+    margin-bottom: 5px;
+}
+
+.institute_container .add_institute{
+    background:#6EC1E4 !important
+}
+
+.ample_delete{
+    margin-top: 8px !important;
+    background-color: #f44336;
+    color: white;
+}
+
+.components_container{
+    top: 0 !important;
+}
+
+.table_header{
+    font-size: 18px;
+    color: white;
+}

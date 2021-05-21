@@ -1,0 +1,458 @@
+<div mat-dialog-title class="dialog_title">
+    <h2 *ngIf="data.options === 'contacts' && data.type !== 'edit'" class="m0">Add Contacts</h2>
+    <h2 *ngIf="data.options === 'courses' && data.type !== 'edit'" class="m0">Add Courses</h2>
+    <h2 *ngIf="data.options === 'courses' && data.type === 'edit'" class="m0">Edit Courses</h2>
+    <h2 *ngIf="data.options === 'contacts' && data.type === 'edit'" class="m0">Edit Contacts</h2>
+    <h2 *ngIf="data.options === 'address' && data.type !== 'edit'" class="m0">Add Address</h2>
+    <h2 *ngIf="data.options === 'intakes' && data.type !== 'edit'" class="m0">Add Intake</h2>
+    <h2 *ngIf="data.options === 'address' && data.type === 'edit'" class="m0">Edit Address</h2>
+    <h2 *ngIf="data.options === 'intakes' && data.type === 'edit'" class="m0">Edit Intake</h2>
+</div>
+<div *ngIf="data.options === 'contacts'" mat-dialog-content class="col-md-12">
+    <form [formGroup]="addContactForm" (ngSubmit)="addContact()">
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorControl.name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">badge</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Name *</mat-label>
+                        <input formControlName="name" type="text" ngModel="{{data.selected === null? '' : data.selected.contact_name}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.name.errors?.required">
+                            Name is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorControl.gender.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">transgender</span>
+                    </div>
+                    <mat-radio-group aria-label="Select an option" formControlName="gender" ngModel="{{data.selected === null? '' : data.selected.contact_gender}}">
+                        <h6 class="mb-0">Gender *</h6>
+                        <mat-radio-button class="pr-10" value="male">Male</mat-radio-button>
+                        <mat-radio-button value="female">Female</mat-radio-button>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.gender.errors?.required">
+                            Gender is required.</mat-hint>
+                    </mat-radio-group>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorControl.position.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">radar</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Position *</mat-label>
+                        <input formControlName="position" type="text" ngModel="{{data.selected === null? '' : data.selected.contact_position}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.position.errors?.required">
+                            Position is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorControl.phone.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">stay_current_portrait</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Phone Number *</mat-label>
+                        <input formControlName="phone" type="number" ngModel="{{data.selected === null? '' : data.selected.contact_phone}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.phone.errors?.required">
+                            Phone Number is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorControl.email.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">email</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Email *</mat-label>
+                        <input formControlName="email" type="text" ngModel="{{data.selected === null? '' : data.selected.contact_email}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.email.errors?.required">
+                            Email is required.</mat-hint>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.email.errors?.pattern">
+                            Invalid Email Address.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="data.options === 'address'" mat-dialog-content class="col-md-12">
+    <form [formGroup]="addAddressForm" (ngSubmit)="addAddress()">
+        <div class="col-md-12">
+            <div class="row col-md-10">
+                <div class="col-md-12 row p-10">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">add_road</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Street</mat-label>
+                        <input formControlName="street" type="text" ngModel="{{address[0] === undefined ? '' : address[0].street}}" matInput #input>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10">
+                <div class="col-md-12 row p-10">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">train</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Suburb</mat-label>
+                        <input formControlName="suburb" type="text" ngModel="{{address[0] === undefined ? streetName : address[0].suburb}}" matInput #input>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10">
+                <div class="col-md-12 row p-10">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">foundation</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>State</mat-label>
+                        <input formControlName="state" type="text" ngModel="{{address[0] === undefined ? state : address[0].state}}" matInput #input>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10">
+                <div class="col-md-12 row p-10">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">local_shipping</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Post Code</mat-label>
+                        <input formControlName="post_code" type="text" ngModel="{{address[0] === undefined ? '' : address[0].post_code}}" matInput #input>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10">
+                <div class="col-md-12 row p-10">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">flag</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Country</mat-label>
+                        <mat-select [(ngModel)]="address[0] === undefined ? countryName : address[0].country" formControlName="country" ngDefaultControl>
+                            <mat-option *ngFor="let con of country" [value]="con.name">
+                                {{con.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row col-md-10">
+                <div [className]="isSubmitted &&errorAddressControl.phone.errors ? 'col-md-12 row error p-10' : 'col-md-12 row p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">stay_current_portrait</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Phone Number *</mat-label>
+                        <input formControlName="phone" type="number" ngModel="{{address[0] === undefined ? '' : address[0].phone}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAddressControl.phone.errors?.required">
+                            Phone Number is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10">
+                <div [className]="isSubmitted &&errorAddressControl.email.errors ? 'col-md-12 row error p-10' : 'col-md-12 row p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">email</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Email *</mat-label>
+                        <input formControlName="email" type="text" ngModel="{{address[0] === undefined ? '' : address[0].email}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAddressControl.email.errors?.pattern">
+                            Invalid Email Address.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="data.options === 'intakes'" mat-dialog-content class="col-md-12 margin_top10">
+    <form [formGroup]="addIntakesForm" (ngSubmit)="addIntakes()">
+        <div class="col-md-12">
+            <div class="row col-md-10 margin_bottom10">
+                <div [className]="isSubmitted &&errorIntakesControl.intake_date.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">calendar_today</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Intake Date *</mat-label>
+                        <input formControlName="intake_date" type="date" ngModel="{{data.selected === null? '' : data.selected.intake_date}}" [min]="data.selected === null? '' : data.selected.intake_date" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorIntakesControl.intake_date.errors?.required">
+                            Intake Date is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10">
+                <div class="col-md-12 row border p-10">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">description</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Description</mat-label>
+                        <textarea ngModel="{{data.selected === null ? '' : data.selected.description}}" formControlName="description" type="text" rows="10" cols="50" matInput #input></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div *ngIf="data.options === 'courses'" mat-dialog-content class="col-md-12 mat-typography mat-dialog-content">
+    <form [formGroup]="addCoursesForm" (ngSubmit)="addCourses()">
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorCoursesControl.name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">badge</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Course Name *</mat-label>
+                        <input formControlName="name" type="text" ngModel="{{data.selected === null? '' : data.selected.course_name}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorCoursesControl.name.errors?.required">
+                            Name is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorCoursesControl.level.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">brightness_1</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Level *</mat-label>
+                        <mat-select formControlName="level" [(ngModel)]="data.selected === null? '' : data.selected.level" ngDefaultControl>
+                            <mat-option value="English">
+                                English
+                            </mat-option>
+                            <mat-option value="Advanced Diploma">
+                                Advanced Diploma
+                            </mat-option>
+                            <mat-option value="Certificate I">
+                                Certificate I
+                            </mat-option>
+                            <mat-option value="Certificate II">
+                                Certificate II
+                            </mat-option>
+                            <mat-option value="Certificate III">
+                                Certificate III
+                            </mat-option>
+                            <mat-option value="Certificate IV">
+                                Certificate IV
+                            </mat-option>
+                            <mat-option value="Diploma">
+                                Diploma
+                            </mat-option>
+                            <mat-option value="Bachelor Degree">
+                                Bachelor Degree
+                            </mat-option>
+                            <mat-option value="Associate Degree">
+                                Associate Degree
+                            </mat-option>
+                            <mat-option value="Graduate Certificate">
+                                Graduate Certificate
+                            </mat-option>
+                            <mat-option value="Graduate Diploma">
+                                Graduate Diploma
+                            </mat-option>
+                            <mat-option value="Master Degree">
+                                Master Degree
+                            </mat-option>
+                            <mat-option value="Professional Year">
+                                Professional Year
+                            </mat-option>
+                            <mat-option value="Non AQF Year">
+                                Non AQF Year
+                            </mat-option>
+                            <mat-option value="NAATI">
+                                NAATI
+                            </mat-option>
+                            <mat-option value="Others">
+                                Others
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorCoursesControl.level.errors?.required">
+                            Level is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorCoursesControl.tution_fee.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">local_atm</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Tution Fee *</mat-label>
+                        <input formControlName="tution_fee" type="number" ngModel="{{data.selected === null? '' : data.selected.tution_fee}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted && errorCoursesControl.tution_fee.errors?.required">
+                            Tution Fee is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorCoursesControl.coe_fee.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">paid</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Fee for COE *</mat-label>
+                        <input formControlName="coe_fee" type="number" ngModel="{{data.selected === null? '' : data.selected.coe_fee}}" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorCoursesControl.coe_fee.errors?.required">
+                            Fee for COE is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div class="col-md-12 row border p-10">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">trending_up</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Commission</mat-label>
+                        <input formControlName="commission" type="number" ngModel="{{data.selected === null? '' : data.selected.commission}}" matInput #input>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorCoursesControl.broad_field.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">nfc</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Board Field *</mat-label>
+                        <mat-select (selectionChange)="changeField($event.value)" formControlName="broad_field" [(ngModel)]="data.selected === null? '' : data.selected.broad_field" ngDefaultControl>
+                            <mat-option value="None">
+                                None
+                            </mat-option>
+                            <mat-option value="Natural and Physical Sciences">
+                                Natural and Physical Sciences
+                            </mat-option>
+                            <mat-option value="Information Technology">
+                                Information Technology
+                            </mat-option>
+                            <mat-option value="Engineering and Related Technologies">
+                                Engineering and Related Technologies
+                            </mat-option>
+                            <mat-option value="Architecture and Building">
+                                Architecture and Building
+                            </mat-option>
+                            <mat-option value="Agriculture, Environmental and Related Studies">
+                                Agriculture, Environmental and Related Studies
+                            </mat-option>
+                            <mat-option value="Health">
+                                Health
+                            </mat-option>
+                            <mat-option value="Education">
+                                Education
+                            </mat-option>
+                            <mat-option value="Management and Commerce">
+                                Management and Commerce
+                            </mat-option>
+                            <mat-option value="Society and Culture">
+                                Society and Culture
+                            </mat-option>
+                            <mat-option value="Creative Arts">
+                                Creative Arts
+                            </mat-option>
+                            <mat-option value="Food, Hospitality and Personal Services">
+                                Food, Hospitality and Personal Services
+                            </mat-option>
+                            <mat-option value="Mixed Field Programmes">
+                                Mixed Field Programmes
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorCoursesControl.broad_field.errors?.required">
+                            Board Field is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div [className]="isSubmitted &&errorCoursesControl.narrow_field.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">door_front</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Narrow Field *</mat-label>
+                        <mat-select formControlName="narrow_field" [(ngModel)]="data.selected === null? '' : data.selected.narrow_field" ngDefaultControl>
+                            <mat-option *ngFor="let narrow of narrowField" [value]="narrow" >
+                                {{narrow}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorCoursesControl.narrow_field.errors?.required">
+                            Narrow Field is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="row col-md-10 mb-10">
+                <div class="col-md-12 row border p-10">
+                    <div class="col-sm-2 pt-15">
+                        <span class="material-icons">description</span>
+                    </div>
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Description</mat-label>
+                        <textarea ngModel="{{data.selected === null ? '' : data.selected.description}}" formControlName="description" type="text" rows="10" cols="50" matInput #input></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<div mat-dialog-actions class="col-md-12 mat-typography mat-dialog-content padding-top10" align="end">
+    <button *ngIf="data.options === 'contacts' && data.type !== 'edit'" class="ample_button" [disabled]="isProcessing" (click)="addContact()" mat-button>Add</button>
+    <button *ngIf="data.options === 'contacts' && data.type === 'edit'" class="ample_button" [disabled]="isProcessing" (click)="updateContact()" mat-button>Update</button>
+    <button *ngIf="data.options === 'address' && data.type !== 'edit'" class="ample_button" [disabled]="isProcessing" (click)="addAddress()" mat-button>Add</button>
+    <button *ngIf="data.options === 'address' && data.type === 'edit'" class="ample_button" [disabled]="isProcessing" (click)="updateAddress()" mat-button>Update</button>
+    <button *ngIf="data.options === 'courses' && data.type !== 'edit'" class="ample_button" [disabled]="isProcessing" (click)="addCourses()" mat-button>Add</button>
+    <button *ngIf="data.options === 'courses' && data.type === 'edit'" class="ample_button" [disabled]="isProcessing" (click)="updateCourses()" mat-button>Update</button>
+    <button *ngIf="data.options === 'intakes' && data.type !== 'edit'" class="ample_button" [disabled]="isProcessing" (click)="addIntakes()" mat-button>Add</button>
+    <button *ngIf="data.options === 'intakes' && data.type === 'edit'" class="ample_button" [disabled]="isProcessing" (click)="updateIntakes()" mat-button>Update</button>
+    <button mat-button [disabled]="isProcessing" (click)="closePopup()" color="warn">Cancel</button>
+</div>
+
+<!--<div mat-dialog-content *ngIf="isDeleting">-->
+    <!--<mat-spinner class="dialog_spinner" [diameter]="50"></mat-spinner>-->
+<!--</div>-->

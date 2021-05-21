@@ -1,0 +1,96 @@
+<div class="col-md-12 mb-20" *ngIf="isLoaded && loaded">
+    <div class="menu_title_fixed_tab flex">
+        <img class="round_logo" src="{{imgUrl + institute[0].logo + '.jpg'}}" width="48" height="48">
+        <p>{{institute[0].institute_name}}</p>
+    </div>
+    <mat-card class="institute_detail">
+        <mat-card-header>
+            <mat-card-title class="sub_card_header col-md-12">
+                <div class="col-md-10">General Information</div>
+                <div class="col-md-2 text_right">
+                    <button matTooltip="Edit Institute" (click)="updateInstitute()" mat-icon-button class="ample_button btn-top-small">
+                        <mat-icon class="small_btn_edit">edit</mat-icon>
+                    </button>
+                </div>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="sub_card_content">
+                <div class="col-md-12 prtb-10 border_btm_disabled">
+                    <div class="col-md-12 header">
+                        <span class="material-icons">fiber_manual_record</span>
+                        <span class="icon_text">Institute ID</span>
+                    </div>
+                    <div class="col-md-12 pl-30 text-disabled">{{institute[0].institute_no}}</div>
+                </div>
+                <div class="col-md-12 prtb-10 border_btm_disabled">
+                    <div class="col-md-12 header"><span class="material-icons">star</span>
+                        <span class="icon_text">Institute Name</span></div>
+                    <div class="col-md-12 pl-30 text-disabled">{{institute[0].institute_name}}</div>
+                </div>
+                <div class="col-md-12 prtb-10 border_btm_disabled">
+                    <div class="col-md-12 header"><span class="material-icons">star_half</span>
+                        <span class="icon_text">Short Name</span></div>
+                    <div class="col-md-12 pl-30 text-disabled">{{institute[0].short_name}}</div>
+                </div>
+                <div class="col-md-12 prtb-10 border_btm_disabled">
+                    <div class="col-md-12 header"><span class="material-icons">phone</span>
+                        <span class="icon_text">Phone Number</span></div>
+                    <div class="col-md-12 pl-30 text-disabled">{{institute[0].phoneNo}}</div>
+                </div>
+                <div class="col-md-12 prtb-10 border_btm_disabled">
+                    <div class="col-md-12 header"><span class="material-icons">language</span>
+                        <span class="icon_text">Website</span></div>
+                    <div class="col-md-12 pl-30 text-disabled"><a target="_blank" href="{{institute[0].website}}">{{institute[0].website}}</a> </div>
+                </div>
+                <div class="col-md-12 prtb-10 border_btm_disabled">
+                    <div class="col-md-12 header"><span class="material-icons">receipt</span>
+                        <span class="icon_text">Invoice To</span></div>
+                    <div class="col-md-12 pl-30 text-disabled">{{institute[0].invoice_to}}</div>
+                </div>
+                <div class="col-md-12 prtb-10 border_btm_disabled">
+                    <div class="col-md-12 header">
+                        <span class="material-icons">calendar_today</span>
+                        <span class="icon_text">Created At</span>
+                    </div>
+                    <div class="col-md-12 pl-30 text-disabled">{{institute[0].created_date | date:'longDate' }}</div>
+                </div>
+                <div class="col-md-12 prtb-10 border_btm_disabled">
+                    <div class="col-md-12 header"><span class="material-icons">add_circle</span><span class="icon_text">Added By</span>
+                    </div>
+                    <div class="col-md-12 pl-30 text-disabled">{{institute[0].created_by}}</div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div class="col-md-12 agent_institute" *ngIf="isLoaded && loaded && !hideAgent">
+    <mat-card class="institute_detail">
+        <mat-card-header>
+            <mat-card-title class="sub_card_header col-md-12">
+                <div class="col-md-12">Agent Summary</div>
+            </mat-card-title>
+        </mat-card-header>
+        <mat-card-content *ngIf="(agentCount === 0)">
+            <div class="col-md-12 no-agent">
+                <p>No Super Agent Found</p>
+            </div>
+            <div class="col-md-12">
+                <button mat-button (click)="openAgent()" class="ample_button">Add Super Agent</button>
+            </div>
+        </mat-card-content>
+
+        <mat-card-content *ngIf="(agentCount > 0)">
+            <div class="col-md-12 no-agent flex" *ngFor="let agent of agentData">
+                   <p style="width: 90%;">{{agent.agent_name}}</p>
+                <button mat-icon-button matTooltip="Delete Agent" (click)="removeAgent(agent._id)" >
+                    <mat-icon color="warn">delete</mat-icon>
+                </button>
+            </div>
+            <div class="col-md-12" *ngIf="!hasAgents">
+                <button mat-button (click)="openAgent()" class="ample_button">Add Super Agent</button>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -10,7 +10,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Company Name *</mat-label>
-                            <input formControlName="company_name" (focusout)="assignInvoice()" type="text" matInput #input>
+                            <input formControlName="company_name" ngModel="{{agent === undefined ? '' : agent.company_name}}" (focusout)="assignInvoice()" type="text" matInput #input>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.company_name.errors?.required">
                                 Company Name is required.</mat-hint>
                         </mat-form-field>
@@ -23,7 +23,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Street</mat-label>
-                            <input formControlName="street" type="text" matInput #input>
+                            <input formControlName="street" ngModel="{{agent === undefined ? '' : agent.street}}" type="text" matInput #input>
                         </mat-form-field>
                     </div>
                 </div>
@@ -36,7 +36,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Email *</mat-label>
-                            <input formControlName="email" type="text" matInput #input>
+                            <input formControlName="email" type="text" ngModel="{{agent === undefined ? '' : agent.email}}" matInput #input>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.email.errors?.required">
                                 Agent Email is required.</mat-hint>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.email.errors?.pattern">
@@ -51,7 +51,7 @@
                             </div>
                             <mat-form-field class="col-md-12">
                                 <mat-label>Suburb</mat-label>
-                                <input formControlName="suburb" type="text" value="{{streetName}}" matInput #input>
+                                <input formControlName="suburb" type="text" ngModel="{{agent === undefined ? streetName : agent.suburb}}" matInput #input>
                             </mat-form-field>
                         </div>
                     </div>
@@ -64,7 +64,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Phone Number *</mat-label>
-                            <input formControlName="phoneNo" type="number" matInput #input>
+                            <input formControlName="phoneNo" ngModel="{{agent === undefined ? '' : agent.phoneNo}}" type="number" matInput #input>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.phoneNo.errors?.required">
                                 Phone Number is required.</mat-hint>
                         </mat-form-field>
@@ -77,7 +77,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>State</mat-label>
-                            <input formControlName="state" type="text" value="{{state}}" matInput #input>
+                            <input formControlName="state" type="text" ngModel="{{agent === undefined ? state : agent.state}}" matInput #input>
                         </mat-form-field>
                     </div>
                 </div>
@@ -90,7 +90,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Agent Commission *</mat-label>
-                            <input formControlName="agent_commisson" type="number" min="0" max="100" matInput #input>
+                            <input formControlName="agent_commisson" ngModel="{{agent === undefined ? '' : agent.agent_commisson}}" type="number" min="0" max="100" matInput #input>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.agent_commisson.errors?.required">
                                 Agent Commission is required.</mat-hint>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.agent_commisson.errors?.max">
@@ -108,7 +108,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Post Code</mat-label>
-                            <input formControlName="post_code" type="text" matInput #input>
+                            <input formControlName="post_code" ngModel="{{agent === undefined ? '' : agent.post_code}}" type="text" matInput #input>
                         </mat-form-field>
                     </div>
                 </div>
@@ -117,11 +117,17 @@
                 <div class="row col-md-5L mb-10">
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
-                            <span class="material-icons">language</span>
+                            <span class="material-icons">password</span>
                         </div>
                         <mat-form-field class="col-md-12">
-                            <mat-label>Website</mat-label>
-                            <input formControlName="website" type="text" matInput #input>
+                            <mat-label>Password *</mat-label>
+                            <input matInput formControlName="password" #password maxlength="8" [type]="hidePass ? 'password' : 'text'">
+                            <div matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hidePass">
+                                <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </div>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.password.errors?.required">
+                                Password is required.</mat-hint>
+                            <mat-hint align="start" class="mat-error" *ngIf="isSubmitted && errorControl.password.errors?.minlength">Max 8 characters</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>
@@ -132,7 +138,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Country</mat-label>
-                            <mat-select [(ngModel)]="countryName" formControlName="country" ngDefaultControl>
+                            <mat-select [(ngModel)]="agent === undefined ? countryName : agent.country" formControlName="country" ngDefaultControl>
                                 <mat-option *ngFor="let con of country" [value]="con.name">
                                     {{con.name}}
                                 </mat-option>
@@ -145,11 +151,11 @@
                 <div class="row col-md-5L mb-10">
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
-                            <span class="material-icons">alternate_email</span>
+                            <span class="material-icons">language</span>
                         </div>
                         <mat-form-field class="col-md-12">
-                            <mat-label>Invoice to</mat-label>
-                            <input formControlName="invoice_to" value="{{invoiceTo}}" type="text" matInput #input>
+                            <mat-label>Website</mat-label>
+                            <input formControlName="website" ngModel="{{agent === undefined ? '' : agent.website}}" type="text" matInput #input>
                         </mat-form-field>
                     </div>
                 </div>
@@ -161,8 +167,21 @@
                             <span class="material-icons">alternate_email</span>
                         </div>
                         <mat-form-field class="col-md-12">
+                            <mat-label>Invoice to</mat-label>
+                            <input formControlName="invoice_to" ngModel="{{agent === undefined ? invoiceTo : agent.invoice_to}}" type="text" matInput #input>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div class="col-md-12 row border p-10">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">mediation</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
                             <mat-label>Branch</mat-label>
-                            <mat-select formControlName="branch" ngDefaultControl>
+                            <mat-select [(ngModel)]="agent === undefined ? '' : agent.branch" formControlName="branch" ngDefaultControl>
                                 <mat-option *ngFor="let branch of branches" [value]="branch.branch_name">
                                     {{branch.branch_name}}
                                 </mat-option>
@@ -179,7 +198,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Agent Description</mat-label>
-                            <textarea formControlName="description" type="text" rows="10" cols="50" matInput #input></textarea>
+                            <textarea ngModel="{{agent === undefined ? '' : agent.description}}" formControlName="description" type="text" rows="10" cols="50" matInput #input></textarea>
                         </mat-form-field>
                     </div>
                 </div>
@@ -187,8 +206,9 @@
         </form>
     </div>
     <div class="agent_footer">
-        <button mat-raised-button color="primary" (click)="addAgent()" class="mr-10">Add</button>
-        <button mat-raised-button color="warn">Cancel</button>
+        <button mat-raised-button *ngIf="!isEdit" [disabled]="isProcessing" color="primary" (click)="addAgent()" class="mr-10">Add</button>
+        <button mat-raised-button *ngIf="isEdit" [disabled]="isProcessing" color="primary" (click)="updateAgent()" class="mr-10">Update</button>
+        <button mat-raised-button [disabled]="isProcessing" (click)="cancel()" color="warn">Cancel</button>
     </div>
 </div>
 

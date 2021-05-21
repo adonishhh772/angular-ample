@@ -35,4 +35,28 @@ export class AgentService {
             })
         );
     }
+
+    updateProfile(data: any): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl + localStorage.getItem('userId')}`, data, {
+            headers:
+                {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+        })
+            .pipe(
+                map(result => {
+                    return result;
+                })
+            );
+    }
+
+    updateAgent(data: any, id: string): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl + 'update/' + id}`, data, {
+            headers:
+                {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+        })
+            .pipe(
+                map(result => {
+                    return result;
+                })
+            );
+    }
 }

@@ -18,6 +18,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatCardModule} from '@angular/material/card';
 import { ViewAgentComponent } from './view-agent/view-agent.component';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [AgentComponent, AllAgentComponent, AddAgentComponent, ViewAgentComponent],
@@ -25,6 +26,7 @@ import {MatSelectModule} from '@angular/material/select';
     CommonModule,
       AgentRoutingModule,
       MatTableModule,
+      MatTooltipModule,
       MatPaginatorModule,
       MatInputModule,
       MatSelectModule,

@@ -87,6 +87,15 @@ $app-theme: mat-light-theme((
   position: relative !important;
 }
 
+.institute_tab .mat-tab-label{
+  padding: 0 24px !important;
+}
+
+
+.institute_tab .mat-tab-header{
+  background: white;
+}
+
 .mat-tab-label{
   padding: 0 !important;
   margin: 0 !important;
@@ -143,5 +152,7 @@ $app-theme: mat-light-theme((
 
 
 }
+
+
 
 

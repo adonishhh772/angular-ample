@@ -1,0 +1,42 @@
+.institute_dashboard{
+    margin: 10px;
+    border-top: 2px solid #3c8dbc;
+}
+
+.text_right{
+    text-align: end;
+}
+
+.sub_card_header{
+    display: flex !important;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.ample_delete{
+    margin-top: 8px !important;
+    float: right;
+}
+
+.ample_button{
+    position: relative;
+    bottom: 7px;
+}
+
+.table_responsive {
+    width: 100%;
+    margin-top: -30px;
+}
+
+.contact_person_container{
+    margin-top: 10px;
+}
+
+
+.table_header{
+    font-size: 18px;
+    color: white;
+}
+
+.margin_t40{
+    margin-top: 40px !important;
+}

@@ -1,10 +1,10 @@
 
 <div class="col-md-12">
-    <div class="col-md-6 row image_placeholder">
-        <img src="../../assets/ample.png">
+    <div class="col-md-6 image_placeholder">
+        <img src="../../assets/myunistudy.png">
     </div>
-    <div class="col-md-5 row form_field center" *ngIf="!isInForgotPassword">
-        <h2>Ample Login</h2>
+    <div class="col-md-5 form_field center" *ngIf="!isInForgotPassword">
+        <h2>Login</h2>
         <form [formGroup]="loginForm" (ngSubmit)="login()">
             <div class="col-md-12">
                 <mat-form-field class="mat_form_fields" appearance="outline">
@@ -21,13 +21,16 @@
                 <mat-form-field class="mat_form_fields" appearance="outline" hintLabel="">
                     <mat-label>Enter your password</mat-label>
                     <input matInput formControlName="password" #password maxlength="8" [type]="hideLoginPass ? 'password' : 'text'">
-                    <button mat-icon-button matSuffix (click)="hideLoginPass = !hideLoginPass" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hideLoginPass">
+                    <div matSuffix (click)="hideLoginPass = !hideLoginPass" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hideLoginPass">
                         <mat-icon>{{hideLoginPass ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
+                    </div>
                     <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.password.errors?.required">
                         Password is required.</mat-hint>
                     <mat-hint align="start" class="mat-error" *ngIf="isSubmitted && errorControl.password.errors?.minlength">Max 8 characters</mat-hint>
                 </mat-form-field>
+            </div>
+            <div class="col-md-8 margin_top10">
+                <mat-checkbox (change)="agentChecked($event)"  color="primary"><span class="mat_form_label">Login as Agent</span></mat-checkbox>
             </div>
             <div class="col-md-8 margin_top10">
                 <mat-checkbox class="mat_form_fields_checkbox" color="primary"><span class="mat_form_label">Remember Me</span></mat-checkbox>
@@ -44,7 +47,7 @@
         </div>
     </div>
 
-    <div class="col-md-5 row form_field center" *ngIf="isInForgotPassword">
+    <div class="col-md-5 form_field center" *ngIf="isInForgotPassword">
         <h2>Reset Password</h2>
         <form [formGroup]="resetForm" (ngSubmit)="resetPass()">
             <div class="col-md-12">
@@ -58,18 +61,18 @@
                 <mat-form-field class="mat_form_fields" appearance="outline">
                     <mat-label>Enter new password</mat-label>
                     <input formControlName="resPass" matInput maxlength="8" [type]="hidePass ? 'password' : 'text'">
-                    <button mat-icon-button matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hidePass">
+                    <div matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hidePass">
                         <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
+                    </div>
                 </mat-form-field>
             </div>
             <div class="col-md-12">
                 <mat-form-field class="mat_form_fields" appearance="outline">
                     <mat-label>Re-enter password</mat-label>
                     <input formControlName="conformPass" matInput maxlength="8" [type]="hideRePass ? 'password' : 'text'">
-                    <button mat-icon-button matSuffix (click)="hideRePass = !hideRePass" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hideRePass">
+                    <div matSuffix (click)="hideRePass = !hideRePass" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hideRePass">
                         <mat-icon>{{hideRePass ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
+                    </div>
                 </mat-form-field>
             </div>
             <div class="col-md-12 margin_top10">

@@ -1,0 +1,74 @@
+.round_logo{
+    border-radius: 50%;
+}
+
+.institute_detail{
+    border-top: 2px solid #3c8dbc;
+}
+
+.text-disabled{
+    color: #777;
+}
+
+.sub_card_header{
+    display: flex !important;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.menu_title_fixed_tab{
+    background: white;
+    padding-left: 5px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.12);
+}
+
+.menu_title_fixed_tab p {
+    padding-left: 10px;
+    padding-top: 10px;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.header{
+    font-weight: 500;
+}
+
+.text_right{
+    text-align: right;
+}
+
+.btn-top-small{
+    position: relative;
+    bottom: 5px;
+    width: 25px !important;
+    height: 25px !important;
+}
+
+.agent_institute{
+    margin-bottom: 15px;
+}
+
+.no-agent{
+    margin-bottom: 15px !important;
+    margin-top: 15px !important;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+}
+
+.no-agent p{
+    margin: 10px;
+    text-align: center;
+}
+
+.small_btn_edit{
+    font-size: 16px;
+    height: 40px;
+}
+
+
+.icon_text{
+    position: relative;
+    bottom: 5px;
+    font-size: 15px !important;
+    padding-left: 5px;
+}

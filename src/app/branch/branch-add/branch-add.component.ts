@@ -13,6 +13,8 @@ import {Router} from '@angular/router';
 export class BranchAddComponent implements OnInit {
     isSubmitted = false;
     totalBranch = 0;
+    branch: any;
+    isEdit = false;
     isProcessing = false;
     addBranchForm = new FormGroup({
         branch_name: new FormControl('', [Validators.required]),
@@ -24,6 +26,10 @@ export class BranchAddComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        if (history.state.data !== undefined) {
+            this.isEdit = true;
+            this.branch = history.state.data;
+        }
         this.getBranchLength();
     }
 
@@ -71,13 +77,13 @@ export class BranchAddComponent implements OnInit {
         }
     }
 
-    getBranchLength(): any{
+    getBranchLength(): any {
         const selector = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement;
         const el = selector.querySelector('.branch_badge');
         this.totalBranch = el.childNodes[0].innerHTML;
     }
 
-    changeNav(): any{
+    changeNav(): any {
         const selector = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement;
         const selected = selector.querySelector('.selected_side_nav').previousSibling;
         const el = selector.querySelectorAll('.menu_item');
@@ -91,4 +97,43 @@ export class BranchAddComponent implements OnInit {
         return this.addBranchForm.controls;
     }
 
+    updateBranch(): any {
+        this.isSubmitted = true;
+        if (!this.addBranchForm.valid) {
+            const invalidControl = this.elRef.nativeElement.querySelectorAll('.mat-form-field .ng-invalid');
+            if (invalidControl.length > 0) {
+                invalidControl[0].focus();
+            }
+            return false;
+        } else {
+            if (this.addBranchForm.value.is_secondary === '') {
+                this.addBranchForm.value.is_secondary = false;
+            }
+
+            this.isProcessing = true;
+            this.branchSerivce.updateBranch(this.addBranchForm.value, this.branch.id).pipe(finalize(() => {
+                this.isProcessing = false;
+            })).subscribe(
+                (result) => {
+                    this._snackBar.open(result.message, '', {
+                        duration: 2000,
+                    });
+                    this.changeNav();
+                    this.router.navigate(['/branch/all']);
+                },
+                (error) => {
+                    if (error.error !== undefined) {
+                        this._snackBar.open(error.error.msg, '', {
+                            duration: 2000,
+                        });
+                    }
+                }
+            );
+        }
+    }
+
+    cancel(): any {
+        this.changeNav();
+        this.router.navigate(['/branch/all']);
+    }
 }

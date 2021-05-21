@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-    apiUrl: 'http://localhost:3030/ample/api/v1/'
+    // apiUrl: 'https://api.myunistudy.com/api/v1/'
+    apiUrl: 'http://localhost:3000/api/v1/',
+    imgUrl: 'http://localhost:3000/images/',
 };
 
 /*

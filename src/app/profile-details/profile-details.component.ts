@@ -7,6 +7,7 @@ import {UserService} from '../Services/user.service';
 import {finalize} from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {environment} from '../../environments/environment';
+import {AgentService} from '../Services/agent.service';
 
 
 @Component({
@@ -17,8 +18,12 @@ import {environment} from '../../environments/environment';
 export class ProfileDetailsComponent implements OnInit {
     profileName = '';
     profileRole = '';
+    profileId = '';
     private _jsonURL = 'assets/timezones.json';
     memberDate = '';
+    imageUrl = '';
+    hasImage = false;
+    uploadedFiles: Array<File> = [];
     padding = 'pt-7';
     editAble = false;
     isSubmitted = false;
@@ -27,14 +32,15 @@ export class ProfileDetailsComponent implements OnInit {
     naviagtionData: any[] = [];
     country: any[] = [];
     timeZone: any[] = [];
-    private readonly apiUrl = `${environment.apiUrl}branch/`;
+    private readonly apiUrl = `${environment.apiUrl}`;
+    imgUrl = `${environment.imgUrl}`;
     branches: any[] = [];
     currentTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     updateProfileForm!: FormGroup;
     errorMessage = '';
     public ctrls: { [name: string]: FormControl } = {};
 
-    constructor(public userSerivce: UserService, private http: HttpClient, private _snackBar: MatSnackBar) {
+    constructor(public userSerivce: UserService, private agentService: AgentService, private http: HttpClient, private _snackBar: MatSnackBar) {
         this.getAllCountries();
         this.getAllBranches();
         this.getJSON().subscribe(data => {
@@ -60,10 +66,30 @@ export class ProfileDetailsComponent implements OnInit {
 
             this.profileName = history.state.data.name;
             this.profileRole = history.state.data.role;
+            this.profileId = history.state.data._id;
             this.memberDate = history.state.data.create_date;
+
+            this.getContacts();
 
         }
 
+    }
+
+    fileChange(element: any): any {
+        this.uploadedFiles = element.target.files;
+        let formData = new FormData();
+        formData.append('id', this.profileId);
+        for (let i = 0; i < this.uploadedFiles.length; i++) {
+            const filename = this.profileName.replace(' ', '_')  + '.jpg';
+            formData.append('pic', filename.toLowerCase());
+            formData.append('avatar', this.uploadedFiles[i], filename.toLowerCase());
+        }
+
+        this.http.post(this.apiUrl + 'users/upload', formData)
+            .subscribe((result) => {
+                this.editAble = false;
+                this.getContacts();
+            });
     }
 
     private assignValues(key: string): any {
@@ -81,6 +107,19 @@ export class ProfileDetailsComponent implements OnInit {
                     }
                 );
                 break;
+            case 'company_name':
+                this.naviagtionData.push(
+                    {
+                        key: 'Company Name',
+                        nameKey: key,
+                        value: history.state.data[key],
+                        icon: 'business',
+                        required: true,
+                        disabled: false,
+                        inputType: 'text'
+                    }
+                );
+                break;
             case 'email':
                 this.naviagtionData.push(
                     {
@@ -91,6 +130,19 @@ export class ProfileDetailsComponent implements OnInit {
                         required: true,
                         disabled: true,
                         inputType: 'email'
+                    }
+                );
+                break;
+            case 'website':
+                this.naviagtionData.push(
+                    {
+                        key: 'Website',
+                        nameKey: key,
+                        value: history.state.data[key],
+                        icon: 'website',
+                        required: true,
+                        disabled: false,
+                        inputType: 'text'
                     }
                 );
                 break;
@@ -146,10 +198,36 @@ export class ProfileDetailsComponent implements OnInit {
                     }
                 );
                 break;
+            case 'phoneNo':
+                this.naviagtionData.push(
+                    {
+                        key: 'Phone',
+                        nameKey: key,
+                        value: history.state.data[key],
+                        icon: 'stay_current_portrait',
+                        required: true,
+                        disabled: false,
+                        inputType: 'number'
+                    }
+                );
+                break;
             case 'secondary_branch':
                 this.naviagtionData.push(
                     {
                         key: 'Secondary Branch',
+                        nameKey: key,
+                        value: history.state.data[key],
+                        icon: 'group_work',
+                        required: false,
+                        disabled: false,
+                        inputType: 'select'
+                    }
+                );
+                break;
+            case 'branch':
+                this.naviagtionData.push(
+                    {
+                        key: 'Branch',
                         nameKey: key,
                         value: history.state.data[key],
                         icon: 'group_work',
@@ -198,6 +276,32 @@ export class ProfileDetailsComponent implements OnInit {
                     }
                 );
                 break;
+            case 'post_code':
+                this.naviagtionData.push(
+                    {
+                        key: 'Post Code',
+                        nameKey: key,
+                        value: history.state.data[key],
+                        icon: 'local_shipping',
+                        required: false,
+                        disabled: false,
+                        inputType: 'text'
+                    }
+                );
+                break;
+            case 'invoice_to':
+                this.naviagtionData.push(
+                    {
+                        key: 'Invoice To',
+                        nameKey: key,
+                        value: history.state.data[key],
+                        icon: 'alternate_email',
+                        required: false,
+                        disabled: false,
+                        inputType: 'text'
+                    }
+                );
+                break;
             case 'country':
                 this.naviagtionData.push(
                     {
@@ -229,105 +333,176 @@ export class ProfileDetailsComponent implements OnInit {
     }
 
     private assignFirstValues(): any {
-        if (this.naviagtionData.find(x => x.nameKey === 'birthday').nameKey !== 'birthday') {
-            this.naviagtionData.push({
-                key: 'Birthday',
-                nameKey: 'birthday',
-                value: this.today,
-                icon: 'calendar_today',
-                required: true,
-                disabled: false,
-                inputType: 'date'
-            });
+        if (this.naviagtionData.find(x => x.nameKey === 'birthday') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'birthday').nameKey !== 'birthday') {
+                this.naviagtionData.push({
+                    key: 'Birthday',
+                    nameKey: 'birthday',
+                    value: this.today,
+                    icon: 'calendar_today',
+                    required: true,
+                    disabled: false,
+                    inputType: 'date'
+                });
+            }
         }
 
-        if (this.naviagtionData.find(x => x.nameKey === 'gender').nameKey !== 'gender') {
-            this.naviagtionData.push({
-                key: 'Gender',
-                nameKey: 'gender',
-                value: '',
-                icon: 'transgender',
-                required: true,
-                disabled: false,
-                inputType: 'radio'
-            });
+        if (this.naviagtionData.find(x => x.nameKey === 'gender') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'gender').nameKey !== 'gender') {
+                this.naviagtionData.push({
+                    key: 'Gender',
+                    nameKey: 'gender',
+                    value: '',
+                    icon: 'transgender',
+                    required: true,
+                    disabled: false,
+                    inputType: 'radio'
+                });
+            }
         }
 
-        if (this.naviagtionData.find(x => x.nameKey === 'reply_email').nameKey !== 'reply_email') {
-            this.naviagtionData.push({
-                key: 'Reply Email',
-                nameKey: 'reply_email',
-                value: history.state.data.email,
-                icon: 'drafts',
-                required: true,
-                disabled: false,
-                inputType: 'email'
-            });
+        if (this.naviagtionData.find(x => x.nameKey === 'reply_email') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'reply_email').nameKey !== 'reply_email') {
+                this.naviagtionData.push({
+                    key: 'Reply Email',
+                    nameKey: 'reply_email',
+                    value: history.state.data.email,
+                    icon: 'drafts',
+                    required: true,
+                    disabled: false,
+                    inputType: 'email'
+                });
+            }
         }
 
-        if (this.naviagtionData.find(x => x.nameKey === 'phone').nameKey !== 'phone') {
-            this.naviagtionData.push({
-                key: 'Phone',
-                nameKey: 'phone',
-                value: '',
-                icon: 'stay_current_portrait',
-                disabled: false,
-                required: true,
-                inputType: 'number'
-            });
+        if (this.naviagtionData.find(x => x.nameKey === 'phone') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'phone').nameKey !== 'phone') {
+                this.naviagtionData.push({
+                    key: 'Phone',
+                    nameKey: 'phone',
+                    value: '',
+                    icon: 'stay_current_portrait',
+                    disabled: false,
+                    required: true,
+                    inputType: 'number'
+                });
+            }
         }
 
-
-        if (this.naviagtionData.find(x => x.nameKey === 'secondary_branch').nameKey !== 'secondary_branch') {
-            this.naviagtionData.push({
-                key: 'Secondary Branch',
-                nameKey: 'secondary_branch',
-                value: '',
-                icon: 'group_work',
-                required: false,
-                disabled: false,
-                inputType: 'text'
-            });
+        if (this.naviagtionData.find(x => x.nameKey === 'phoneNo') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'phoneNo').nameKey !== 'phoneNo') {
+                this.naviagtionData.push({
+                    key: 'Phone',
+                    nameKey: 'phoneNo',
+                    value: '',
+                    icon: 'stay_current_portrait',
+                    disabled: false,
+                    required: true,
+                    inputType: 'number'
+                });
+            }
         }
 
-        if (this.naviagtionData.find(x => x.nameKey === 'street').nameKey !== 'street') {
-            this.naviagtionData.push({
-                key: 'Street',
-                nameKey: 'street',
-                value: '',
-                icon: 'traffic',
-                disabled: false,
-                required: false,
-                inputType: 'select'
-            });
+        if (this.naviagtionData.find(x => x.nameKey === 'secondary_branch') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'secondary_branch').nameKey !== 'secondary_branch') {
+                this.naviagtionData.push({
+                    key: 'Secondary Branch',
+                    nameKey: 'secondary_branch',
+                    value: '',
+                    icon: 'group_work',
+                    required: false,
+                    disabled: false,
+                    inputType: 'select'
+                });
+            }
         }
 
-
-        if (this.naviagtionData.find(x => x.nameKey === 'postal_code').nameKey !== 'postal_code') {
-            this.naviagtionData.push({
-                key: 'Post Code',
-                nameKey: 'postal_code',
-                value: '',
-                icon: 'local_shipping',
-                required: false,
-                disabled: false,
-                inputType: 'text'
-            });
+        if (this.naviagtionData.find(x => x.nameKey === 'branch') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'branch').nameKey !== 'branch') {
+                this.naviagtionData.push({
+                    key: 'Branch',
+                    nameKey: 'branch',
+                    value: '',
+                    icon: 'group_work',
+                    required: false,
+                    disabled: false,
+                    inputType: 'select'
+                });
+            }
         }
+
+        if (this.naviagtionData.find(x => x.nameKey === 'street') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'street').nameKey !== 'street') {
+                this.naviagtionData.push({
+                    key: 'Street',
+                    nameKey: 'street',
+                    value: '',
+                    icon: 'traffic',
+                    disabled: false,
+                    required: false,
+                    inputType: 'select'
+                });
+            }
+        }
+
+        if (this.naviagtionData.find(x => x.nameKey === 'postal_code') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'postal_code').nameKey !== 'postal_code') {
+                this.naviagtionData.push({
+                    key: 'Post Code',
+                    nameKey: 'postal_code',
+                    value: '',
+                    icon: 'local_shipping',
+                    required: false,
+                    disabled: false,
+                    inputType: 'text'
+                });
+            }
+        }
+
+        if (this.naviagtionData.find(x => x.nameKey === 'website') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'website').nameKey !== 'website') {
+                this.naviagtionData.push({
+                    key: 'Website',
+                    nameKey: 'website',
+                    value: '',
+                    icon: 'website',
+                    required: false,
+                    disabled: false,
+                    inputType: 'text'
+                });
+            }
+        }
+
+        if (this.naviagtionData.find(x => x.nameKey === 'invoice_to') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'invoice_to').nameKey !== 'invoice_to') {
+                this.naviagtionData.push({
+                    key: 'Invoice To',
+                    nameKey: 'invoice_to',
+                    value: '',
+                    icon: 'alternate_email',
+                    required: false,
+                    disabled: false,
+                    inputType: 'text'
+                });
+            }
+        }
+
         if (this.naviagtionData.find(x => x.nameKey === 'country').nameKey !== 'country' || this.naviagtionData.find(x => x.nameKey === 'state').nameKey !== 'state') {
             this.getCountryInfo();
         }
 
-        if (this.naviagtionData.find(x => x.nameKey === 'timezone').nameKey !== 'timezone') {
-            this.naviagtionData.push({
-                key: 'Time Zone',
-                nameKey: 'timezone',
-                value: this.currentTimezone,
-                icon: 'schedule',
-                required: false,
-                disabled: false,
-                inputType: 'select'
-            });
+        if (this.naviagtionData.find(x => x.nameKey === 'timezone') !== undefined) {
+            if (this.naviagtionData.find(x => x.nameKey === 'timezone').nameKey !== 'timezone') {
+                this.naviagtionData.push({
+                    key: 'Time Zone',
+                    nameKey: 'timezone',
+                    value: this.currentTimezone,
+                    icon: 'schedule',
+                    required: false,
+                    disabled: false,
+                    inputType: 'select'
+                });
+            }
         }
     }
 
@@ -350,9 +525,10 @@ export class ProfileDetailsComponent implements OnInit {
             return false;
         } else {
             this.isProcessing = true;
-            this.userSerivce.updateProfile(this.updateProfileForm.value).pipe(finalize(() => {
-                this.isProcessing = false;
-            })).subscribe(
+            if (this.profileRole !== 'agent') {
+                this.userSerivce.updateProfile(this.updateProfileForm.value).pipe(finalize(() => {
+                    this.isProcessing = false;
+                })).subscribe(
                     (result) => {
                         this.assignValuesAgain(result.data);
                         this.profileName = result.data.name;
@@ -374,9 +550,41 @@ export class ProfileDetailsComponent implements OnInit {
                         }
                     }
                 );
+            } else {
+                this.agentService.updateProfile(this.updateProfileForm.value).pipe(finalize(() => {
+                    this.isProcessing = false;
+                })).subscribe(
+                    (result) => {
+                        this.assignValuesAgain(result.data);
+                        this.profileName = result.data.name;
+                        // this.naviagtionData.push(history.state.data[key]);
+                        this._snackBar.open(result.message, '', {
+                            duration: 2000,
+                        });
+
+                        this.editAble = false;
+                        // this.router.navigate([returnUrl]);
+                    },
+                    (error) => {
+                        if (error.error !== undefined) {
+                            this._snackBar.open(error.error.msg, '', {
+                                duration: 2000,
+                            });
+                        } else {
+                            // this.router.navigate([returnUrl]);
+                        }
+                    }
+                );
+            }
+
 
         }
 
+    }
+
+    openFile(e: any): any{
+        let element: HTMLElement = document.getElementById('avatar_image') as HTMLElement;
+        element.click();
     }
 
     addFormControl(key: any): any {
@@ -469,10 +677,24 @@ export class ProfileDetailsComponent implements OnInit {
     }
 
     private getAllBranches(): any {
-        this.http.get<any>(`${this.apiUrl}`).subscribe({
+        this.http.get<any>(`${this.apiUrl}branch/`).subscribe({
             next: data => {
                 this.branches = data.data;
                 // this.currentCountry = ;
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
+    }
+
+    private getContacts(): any{
+        this.http.get<any>(`${this.apiUrl}users/` + this.profileId).subscribe({
+            next: data => {
+                this.imageUrl = data.data.pic;
+                if(this.imageUrl){
+                    this.hasImage = true;
+                }
             },
             error: error => {
                 this.errorMessage = error.message;

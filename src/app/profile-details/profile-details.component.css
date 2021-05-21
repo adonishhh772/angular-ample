@@ -51,6 +51,21 @@
     border-radius: .25rem;
 }
 
+.capital{
+    text-transform: capitalize;
+}
+
+.push_left{
+    position: relative;
+    left: 20px;
+}
+
+.fab_icon_small_upload{
+    width: 25px;
+    height: 25px;
+    float: right;
+}
+
 .card-body {
     flex: 1 1 auto;
     min-height: 1px;

@@ -1,0 +1,44 @@
+<mat-card class="institute_requirements">
+    <mat-card-header>
+        <mat-card-title class="sub_card_header col-md-12">
+            <div class="col-md-8">Requirements</div>
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content class="requirement_container">
+        <div class="col-md-12">
+            <form [formGroup]="requirementForm" (ngSubmit)="addRequirement()">
+                <div class="col-md-12 mb-20">
+                    <mat-label class="req_label">Turaround Time</mat-label>
+                    <ckeditor formControlName="turnaround_time" [editor]="Editor" [(ngModel)]="turnAroundTime"></ckeditor>
+                </div>
+                <div class="col-md-12 mb-20">
+                    <mat-label class="req_label">Document Requirements</mat-label>
+                    <ckeditor formControlName="document_requirement" [editor]="Editor" [(ngModel)]="docRequirement"></ckeditor>
+                </div>
+                <div class="col-md-12 mb-20">
+                    <mat-label class="req_label">Minimum Requirements</mat-label>
+                    <ckeditor formControlName="minimum_requirement" [editor]="Editor" [(ngModel)]="minRequirement"></ckeditor>
+                </div>
+                <div class="col-md-12 mb-20">
+                    <mat-label class="req_label">Lodgement Procedure</mat-label>
+                    <ckeditor formControlName="lodgement_procedure" [editor]="Editor" [(ngModel)]="lodgementProcedure"></ckeditor>
+                </div>
+                <div class="col-md-12 mb-20">
+                    <mat-label class="req_label">Commission Processing Timeframe</mat-label>
+                    <ckeditor formControlName="commission_time" [editor]="Editor" [(ngModel)]="commissionTime"></ckeditor>
+                </div>
+                <div class="col-md-12 mb-20">
+                    <mat-label class="req_label">Other Notes</mat-label>
+                    <ckeditor formControlName="other_notes" [editor]="Editor" [(ngModel)]="otherNotes"></ckeditor>
+                </div>
+            </form>
+        </div>
+    </mat-card-content>
+    <mat-card-footer>
+        <div class="requirement_footer">
+            <button *ngIf="!isEdit" [disabled]="isProcessing"  mat-raised-button color="primary" (click)="addRequirement()" class="mr-10">Add</button>
+            <button *ngIf="isEdit" mat-raised-button [disabled]="isProcessing" color="primary" (click)="updateRequirement()" class="mr-10">Update</button>
+            <button [disabled]="isProcessing" mat-raised-button color="warn">Cancel</button>
+        </div>
+    </mat-card-footer>
+</mat-card>

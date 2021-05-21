@@ -1,0 +1,29 @@
+<div class="components_container institute">
+    <div class="col-md-12 flex">
+        <div class="col-md-4">
+            <app-general-info [isLoaded]="isLoaded" [hideAgent]="hideAgent" [agentData]="agentData" [agentCount]="agentCount" [institute]="naviagtionData" [errorMessage]="errorMessage"></app-general-info>
+        </div>
+        <div class="col-md-8">
+            <mat-tab-group class="institute_tab" (selectedTabChange)="onTabChanged($event);">
+                <mat-tab label="Dashboard">
+                    <app-dashboard></app-dashboard>
+                </mat-tab>
+                <mat-tab label="Courses">
+                   <app-courses></app-courses>
+                </mat-tab>
+                <mat-tab label="Intakes">
+                    <app-intakes></app-intakes>
+                </mat-tab>
+                <mat-tab label="Requirements">
+                    <app-requirements></app-requirements>
+                </mat-tab>
+                <mat-tab label="Documents">
+                    <p>Documents</p>
+                </mat-tab>
+            </mat-tab-group>
+        </div>
+
+    </div>
+
+
+</div>

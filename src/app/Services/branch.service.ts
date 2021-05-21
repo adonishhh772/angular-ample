@@ -35,5 +35,17 @@ export class BranchService {
         );
     }
 
+    updateBranch(data: any, id: string): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl + id}`, data, {
+            headers:
+                {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+        })
+            .pipe(
+                map(result => {
+                    return result;
+                })
+            );
+    }
+
 
 }

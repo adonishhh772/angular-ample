@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, NavigationExtras} from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import {environment} from '../../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 @Component({
@@ -11,14 +11,16 @@ export class ViewAgentComponent implements OnInit {
     naviagtionData: any[] = [];
     errorMessage = '';
     isLoaded = false;
-    private readonly apiUrl = `${environment.apiUrl}agent/`;
-    constructor(public route: ActivatedRoute,  private http: HttpClient) {
+    private readonly apiUrl = `${environment.apiUrl}`;
+    constructor(
+        public router: Router,
+        public route: ActivatedRoute,  private http: HttpClient) {
     }
 
     ngOnInit(): void {
         this.route.queryParams.subscribe(params => {
           // console.log(params);
-            this.http.get<any>(`${this.apiUrl + params.id}`).subscribe({
+            this.http.get<any>(`${this.apiUrl + 'agent/' + params.id}`).subscribe({
                 next: data => {
                     this.naviagtionData.push(data.data);
                     this.isLoaded = true;
@@ -30,6 +32,9 @@ export class ViewAgentComponent implements OnInit {
             });
 
         });
-      // console.log(this.naviagtionData);
+    }
+
+    updateAgent(): any{
+        this.router.navigate(['agent/add'], {state: {data: this.naviagtionData[0]}});
     }
 }

@@ -23,4 +23,24 @@ export class UserService {
                 })
             );
     }
+
+    add(data: any): Observable<any> {
+        return this.http.post<any>(`${this.apiUrl}`, data, {
+            headers:
+                {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+        })
+            .pipe(
+                map(result => {
+                    return result;
+                })
+            );
+    }
+
+    delContact(id: string): Observable<any> {
+        return this.http.delete<any>(`${this.apiUrl + id}`).pipe(
+            map(result => {
+                return result;
+            })
+        );
+    }
 }

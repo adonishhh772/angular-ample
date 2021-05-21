@@ -17,6 +17,8 @@ const routes: Routes = [
             {path: 'branch', loadChildren: () => import('../branch/branch.module').then(m => m.BranchModule)},
             {path: 'institute', loadChildren: () => import('../institute/institute.module').then(m => m.InstituteModule)},
             {path: 'agent', loadChildren: () => import('../agent/agent.module').then(m => m.AgentModule)},
+            {path: 'tasks', loadChildren: () => import('../task/task.module').then(m => m.TaskModule)},
+            {path: 'contacts', loadChildren: () => import('../contacts/contacts.module').then(m => m.ContactsModule)},
             {path: 'profile-details', loadChildren: () => import('../profile-details/profile-details.module').then(m => m.ProfileDetailsModule)},
         ]
     },

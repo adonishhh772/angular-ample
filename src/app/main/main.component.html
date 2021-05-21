@@ -1,20 +1,40 @@
 <div>
     <mat-drawer-container [ngStyle]="myStyles" class="menu-container" hasBackdrop=false>
         <mat-drawer #drawer class="side_menu" mode="side" opened>
-            <div class="menu_header flex"><img src="../assets/ampleLogo.png">
-                <h2>{{title}}</h2></div>
+            <div class="menu_header flex"><img src="../assets/myunistudy.png">
+                <img class="logo_text" src="../assets/myunistudytext.png"></div>
             <mat-list id="drawerItem" class="side_menu_nav">
                 <mat-list-item title="Dashboard" class="menu_item"
                                (click)="changeRoute($event,'','','Dashboard','dashboard','dashboard')">
                     <mat-icon matSuffix>dashboard</mat-icon>
                     <span class="menu_title">Dashboard</span></mat-list-item>
-                <mat-list-item title="All Contacts" class="menu_item"
-                               (click)="changeRoute($event,'','','All Contacts','about','people')">
-                    <mat-icon matSuffix>people</mat-icon>
-                    <span class="menu_title">All Contacts</span>
-                    <div class="col-md-5"></div>
-                    <span class="menu_badge" matBadge="4" matBadgeOverlap="false"></span></mat-list-item>
-                <mat-list-item title="Leads Manager" class="menu_item"
+                <mat-accordion *ngIf="!hasShrunk && (!isClient)">
+                    <mat-expansion-panel title="All Contacts" class="menu_item_accordian"
+                                         (opened)="panelOpenState = true"
+                                         (closed)="panelOpenState = false">
+                        <mat-expansion-panel-header class="menu_accordian_header">
+                            <mat-panel-title class="menu_accordian_title">
+                                <mat-icon matSuffix>people</mat-icon>
+                                <span class="menu_title">All Contacts</span>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <span class="menu_badge contact_badge" matBadge="{{contactCount}}"
+                                      matBadgeOverlap="false"></span>
+                            </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <mat-list-item class="menu_item"
+                                       (click)="changeRoute($event,'All Contacts','people','View All','contacts/all','view_list')">
+                            <mat-icon matSuffix>view_list</mat-icon>
+                            <span class="menu_title">View All</span>
+                            <div class="col-md-4"></div>
+                        </mat-list-item>
+                        <mat-list-item class="menu_item"
+                                       (click)="changeRoute($event,'All Contacts','people','Add Contacts','contacts/add','add_circle')">
+                            <mat-icon matSuffix>add_circle</mat-icon>
+                            <span class="menu_title">Add Contacts</span></mat-list-item>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <mat-list-item *ngIf="!isClient" title="Leads Manager" class="menu_item"
                                (click)="changeRoute($event,'','','Lead Manager','leads','groups')">
                     <mat-icon matSuffix>groups</mat-icon>
                     <span class="menu_title">Leads Manager</span></mat-list-item>
@@ -72,7 +92,7 @@
                     </ul>
                 </mat-list-item>
 
-                <mat-accordion *ngIf="!hasShrunk">
+                <mat-accordion *ngIf="!hasShrunk && (!isClient) && (!isManager) && (!isAgent)">
                     <mat-expansion-panel title="Branch Manager" class="menu_item_accordian"
                                          (opened)="panelOpenState = true"
                                          (closed)="panelOpenState = false">
@@ -99,7 +119,14 @@
                     </mat-expansion-panel>
                 </mat-accordion>
 
-                <mat-list-item *ngIf="hasShrunk" title="Branch Manager" class="menu_item menu_lists"
+                <mat-list-item *ngIf="!isClient" title="Task Manager" class="menu_item task_manager"
+                               (click)="changeRoute($event,'','','Task Manager','tasks','task')">
+                    <mat-icon matSuffix>task</mat-icon>
+                    <span class="menu_title">Task Manager</span>
+                    <span class="menu_badge task_badge" matBadge="{{tasksCount}}"
+                          matBadgeOverlap="false"></span>
+                </mat-list-item>
+                <mat-list-item *ngIf="hasShrunk && (!isClient)" title="Branch Manager" class="menu_item menu_lists"
                                (mouseover)="openLiApplication= false; openLiBranch = true;">
                     <mat-icon matSuffix>account_tree</mat-icon>
                     <span class="menu_title"></span>
@@ -129,7 +156,7 @@
                     </ul>
                 </mat-list-item>
 
-                <mat-accordion *ngIf="!hasShrunk">
+                <mat-accordion *ngIf="!hasShrunk && (!isClient)">
                     <mat-expansion-panel title="Institute" class="menu_item_accordian"
                                          (opened)="panelOpenState = true"
                                          (closed)="panelOpenState = false">
@@ -139,7 +166,7 @@
                                 <span class="menu_title">Institutes</span>
                             </mat-panel-title>
                             <mat-panel-description>
-                                <span class="menu_badge institute_badge" matBadge="{{agentCount}}"
+                                <span class="menu_badge institute_badge" matBadge="{{instituteCount}}"
                                       matBadgeOverlap="false"></span>
                             </mat-panel-description>
                         </mat-expansion-panel-header>
@@ -156,7 +183,7 @@
                     </mat-expansion-panel>
                 </mat-accordion>
 
-                <mat-accordion *ngIf="!hasShrunk">
+                <mat-accordion *ngIf="!hasShrunk && (!isClient) && (!isManager) && (!isAgent) ">
                     <mat-expansion-panel title="Agents" class="menu_item_accordian"
                                          (opened)="panelOpenState = true"
                                          (closed)="panelOpenState = false">
@@ -208,7 +235,7 @@
                         <div *ngIf="isMiddleResolution" class="search_bar col-md-4L">
                             <div class="search-wrapper {{active}}">
                                 <div class="input-holder">
-                                    <input type="text" class="search-input" placeholder="Type to search">
+                                    <input type="text" class="search-input" placeholder="Type to search clients">
                                     <button mat-icon-button matSuffix class="search-icon no-border-btn mr-1"
                                             (click)="searchTrigger()">
                                         <mat-icon>search</mat-icon>
@@ -224,27 +251,27 @@
                                     class="search-icon no-border-btn mr-1">
                                 <mat-icon>search</mat-icon>
                             </button>
-                            <button mat-icon-button matSuffix matBadge="7" (click)="openMail()"
+                            <button *ngIf="!isClient" mat-icon-button matSuffix matBadge="7" (click)="openMail()"
                                     [matMenuTriggerFor]="menu_notify"
                                     class="no-border-btn mr-1">
                                 <mat-icon>groups</mat-icon>
                             </button>
-                            <button mat-icon-button matSuffix matBadge="7" (click)="openMail()"
+                            <button *ngIf="!isClient" mat-icon-button matSuffix matBadge="7" (click)="openMail()"
                                     [matMenuTriggerFor]="menu_notify"
                                     class="no-border-btn mr-1">
                                 <mat-icon>format_list_bulleted</mat-icon>
                             </button>
-                            <button mat-icon-button matSuffix matBadge="7" (click)="openMail()"
+                            <button *ngIf="!isClient" mat-icon-button matSuffix matBadge="7" (click)="openMail()"
                                     [matMenuTriggerFor]="menu_notify"
                                     class="no-border-btn mr-1">
                                 <mat-icon class="appln_rotate">flight</mat-icon>
                             </button>
-                            <button mat-icon-button matSuffix matBadge="7" (click)="openMail()"
+                            <button *ngIf="!isClient" mat-icon-button matSuffix matBadge="{{tasksCount}}" (click)="openMail()"
                                     [matMenuTriggerFor]="menu_notify"
-                                    class="no-border-btn mr-1">
+                                    class="no-border-btn task_notify mr-1">
                                 <mat-icon>event</mat-icon>
                             </button>
-                            <button mat-icon-button matSuffix matBadge="7" [matBadgeHidden]="hidden"
+                            <button *ngIf="!isClient" mat-icon-button matSuffix matBadge="7" [matBadgeHidden]="hidden"
                                     (click)="toggleBadgeVisibility()" [matMenuTriggerFor]="menu_notify"
                                     class="no-border-btn mr-1">
                                 <mat-icon class="icon-anim-pulse">notifications</mat-icon>
@@ -255,10 +282,23 @@
                             <div class="col-md-4 dropdown-menu-lg bg-info dropdown-menu dropdown-menu-right {{show}}">
                                 <app-profile [profile]="profile" [errorMessage]="errorMessage"></app-profile>
                             </div>
-                            <mat-menu #menu_notify="matMenu">
-                                <h2>{{menuTile}}</h2>
-                                <button mat-menu-item>Item 1</button>
-                                <button mat-menu-item>Item 2</button>
+                            <mat-menu #menu_notify="matMenu" class="p-10" xPosition="before">
+                                <div class="col-md-12">
+                                    <div class="matMenu_title border_btm">
+                                        <h3>{{menuTile}}</h3>
+                                    </div>
+                                    <div class="matMenu_body border_btm">
+                                        <button mat-menu-item *ngFor="let data of itemData">
+                                            <mat-icon>list</mat-icon>
+                                            <span>{{data.title}}</span>
+                                        </button>
+                                        <!--<button mat-menu-item>Item 2</button>-->
+                                    </div>
+                                    <div class="matMenu_footer">
+                                        <button mat-menu-item (click)="navigateToView()">View All</button>
+                                    </div>
+                                </div>
+
                             </mat-menu>
                         </div>
                         <div class="app_header_app_mobile {{openSearch}}">

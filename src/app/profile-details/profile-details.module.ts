@@ -8,6 +8,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
+import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
@@ -18,6 +19,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
     CommonModule,
       ProfileDetailsRoutingModule,
       MatButtonModule,
+      MatTooltipModule,
       MatIconModule,
       MatInputModule,
       MatRadioModule,

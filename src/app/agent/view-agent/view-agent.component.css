@@ -27,10 +27,7 @@
     text-align: right;
 }
 
-.btn-top{
-    position: relative;
-    bottom: 10px;
-}
+
 
 .border_btm_disabled{
     border-bottom: 1px solid rgba(0,0,0,0.5);

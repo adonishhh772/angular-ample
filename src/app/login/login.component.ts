@@ -16,6 +16,7 @@ export class LoginComponent implements OnInit {
     hidePass = true;
     private subscription: Subscription | undefined;
     hideRePass = true;
+    isAgent = false;
     isInForgotPassword = false;
     isSubmitted = false;
     error = '';
@@ -32,6 +33,9 @@ export class LoginComponent implements OnInit {
 
     constructor(private auth: AuthService,
                 private route: ActivatedRoute, private router: Router, private _snackBar: MatSnackBar) {
+        if (localStorage.getItem('userId')) {
+            this.router.navigate(['/']);
+        }
     }
 
     ngOnInit(): void {
@@ -46,14 +50,14 @@ export class LoginComponent implements OnInit {
 
     }
 
-    login() {
+    login(): any {
         this.isSubmitted = true;
         if (!this.loginForm.valid) {
             return false;
         } else {
             this.isValidated = true;
             const returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
-            this.auth.login(this.loginForm.value.email, this.loginForm.value.password)
+            this.auth.login(this.loginForm.value.email, this.loginForm.value.password, this.isAgent)
                 .pipe(finalize(() => (this.isSubmitted = false)))
                 .subscribe(
                     () => {
@@ -74,16 +78,24 @@ export class LoginComponent implements OnInit {
 
     }
 
+    agentChecked(e: any): any {
+        if (e.checked) {
+            this.isAgent = true;
+        } else {
+            this.isAgent = false;
+        }
+    }
+
     resetPass() {
 
     }
 
 
-    get errorControl() {
+    get errorControl(): any {
         return this.loginForm.controls;
     }
 
-    get err() {
+    get err(): any {
         return this.resetForm.controls;
     }
 

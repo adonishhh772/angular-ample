@@ -4,16 +4,20 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {HttpClientModule} from '@angular/common/http';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import { JwtModule } from '@auth0/angular-jwt';
-import { AuthService } from './Services/auth.service';
-import { AuthGuard } from './auth.guard';
+import {JwtModule} from '@auth0/angular-jwt';
+import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
+import {AuthService} from './Services/auth.service';
+import {AuthGuard} from './auth.guard';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
-import { InstituteComponent } from './institute/institute.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
+import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+
 export function tokenGetter() {
     return localStorage.getItem('access_token');
 }
@@ -21,30 +25,34 @@ export function tokenGetter() {
 @NgModule({
     declarations: [
         AppComponent,
-        InstituteComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         MatSnackBarModule,
         MatDialogModule,
+        CKEditorModule,
         MatSelectModule,
         MatInputModule,
         MatFormFieldModule,
+        MatPaginatorModule,
+        MatIconModule,
         BrowserAnimationsModule,
         MatTooltipModule,
         HttpClientModule,
         JwtModule.forRoot({
             config: {
                 tokenGetter: tokenGetter,
-                allowedDomains: ['localhost:3030'],
-                disallowedRoutes: ['localhost:3030/ample/api/v1/']
+                // allowedDomains: ['api.myunistudy.com'],
+                // disallowedRoutes: ['https://api.myunistudy.com/api/v1/']
+                allowedDomains: ['localhost:3000'],
+                disallowedRoutes: ['http://localhost:3000/api/v1/']
             }
         })
 
     ],
     exports: [],
-    providers: [AuthService, AuthGuard],
+    providers: [AuthService, AuthGuard, {provide: LocationStrategy, useClass: HashLocationStrategy}],
     bootstrap: [AppComponent]
 })
 export class AppModule {

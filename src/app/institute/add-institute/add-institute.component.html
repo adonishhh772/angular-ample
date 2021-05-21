@@ -1,0 +1,186 @@
+<div class="components_container institute">
+    <h2 class="heading">Institute Details</h2>
+    <div class="institute_body">
+        <form [formGroup]="addInstituteForm" (ngSubmit)="addInstitute()">
+            <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.institute_name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">business</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Institute Name *</mat-label>
+                            <input formControlName="institute_name" ngModel="{{institute === undefined ? '' : institute.institute_name}}" type="text" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.institute_name.errors?.required">
+                                Institute Name is required.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div *ngIf="!isEdit" class="row col-md-5L mb-10">
+                    <div  class="col-md-12 row border p-10">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">traffic</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Street</mat-label>
+                            <input formControlName="street" type="text" matInput #input>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.short_name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">mail</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Short Name *</mat-label>
+                            <input formControlName="short_name" ngModel="{{institute === undefined ? '' : institute.short_name}}" type="text" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.short_name.errors?.required">
+                                Short Name is required.</mat-hint>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.short_name.errors?.pattern">
+                                Short Name not valid.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div *ngIf="!isEdit" class="row col-md-5L mb-10">
+                    <div class="col-md-12 row border p-10">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">directions_subway</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Suburb</mat-label>
+                            <input formControlName="suburb" type="text" value="{{streetName}}" matInput #input>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.phoneNo.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">stay_current_portrait</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Phone Number *</mat-label>
+                            <input formControlName="phoneNo" ngModel="{{institute === undefined ? '' : institute.phoneNo}}" type="number" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.phoneNo.errors?.required">
+                                Phone Number is required.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div *ngIf="!isEdit" class="row col-md-5L mb-10">
+                    <div class="col-md-12 row border p-10">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">location_city</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>State</mat-label>
+                            <input formControlName="state" type="text" value="{{state}}" matInput #input>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.website.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">language</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Website *</mat-label>
+                            <input formControlName="website" ngModel="{{institute === undefined ? '' : institute.website}}" type="url" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.website.errors?.required">
+                               Website is required.</mat-hint>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.website.errors?.pattern">
+                               Invalid Web Address.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div *ngIf="!isEdit" class="row col-md-5L mb-10">
+                    <div class="col-md-12 row border p-10">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">local_shipping</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Post Code</mat-label>
+                            <input formControlName="post_code" type="text" matInput #input>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.invoice_to.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">email</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Invoice to *</mat-label>
+                            <input formControlName="invoice_to" ngModel="{{institute === undefined ? '' : institute.invoice_to}}" type="text" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.invoice_to.errors?.required">
+                                Invoice is required.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div *ngIf="!isEdit" class="row col-md-5L mb-10">
+                    <div class="col-md-12 row border p-10">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">flag</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Country</mat-label>
+                            <mat-select [(ngModel)]="countryName" formControlName="country" ngDefaultControl>
+                                <mat-option *ngFor="let con of country" [value]="con.name">
+                                    {{con.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div *ngIf="!isEdit" class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.logo.errors ? 'col-md-12 border error p-10' : 'col-md-12 border p-10'">
+                        <div class="row">
+                            <div class="col-sm-2 pt-15 pr-10">
+                                <span class="material-icons">image</span>
+                            </div>
+                            <div class="col-md-12 pt-15">
+                                <input formControlName="logo" (change)="fileChange($event)" type="file" accept="image/png, image/jpeg, image/jpg" #input>
+                            </div>
+                        </div>
+                        <div class="col-md-12 pl-45">
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.logo.errors?.required">
+                                Logo is required.</mat-hint>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!isEdit" class="row">
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.email.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">alternate_email</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Email Address</mat-label>
+                            <input formControlName="email" type="email" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.email.errors?.pattern">
+                                Invalid Email address.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="institute_footer">
+        <button *ngIf="!isEdit" mat-raised-button [disabled]="isProcessing" color="primary" (click)="addInstitute()" class="mr-10">Add</button>
+        <button *ngIf="isEdit" mat-raised-button [disabled]="isProcessing" color="primary" (click)="updateInstitute()" class="mr-10">Update</button>
+        <button mat-raised-button [disabled]="isProcessing" (click)="cancel()" color="warn">Cancel</button>
+    </div>
+</div>
+
+

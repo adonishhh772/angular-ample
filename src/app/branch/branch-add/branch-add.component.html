@@ -10,7 +10,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Branch Name</mat-label>
-                            <input formControlName="branch_name" type="text" matInput #input>
+                            <input formControlName="branch_name" ngModel="{{branch === undefined ? '' : branch.branch_name}}" type="text" matInput #input>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.branch_name.errors?.required">
                                 Branch Name is required.</mat-hint>
                         </mat-form-field>
@@ -23,7 +23,7 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Branch Address</mat-label>
-                            <input formControlName="branch_address" type="text" matInput #input>
+                            <input formControlName="branch_address" ngModel="{{branch === undefined ? '' : branch.branch_address}}" type="text" matInput #input>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.branch_address.errors?.required">
                                 Branch Address is required.</mat-hint>
                         </mat-form-field>
@@ -35,15 +35,16 @@
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
                         </div>
-                        <mat-slide-toggle formControlName="is_secondary">Is Secondary Branch</mat-slide-toggle>
+                        <mat-slide-toggle [(ngModel)]="branch === undefined ? '' : branch.is_secondary" formControlName="is_secondary">Is Secondary Branch</mat-slide-toggle>
                     </div>
                 </div>
             </div>
         </form>
     </div>
     <div class="branch_footer">
-        <button mat-raised-button color="primary" (click)="addBranch()" class="mr-10">Add</button>
-        <button mat-raised-button color="warn">Cancel</button>
+        <button mat-raised-button *ngIf="!isEdit" [disabled]="isProcessing" color="primary" (click)="addBranch()" class="mr-10">Add</button>
+        <button mat-raised-button *ngIf="isEdit" [disabled]="isProcessing" color="primary" (click)="updateBranch()" class="mr-10">Update</button>
+        <button mat-raised-button [disabled]="isProcessing" (click)="cancel()" color="warn">Cancel</button>
     </div>
 </div>
 

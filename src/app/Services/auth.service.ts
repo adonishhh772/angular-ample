@@ -6,10 +6,18 @@ import {environment} from '../../environments/environment';
 import {Router} from '@angular/router';
 
 
-
 interface LoginResult {
     token: string;
     userName: string;
+    branch: string;
+    userId: string;
+    userRole: string;
+}
+
+interface AgentResult {
+    token: string;
+    company_name: string;
+    branch: string;
     userId: string;
     userRole: string;
 }
@@ -18,27 +26,46 @@ interface LoginResult {
     providedIn: 'root'
 })
 export class AuthService {
-    private readonly apiUrl = `${environment.apiUrl}users/`;
+    private readonly apiUrl = `${environment.apiUrl}`;
     private timer: Subscription | undefined;
 
     constructor(private http: HttpClient, private router: Router) {
     }
 
-    login(email: string, password: string): Observable<any> {
-        return this.http.post<LoginResult>(`${this.apiUrl}login`, {
-            email: email,
-            password: password
-        }, {
-            headers:
-                {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
-        })
-            .pipe(
-                map(result => {
-                    this.setLocalStorage(result);
-                    this.startTokenTimer();
-                    return result;
-                })
-            );
+    login(email: string, password: string, isAgent: boolean): Observable<any> {
+        if (!isAgent) {
+            return this.http.post<LoginResult>(`${this.apiUrl}users/login`, {
+                email: email,
+                password: password
+            }, {
+                headers:
+                    {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+            })
+                .pipe(
+                    map(result => {
+                        this.setLocalStorage(result, false);
+                        this.startTokenTimer();
+                        return result;
+                    })
+                );
+        } else {
+            return this.http.post<AgentResult>(`${this.apiUrl}agent/login`, {
+                email: email,
+                password: password
+            }, {
+                headers:
+                    {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+            })
+                .pipe(
+                    map(result => {
+                        console.log(result);
+                        this.setLocalStorage(result, true);
+                        this.startTokenTimer();
+                        return result;
+                    })
+                );
+        }
+
     }
 
     logout(): any {
@@ -84,22 +111,28 @@ export class AuthService {
         this.router.navigate(['/login']);
     }
 
-    private setLocalStorage(result: any): any {
+    private setLocalStorage(result: any, isAgent: boolean): any {
         localStorage.setItem('access_token', result.token);
         localStorage.setItem('userId', result.userId);
-        localStorage.setItem('userName', result.userName);
+        if (isAgent) {
+            localStorage.setItem('userName', result.company_name);
+        } else {
+            localStorage.setItem('userName', result.userName);
+        }
+
         localStorage.setItem('userRole', result.userRole);
+        localStorage.setItem('userBranch', result.branch);
     }
 
-    public get userId(): any{
+    public get userId(): any {
         return (localStorage.getItem('userId'));
     }
 
-    public get userName(): any{
+    public get userName(): any {
         return (localStorage.getItem('userName'));
     }
 
-    public get userRole(): any{
+    public get userRole(): any {
         return (localStorage.getItem('userRole'));
     }
 
@@ -108,5 +141,6 @@ export class AuthService {
         localStorage.removeItem('userId');
         localStorage.removeItem('userName');
         localStorage.removeItem('userRole');
+        localStorage.removeItem('branch');
     }
 }

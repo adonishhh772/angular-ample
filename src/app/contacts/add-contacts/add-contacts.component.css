@@ -1,0 +1,29 @@
+.contacts .row{
+    float: none;
+}
+
+.contacts_body h6 {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.rotate{
+    transform: rotate(270deg);
+}
+
+
+.contacts_body{
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.contacts_footer{
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+    padding: 10px;
+    text-align: right;
+}
+
+.contacts{
+    border-top: 2px solid #6EC1E4;
+}

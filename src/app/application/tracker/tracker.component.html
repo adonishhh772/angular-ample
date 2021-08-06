@@ -1,0 +1,20 @@
+<div class="components_container">
+    <div class="tracker_breadcrumb p-10 flex" *ngFor="let appType of applicationStatus">
+        <div class="col-md-2L pr-20" *ngFor="let app of appType; index as key">
+            <div class="ample_button track_viewer tracker" [class]="key === 0 ? 'active': ''">
+                <p class="mb-0" (click)="changeSteps(app.status,$event)">{{app.status}}<span>(0)</span></p>
+            </div>
+        </div>
+    </div>
+    <div class="tracker_body p-10">
+        <div class="col-md-12 flex">
+            <div class="col-md-9">
+                <h3>{{title}}</h3>
+            </div>
+            <div class="col-md-3">
+                <button mat-raised-button class="ample_button pull_right" (click)="goToAddApplication()">Create Application</button>
+            </div>
+        </div>
+
+    </div>
+</div>

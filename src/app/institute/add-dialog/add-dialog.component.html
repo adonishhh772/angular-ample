@@ -1,12 +1,19 @@
-<div mat-dialog-title class="dialog_title">
-    <h2 *ngIf="data.options === 'contacts' && data.type !== 'edit'" class="m0">Add Contacts</h2>
-    <h2 *ngIf="data.options === 'courses' && data.type !== 'edit'" class="m0">Add Courses</h2>
-    <h2 *ngIf="data.options === 'courses' && data.type === 'edit'" class="m0">Edit Courses</h2>
-    <h2 *ngIf="data.options === 'contacts' && data.type === 'edit'" class="m0">Edit Contacts</h2>
-    <h2 *ngIf="data.options === 'address' && data.type !== 'edit'" class="m0">Add Address</h2>
-    <h2 *ngIf="data.options === 'intakes' && data.type !== 'edit'" class="m0">Add Intake</h2>
-    <h2 *ngIf="data.options === 'address' && data.type === 'edit'" class="m0">Edit Address</h2>
-    <h2 *ngIf="data.options === 'intakes' && data.type === 'edit'" class="m0">Edit Intake</h2>
+<div mat-dialog-title class="dialog_title col-md-12 flex">
+    <div class="col-md-10">
+        <h2 *ngIf="data.options === 'contacts' && data.type !== 'edit'" class="m0">Add Contacts</h2>
+        <h2 *ngIf="data.options === 'courses' && data.type !== 'edit'" class="m0">Add Courses</h2>
+        <h2 *ngIf="data.options === 'courses' && data.type === 'edit'" class="m0">Edit Courses</h2>
+        <h2 *ngIf="data.options === 'contacts' && data.type === 'edit'" class="m0">Edit Contacts</h2>
+        <h2 *ngIf="data.options === 'address' && data.type !== 'edit'" class="m0">Add Address</h2>
+        <h2 *ngIf="data.options === 'intakes' && data.type !== 'edit'" class="m0">Add Intake</h2>
+        <h2 *ngIf="data.options === 'address' && data.type === 'edit'" class="m0">Edit Address</h2>
+        <h2 *ngIf="data.options === 'intakes' && data.type === 'edit'" class="m0">Edit Intake</h2>
+    </div>
+    <div class="col-md-2 text_right">
+        <button mat-mini-fab (click)="onNoClick()" class="btn-top btn-hidden">
+            <mat-icon>highlight_off</mat-icon>
+        </button>
+    </div>
 </div>
 <div *ngIf="data.options === 'contacts'" mat-dialog-content class="col-md-12">
     <form [formGroup]="addContactForm" (ngSubmit)="addContact()">

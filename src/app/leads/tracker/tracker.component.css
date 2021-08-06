@@ -1,0 +1,21 @@
+
+.lead_viewer p {
+    line-height: 35px;
+    color: #fff;
+    background-color: #00c0ef;
+    position: relative;
+    font-size: 14px;
+    padding-left: 15px;
+    white-space: nowrap;
+}
+
+.lead_viewer{
+    cursor: pointer;
+}
+
+.lead_viewer:hover{
+    opacity: 0.7;
+}
+
+
+

@@ -35,6 +35,7 @@ export class AddAgentComponent implements OnInit {
         password: new FormControl('', [Validators.required, Validators.minLength(8)]),
         agent_commisson: new FormControl('', [Validators.required, Validators.max(100)]),
         website: new FormControl(''),
+        is_subAgent: new FormControl(''),
         invoice_to: new FormControl(''),
         description: new FormControl(''),
         street: new FormControl(''),
@@ -42,7 +43,7 @@ export class AddAgentComponent implements OnInit {
         state: new FormControl(''),
         post_code: new FormControl(''),
         country: new FormControl(''),
-        branch: new FormControl(''),
+        branch: new FormControl('',[Validators.required]),
     });
   constructor(public router: Router, public http: HttpClient, public agentService: AgentService, private _snackBar: MatSnackBar, private elRef: ElementRef, private renderer: Renderer2) { }
 
@@ -68,8 +69,12 @@ export class AddAgentComponent implements OnInit {
           }
           return false;
       }else{
+          // console.log(this.addAgentForm.value);
           this.addAgentForm.value.agent_no = (Number(this.totalAgent) + 1);
           this.addAgentForm.value.added_by = localStorage.getItem('userName');
+          if (this.addAgentForm.value.is_subAgent === '') {
+              this.addAgentForm.value.is_subAgent = false;
+          }
           this.isProcessing = true;
           this.agentService.add(this.addAgentForm.value).pipe(finalize(() => {
               this.isProcessing = false;

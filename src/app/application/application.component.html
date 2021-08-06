@@ -1,0 +1,276 @@
+<div class="components_container">
+    <nav mat-tab-nav-bar class="tab_bar col-md-12">
+        <div class="col-md-9">
+            <a mat-tab-link class="tab_head" disabled>Application Manager
+                <mat-icon class="tab_title">school</mat-icon>
+            </a>
+            <a mat-tab-link class="tab_head" *ngFor="let link of links"
+               (click)="changeTab(link)"
+               [active]="activeLink == link"> {{link}} </a>
+            <a mat-tab-link class="tab_head" [matMenuTriggerFor]="menu">
+                Application Tracker
+            </a>
+        </div>
+        <div class="col-md-2 pt-5">
+            <button mat-raised-button class="ample_button" (click)="goToAdd()">Add Application</button>
+        </div>
+
+        <mat-menu #menu="matMenu">
+            <button mat-menu-item *ngFor="let app of application" (click)="goToTracker(app)" >{{app.title}}</button>
+        </mat-menu>
+    </nav>
+
+    <ng-container *ngIf="activeLink === 'Application Dashboard' && isLoaded">
+        <div class="col-md-12">
+            <div class="col-md-11 p-20">
+                <mat-card class="no_padding ample_blue_border">
+                    <mat-card-header>
+                        <mat-card-title class="card_header col-md-12">
+                            <div class="col-md-12 p-10">
+                                <mat-icon class="sub_header_icon">school</mat-icon>
+                                Application Summary
+                            </div>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="card_content">
+                        <div class="col-md-12 flex p-10" *ngFor="let applications of allApplicationType">
+                            <div class="col-md-2L p-10" *ngFor="let types of applications">
+                                <mat-card class="application_summary box">
+                                    <mat-card-header>
+                                        <mat-card-title class="sub_card_header">
+                                            <span class="">{{types.title}}</span>
+                                        </mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <div class="sub_card_content">
+                                            <div class="col-md-10 count p-10">0</div>
+                                            <div class="p-10 border_btm">This Month</div>
+                                        </div>
+                                        <div class="sub_card_footer col-md-12 flex">
+                                            <div class="col-md-5L p-10 today">
+                                                <div class="col-md-10">0</div>
+                                                <div class="col-md-10 date">Today</div>
+                                            </div>
+                                            <div class="col-md-5L p-10 weekly">
+                                                <div class="col-md-10">0</div>
+                                                <div class="col-md-10 date">This Week</div>
+                                            </div>
+
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+
+        <div class="col-md-12 flex">
+            <div class="col-md-7L p-10">
+                <div class="col-md-12 p-10">
+                    <mat-card class="ample_blue_border">
+                        <mat-card-header>
+                            <mat-card-title class="col-md-12 pb-10">
+                                Upcoming Enrollments
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-form-field>
+                            <mat-label>Search</mat-label>
+                            <input matInput (keyup)="applyFilter($event)" #input>
+                        </mat-form-field>
+                        <mat-card-content class="mat-elevation-z8">
+                            <table matTableExporter mat-table [dataSource]="dataUpcomingSource" matSort
+                                   class="table_responsive">
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="application_id">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.application_no}}</td>
+                                </ng-container>
+
+                                <!-- Progress Column -->
+                                <ng-container matColumnDef="client_name">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Client
+                                        Name
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.client_name}}</td>
+                                </ng-container>
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="phone">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Phone</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.phone}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="college_name">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>College Name</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.college_name}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="course_name">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Course Name</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.course_name}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="start_date">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Start Date</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.start_date}}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="status">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.status}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Color Column -->
+                                <ng-container matColumnDef="actions">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Actions</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button [disabled]="isProcessing" mat-icon-button matTooltip="View FollowUp">
+                                            <mat-icon color="primary">remove_red_eye</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="8" *ngIf="input.value !== ''">No data matching the filter
+                                        "{{input.value}}"
+                                    </td>
+                                    <td class="mat-cell" colspan="8" *ngIf="input.value === ''">No data found</td>
+                                </tr>
+                            </table>
+                            <mat-paginator #pagination [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+                <div class="col-md-12 p-10">
+                    <mat-card class="ample_blue_border">
+                        <mat-card-header>
+                            <mat-card-title class="col-md-12 pb-10">
+                                Course Completion List
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-form-field>
+                            <mat-label>Search</mat-label>
+                            <input matInput (keyup)="applyFilterComplete($event)" #inputComplete>
+                        </mat-form-field>
+                        <mat-card-content class="mat-elevation-z8">
+                            <table matTableExporter mat-table [dataSource]="dataCompletingSource" matSort
+                                   class="table_responsive">
+                                <!-- ID Column -->
+                                <ng-container matColumnDef="application_id">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> ID</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.application_no}}</td>
+                                </ng-container>
+
+                                <!-- Progress Column -->
+                                <ng-container matColumnDef="client_name">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Client
+                                        Name
+                                    </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.client_name}}</td>
+                                </ng-container>
+                                <!-- Name Column -->
+                                <ng-container matColumnDef="phone">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Phone</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.phone}}</td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="college_name">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>College Name</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.college_name}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="course_name">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Course Name</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.course_name}}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="completion_date">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Completion Date</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        {{row.completion_date}}
+                                    </td>
+                                </ng-container>
+
+                                <!-- Color Column -->
+                                <ng-container matColumnDef="actions">
+                                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Actions</th>
+                                    <td mat-cell *matCellDef="let row">
+                                        <button [disabled]="isProcessing" mat-icon-button matTooltip="View FollowUp">
+                                            <mat-icon color="primary">remove_red_eye</mat-icon>
+                                        </button>
+                                    </td>
+                                </ng-container>
+
+                                <tr mat-header-row *matHeaderRowDef="displayedColumnsComplete"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumnsComplete;"></tr>
+
+                                <!-- Row shown when there is no matching data. -->
+                                <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="8" *ngIf="inputComplete.value !== ''">No data matching the filter
+                                        "{{inputComplete.value}}"
+                                    </td>
+                                    <td class="mat-cell" colspan="8" *ngIf="inputComplete.value === ''">No data found</td>
+                                </tr>
+                            </table>
+                            <mat-paginator #pagination [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
+            </div>
+           <div class="col-md-4L p-10">
+               <mat-card class="activity_detail">
+                   <mat-card-header>
+                       <mat-card-title class="sub_card_header col-md-12">
+                           <div class="col-md-10">Recent Updates</div>
+                       </mat-card-title>
+                   </mat-card-header>
+                   <mat-card-content>
+                       <div class="activity_body" *ngIf="hasActivity">
+                           <ul class="activity_timeline" *ngFor="let activity of allActivity">
+                               <li class="activity_time-label">
+                                   <span class="activity_date">{{activity.created_date | date: 'longDate'}}</span>
+                               </li>
+                               <li>
+                                   <i *ngIf="activity.type === 'Application'" class="material-icons maroon">school</i>
+                                   <div class="activity_time-item">
+                                <span class="time"><i class="material-icons small">schedule</i>
+                                    {{activity.time}} ago|{{activity.created_date | date: 'h:mm'}}
+                                |<i class="material-icons small">person</i><span class="activity_link" (click)="goToClient(activity.client_id)">
+                                    {{activity.name}}</span>
+                                </span>
+                                       <h3 class="timeline-header">{{activity.title}}</h3>
+                                       <div *ngIf="activity.description !== ''" class="timeline-body">
+                                           <p *ngFor="let desc of activity.description">{{desc}}</p>
+                                       </div>
+                                       <div class="timeline-footer" *ngIf="activity.description !== '' && activity.type == 'Application'">
+                                           <button mat-raised-button class="btn-primary">
+                                               <i class="material-icons mid">remove_red_eye</i>View Application
+                                           </button>
+                                       </div>
+                                   </div>
+                               </li>
+                           </ul>
+                       </div>
+                       <div class="activity_body no_data" *ngIf="!hasActivity">
+                           <p>No Recent Updates</p>
+                       </div>
+                   </mat-card-content>
+               </mat-card>
+           </div>
+        </div>
+    </ng-container>
+</div>

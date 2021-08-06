@@ -1,0 +1,22 @@
+.add_notes_container{
+    border-top: 2px solid #3c8dbc;
+}
+
+.sub_card_header{
+    border-bottom: 1px solid #d2d6de;
+}
+
+.table_header {
+    font-size: 18px;
+    color: white;
+}
+
+.table_container{
+    position: relative;
+    top: 10px;
+}
+
+.completed{
+    text-decoration: overline;
+}
+

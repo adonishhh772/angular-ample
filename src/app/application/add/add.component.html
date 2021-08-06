@@ -1,0 +1,223 @@
+<div class="components_container application">
+    <h2 class="heading">{{title}}</h2>
+    <div class="col-md-12 flex">
+        <div class="col-md-7">
+            <div class="application_body" *ngIf="isLoaded">
+                <form [formGroup]="addApplicationForm">
+                    <div class="row col-md-12 mb-10">
+                        <div [className]="isSubmitted &&errorControl.application_type.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">school</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Application Type *</mat-label>
+                                <mat-select formControlName="application_type" ngDefaultControl>
+                                    <mat-option *ngFor="let appType of type" [value]="appType.title">
+                                        {{appType.title}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.application_type.errors?.required">
+                                    Application Type is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div [className]="isSubmitted &&errorControl.client.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">people_alt</span>
+                            </div>
+                            <div class="col-md-9 pr-15">
+                                <mat-form-field class="col-md-12">
+                                    <mat-label>Select Client *</mat-label>
+                                    <mat-select formControlName="client" ngDefaultControl>
+                                        <mat-option *ngFor="let clients of allClients" [value]="clients.name">
+                                            {{clients.name}} - {{clients.phone}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.client.errors?.required">
+                                        Client is required.</mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <button mat-raised-button class="ample_button drag_down">
+                                <mat-icon>add_circle</mat-icon> Add Client
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div [className]="isSubmitted &&errorControl.institute.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">foundation</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Select Institute *</mat-label>
+                                <input formControlName="institute" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.institute.errors?.required">
+                                    Institute is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div [className]="isSubmitted &&errorControl.course.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">subject</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Select Course *</mat-label>
+                                <input formControlName="course" type="number" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.course.errors?.required">
+                                    Course is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div [className]="isSubmitted &&errorControl.start_date.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">event_available</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Select Start Date *</mat-label>
+                                <input formControlName="start_date" type="date" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.start_date.errors?.required">
+                                    Start Date is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div [className]="isSubmitted &&errorControl.location.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">place</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Select Location *</mat-label>
+                                <input formControlName="location" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.location.errors?.required">
+                                    Location is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div [className]="isSubmitted &&errorControl.finish_date.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">today</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Finish Date *</mat-label>
+                                <input formControlName="finish_date" type="date" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.finish_date.errors?.required">
+                                    Finish Date is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">savings</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Tution Fee</mat-label>
+                                <input formControlName="tution_fee" type="number" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">badge</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Student ID</mat-label>
+                                <input matInput formControlName="student_id" type="text">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">person_alt</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Super Agent</mat-label>
+                                <input matInput formControlName="super_agent" type="text">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">support_agent</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Sub Agent</mat-label>
+                                <input matInput formControlName="sub_agent" type="text">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">face</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Consultant</mat-label>
+                                <input matInput formControlName="consultant" type="text">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="row col-md-12 mb-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">add_business</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>notify</mat-label>
+                                <input matInput formControlName="notify" type="text">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-5">
+            <div class="requirements">
+                <div class="col-md-12 flex p-15">
+                    <h3>Requirements</h3>
+                    <button mat-mini-fab color="primary" class="fab-button-small move_up" matTooltip="Edit Requirements">
+                        <mat-icon class="fab_icon_small">create</mat-icon>
+                    </button>
+                </div>
+                <div class="col-md-12 p-lrt15">
+                    <p>Turnaround Time</p>
+                    <ul class="all_req">
+                        <li></li>
+                    </ul>
+
+                    <p>Documents Required</p>
+                    <ul class="all_req">
+                        <li></li>
+                    </ul>
+
+                    <p>Minimum Requirements</p>
+                    <ul class="all_req">
+                        <li></li>
+                    </ul>
+
+                    <p>Lodgement Procedure</p>
+                    <ul class="all_req">
+                        <li></li>
+                    </ul>
+
+                    <p>Commission Processing Timeframe</p>
+                    <ul class="all_req">
+                        <li></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="application_footer">
+        <button mat-raised-button [disabled]="isProcessing" color="primary" (click)="addApplication()" class="mr-10">Add</button>
+        <button mat-raised-button [disabled]="isProcessing" color="warn">Cancel</button>
+    </div>
+</div>

@@ -4,7 +4,7 @@
         <mat-label>Search</mat-label>
         <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
-    <button mat-icon-button *ngIf="isDelete" (click)="deleteSelected()" class="ample_delete"><mat-icon class="delete">delete_outline</mat-icon></button>
+    <button mat-raised-button *ngIf="isDelete" (click)="deleteSelected()" class="ample_delete">Delete Selected Agents</button>
     <button mat-raised-button class="add_agent" routerLink="/agent/add">Add Agent</button>
 </div>
 

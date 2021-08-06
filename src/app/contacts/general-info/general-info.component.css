@@ -1,0 +1,103 @@
+.status_detail{
+    border-top: 1px solid #00c0ef;
+}
+
+.status_body{
+    margin-bottom: 15px !important;
+    margin-top: 15px !important;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+}
+
+.status_head{
+    padding: 10px;
+}
+
+.category_head{
+    padding: 10px 10px 0 10px;
+}
+
+.category_head {
+    margin: 0;
+}
+
+
+.status_options{
+    margin: 10px;
+    text-align: right;
+}
+
+.category_options{
+    margin: 10px;
+}
+
+.cat_name{
+    font-weight: 500;
+    font-size: 18px;
+}
+
+.ample_button{
+    position: relative;
+    bottom: 4px;
+}
+
+.top{
+    bottom: 0 !important;
+    top: 3px;
+}
+
+.sub_card_header, .general_card_header{
+    display: flex !important;
+}
+
+.sub_card_header i {
+    cursor: pointer;
+}
+
+.status_container{
+    transition: 0.5s;
+}
+
+.general_info,.reminder{
+    margin-top: 10px;
+    border-top: 1px solid #00c0ef;
+}
+
+.general_card_header{
+    border-bottom: 1px solid #d2d6de;
+}
+
+.header{
+    font-weight: 500;
+}
+
+.icon_text{
+    position: relative;
+    bottom: 5px;
+    font-size: 15px !important;
+    padding-left: 5px;
+}
+
+.text-disabled{
+    color: #777;
+}
+
+.small_button{
+    height: 25px;
+    width: 25px;
+}
+
+.small_icon{
+    font-size: 15px;
+    position: relative;
+    bottom: 2px;
+}
+
+.button_comment{
+    position: relative;
+    top: 10px;
+}
+
+.activity_detail{
+    border-top: 2px solid #3c8dbc;
+}

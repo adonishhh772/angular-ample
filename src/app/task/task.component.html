@@ -67,7 +67,7 @@
                     </mat-card-header>
                     <mat-card-content class="card_content">
                         <form [formGroup]="addTaskForm" (ngSubmit)="addTasks()">
-                            <div class="row">
+                            <div>
                                     <div class="col-md-12 row p-10">
                                         <div class="col-sm-2 pt-15">
                                             <span class="material-icons">add_task</span>
@@ -75,10 +75,10 @@
                                         <mat-form-field class="col-md-12">
                                             <mat-label>Title</mat-label>
                                             <input formControlName="title" type="text" matInput #input>
-                                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlTask.title.errors?.required">
-                                                Title is required.</mat-hint>
                                         </mat-form-field>
                                     </div>
+                                <mat-hint class="mat-error" style="padding-left: 40px" align="start" *ngIf="isSubmitted &&errorControlTask.title.errors?.required">
+                                    Title is required.</mat-hint>
                             </div>
 
                             <div class="row">
@@ -177,7 +177,7 @@
                         <div class="col-md-12 show_task_client">Assigned Client: <span class="task_due">{{assignedClient}}</span> </div>
                         <div class="col-md-12 show_task_desc"><p>{{taskDesc}}</p> </div>
                         <div class="col-md-12 show_task_info">
-                            <div [className]="onlyDays ? 'col-md-7 show_task_due' : 'col-md-5L show_task_due'">Due <span *ngIf="taskDue !== ''" class="showTask">{{taskDue | date: 'dd/MM/yyyy'}}</span></div>
+                            <div [className]="onlyDays ? 'col-md-7 show_task_due' : 'col-md-5L show_task_due'">Due <span *ngIf="taskDue !== '' && taskDue !== null" class="showTask">{{taskDue | date: 'dd/MM/yyyy'}}</span></div>
                             <div class="show_task_all"><span class="task_added"><mat-icon class="task_icon">history</mat-icon>{{createdTime}} ago | {{addedBy}}</span></div>
                         </div>
 

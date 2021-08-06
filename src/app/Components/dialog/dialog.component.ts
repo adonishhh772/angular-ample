@@ -12,6 +12,10 @@ import {UserService} from '../../Services/user.service';
 import {InstituteAddressService} from '../../Services/institute-address.service';
 import {InstituteCourseService} from '../../Services/institute-course.service';
 import {InstituteIntakeService} from '../../Services/institute-intake.service';
+import {NotesService} from '../../Services/notes.service';
+import {environment} from '../../../environments/environment';
+import {HttpClient} from '@angular/common/http';
+import {MatTableDataSource} from '@angular/material/table';
 
 export interface DialogData {
     id: string;
@@ -27,8 +31,10 @@ export interface DialogData {
 export class DialogComponent implements OnInit {
 
     isDeleting = false;
+    private readonly apiUrl = `${environment.apiUrl}`;
 
     constructor(public router: Router,
+                public http: HttpClient,
                 private _snackBar: MatSnackBar,
                 public branchService: BranchService,
                 public agentService: AgentService,
@@ -38,6 +44,7 @@ export class DialogComponent implements OnInit {
                 public instituteContact: InstituteContactService,
                 public instituteCourse: InstituteCourseService,
                 public instituteAddress: InstituteAddressService,
+                public noteService: NotesService,
                 public instituteIntake: InstituteIntakeService,
                 public dialogRef: MatDialogRef<DialogComponent>,
                 @Inject(MAT_DIALOG_DATA) public data: DialogData) {
@@ -54,7 +61,7 @@ export class DialogComponent implements OnInit {
     deleteBranch(id: any, type: any): void {
         this.isDeleting = true;
         for (const keys of id) {
-            switch (type){
+            switch (type) {
                 case 'branch':
                     this.branchDelete(keys);
                     break;
@@ -82,11 +89,14 @@ export class DialogComponent implements OnInit {
                 case 'instituteIntake':
                     this.instituteIntakeDelete(keys);
                     break;
+                case 'notes':
+                    this.removeNotes(keys);
+                    break;
             }
         }
     }
 
-    contactDelete(id: string): void{
+    contactDelete(id: string): void {
         this.contactService.delContact(id).pipe(finalize(() => {
             this.isDeleting = false;
             this.dialogRef.close();
@@ -174,9 +184,29 @@ export class DialogComponent implements OnInit {
         })).subscribe(
             (result) => {
                 this.instituteAgentDelete(id, false);
-                // this.assignValuesAgain(result.data);
-                // this.profileName = result.data.name;
-                // this.naviagtionData.push(history.state.data[key]);
+                this.http.get<any>(`${this.apiUrl + 'instituteCourses/' + id}`).subscribe({
+                    next: data => {
+                        this.instituteCourseDelete(data.data._id);
+                    },
+                });
+
+                this.http.get<any>(`${this.apiUrl + 'instituteIntake/' + id}`).subscribe({
+                    next: data => {
+                        this.instituteIntakeDelete(data.data._id);
+                    },
+                });
+
+                this.http.get<any>(`${this.apiUrl + 'instituteAddress/' + id}`).subscribe({
+                    next: data => {
+                        this.instituteAddressDelete(data.data._id);
+                    },
+                });
+
+                this.http.get<any>(`${this.apiUrl + 'instituteContact/' + id}`).subscribe({
+                    next: data => {
+                        this.instituteContactDelete(data.data._id);
+                    },
+                });
                 this._snackBar.open(result.message, '', {
                     duration: 2000,
                 });
@@ -202,27 +232,18 @@ export class DialogComponent implements OnInit {
             this.dialogRef.close();
         })).subscribe(
             (result) => {
-                // this.assignValuesAgain(result.data);
-                // this.profileName = result.data.name;
-                // this.naviagtionData.push(history.state.data[key]);
-                if (showsnackbar){
+                if (showsnackbar) {
                     this._snackBar.open(result.message, '', {
                         duration: 2000,
                     });
                 }
-
                 return result;
-
-                // this.editAble = false;
-                // this.router.navigate(['/institute/all']);
             },
             (error) => {
                 if (error.error !== undefined) {
                     this._snackBar.open(error.error.msg, '', {
                         duration: 2000,
                     });
-                } else {
-                    // this.router.navigate([returnUrl]);
                 }
             }
         );
@@ -310,5 +331,26 @@ export class DialogComponent implements OnInit {
                 }
             }
         );
+    }
+
+    private removeNotes(id: string): void {
+        this.noteService.delNotes(id).pipe(finalize(() => {
+            this.isDeleting = false;
+            this.dialogRef.close();
+        })).subscribe(
+            (result) => {
+                this._snackBar.open(result.message, '', {
+                    duration: 2000,
+                });
+            },
+            (error) => {
+                if (error.error !== undefined) {
+                    this._snackBar.open(error.error.msg, '', {
+                        duration: 2000,
+                    });
+                }
+            }
+        );
+
     }
 }

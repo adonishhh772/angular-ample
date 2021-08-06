@@ -1,0 +1,18 @@
+.dialog_title{
+    border-bottom: 1px solid;
+    width: 510px;
+}
+
+.text_right{
+    text-align: right;
+}
+
+.btn-hidden{
+    box-shadow: none !important;
+    background-color: transparent !important;
+    color: black !important;
+}
+
+.status{
+    text-align: center;
+}

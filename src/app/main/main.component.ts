@@ -1,8 +1,11 @@
-import {AfterViewInit, Component, ElementRef, HostListener, Renderer2, OnInit} from '@angular/core';
-import {NavigationEnd, NavigationError, NavigationStart, Router} from '@angular/router';
+import {AfterViewInit, Component, ElementRef, HostListener, Renderer2, OnInit, ViewChild} from '@angular/core';
+import {ActivatedRoute, NavigationEnd, NavigationError, NavigationExtras, NavigationStart, Router} from '@angular/router';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 import {AuthService} from '../Services/auth.service';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatMenuTrigger} from '@angular/material/menu';
+import {ApplicationTypeService} from '../Services/application-type.service';
 
 
 @Component({
@@ -17,9 +20,10 @@ export class MainComponent implements AfterViewInit, OnInit {
     icon = 'dashboard';
     text = 'Dashboard';
     menuIcon = 'close';
-    hidden = false;
     branchName = localStorage.getItem('userBranch');
     branchId = '';
+    searchText = '';
+    hasClient = '';
     myStyles: any;
     openLiApplication = false;
     openLiBranch = false;
@@ -27,6 +31,7 @@ export class MainComponent implements AfterViewInit, OnInit {
     menuTile = '';
     isSuperAdmin = true;
     isAdmin = false;
+    showResult = false;
     isClient = false;
     isAdmission = false;
     isManager = false;
@@ -34,11 +39,18 @@ export class MainComponent implements AfterViewInit, OnInit {
     started = false;
     agentCount = 0;
     contactCount = 0;
+    reminderCount = 0;
+    reminder: any[] = [];
     instituteCount = 0;
     tasksCount = 0;
+    assignedClientCount = 0;
     tasks: any[] = [];
+    contacts: any[] = [];
+    searchContacts: any[] = [];
+    assigne: any[] = [];
     itemData: any[] = [];
     active = '';
+    applicationTracker: any[] = [];
     errorMessage = '';
     branchCount = 0;
     profile: any = [];
@@ -48,27 +60,41 @@ export class MainComponent implements AfterViewInit, OnInit {
     isMiddleResolution = true;
     menu = [{icon: 'dashboard', text: 'Dashboard'}, {icon: '', text: ''}];
     panelOpenState = false;
+    panelOpenStateOther = false;
+    panelOpenStateTracker = false;
+    @ViewChild('taskMenuTrigger') taskTrigger!: MatMenuTrigger;
+    @ViewChild('assigneeMenuTrigger') assignTrigger!: MatMenuTrigger;
+    @ViewChild('reminderMenuTrigger') remindTrigger!: MatMenuTrigger;
 
     constructor(private authService: AuthService,
+                private applicationService: ApplicationTypeService,
+                public route: ActivatedRoute,
                 private router: Router, private renderer: Renderer2, private elRef: ElementRef, private http: HttpClient) {
         this.router.navigate(['dashboard']);
         this.checkRoles();
+        this.getReminder('');
         this.getBranchByName();
         if (this.isSuperAdmin || this.isAdmin) {
             this.getBranch();
             this.getAgent();
-            this.getTasks();
+            this.getAssignedStatus('');
+            this.getTasks('');
             this.getInstitute();
             this.getContacts();
+            this.getApplicationStat();
         } else if (this.isManager) {
             this.getAgent();
-            this.getTasks();
+            this.getAssignedStatus('');
+            this.getTasks('');
             this.getInstitute();
             this.getContacts();
+            this.getApplicationStat();
         } else if (this.isAgent) {
-            this.getTasks();
+            this.getTasks('');
+            this.getAssignedStatus('');
             this.getInstitute();
             this.getContacts();
+            this.getApplicationStat();
         }
         this.router.events.subscribe(val => {
             if (val instanceof NavigationStart) {
@@ -125,16 +151,16 @@ export class MainComponent implements AfterViewInit, OnInit {
                                 this.renderer.removeClass(cl, 'selected_side_nav');
                             });
                             this.renderer.addClass(selectedCont, 'selected_side_nav');
-                            this.menu[0].text = 'Contacts';
+                            this.menu[0].text = 'All Contacts';
                             this.menu[0].icon = 'people';
                             this.menu[1].text = 'Add Contact';
                             this.menu[1].icon = 'add_circle';
                         }
                         break;
                     case '/contacts/all':
-                        this.menu[0].text = 'Contacts';
+                        this.menu[0].text = 'All Contacts';
                         this.menu[0].icon = 'people';
-                        this.menu[1].text = 'All Contacts';
+                        this.menu[1].text = 'View All';
                         this.menu[1].icon = 'view_list';
                         break;
                     case '/branch/all':
@@ -157,6 +183,66 @@ export class MainComponent implements AfterViewInit, OnInit {
                             this.menu[1].icon = 'add_circle';
                         }
                         break;
+                    case '/leads/add':
+                        const addLeads = this.elRef.nativeElement.querySelector('.add_leads');
+                        const elem = this.elRef.nativeElement.querySelectorAll('.menu_item');
+                        elem.forEach((cl: any) => {
+                            this.renderer.removeClass(cl, 'selected_side_nav');
+                        });
+                        this.renderer.addClass(addLeads, 'selected_side_nav');
+                        this.menu[0].text = 'Leads Manager';
+                        this.menu[0].icon = 'groups';
+                        this.menu[1].text = 'Add Leads';
+                        this.menu[1].icon = 'add_circle';
+                        break;
+                    case '/application/add':
+                        const addApplication = this.elRef.nativeElement.querySelector('.add_application');
+                        const elemApplication = this.elRef.nativeElement.querySelectorAll('.menu_item');
+                        elemApplication.forEach((cl: any) => {
+                            this.renderer.removeClass(cl, 'selected_side_nav');
+                        });
+                        this.renderer.addClass(addApplication, 'selected_side_nav');
+                        this.menu[0].text = 'Application';
+                        this.menu[0].icon = 'school';
+                        this.menu[1].text = 'Add Application';
+                        this.menu[1].icon = 'add_circle';
+                        break;
+                    case '/leads':
+                        const viewLeads = this.elRef.nativeElement.querySelector('.view_leads');
+                        const view = this.elRef.nativeElement.querySelectorAll('.menu_item');
+                        view.forEach((cl: any) => {
+                            this.renderer.removeClass(cl, 'selected_side_nav');
+                        });
+                        this.renderer.addClass(viewLeads, 'selected_side_nav');
+                        this.menu[0].text = 'Leads Manager';
+                        this.menu[0].icon = 'groups';
+                        this.menu[1].text = '';
+                        this.menu[1].icon = '';
+                        break;
+                    case '/application':
+                        const application = this.elRef.nativeElement.querySelector('.view_application');
+                        const app = this.elRef.nativeElement.querySelectorAll('.menu_item');
+                        app.forEach((cl: any) => {
+                            this.renderer.removeClass(cl, 'selected_side_nav');
+                        });
+                        this.renderer.addClass(application, 'selected_side_nav');
+                        this.menu[0].text = 'Application Manager';
+                        this.menu[0].icon = 'school';
+                        this.menu[1].text = '';
+                        this.menu[1].icon = '';
+                        break;
+                    case '/leads/tracker':
+                        const trackLeads = this.elRef.nativeElement.querySelector('.track_leads');
+                        const track = this.elRef.nativeElement.querySelectorAll('.menu_item');
+                        track.forEach((cl: any) => {
+                            this.renderer.removeClass(cl, 'selected_side_nav');
+                        });
+                        this.renderer.addClass(trackLeads, 'selected_side_nav');
+                        this.menu[0].text = 'Leads Manager';
+                        this.menu[0].icon = 'groups';
+                        this.menu[1].text = 'Leads Tracker';
+                        this.menu[1].icon = 'leaderboard';
+                        break;
                     case '/agent/all':
                         this.menu[0].text = 'Agents';
                         this.menu[0].icon = 'support_agent';
@@ -173,6 +259,12 @@ export class MainComponent implements AfterViewInit, OnInit {
                         this.menu[0].text = 'Institutes';
                         this.menu[0].icon = 'foundation';
                         this.menu[1].text = 'Institute';
+                        this.menu[1].icon = 'remove_red_eye';
+                        break;
+                    case '/contacts/view':
+                        this.menu[0].text = 'Contacts';
+                        this.menu[0].icon = 'people';
+                        this.menu[1].text = 'Contact';
                         this.menu[1].icon = 'remove_red_eye';
                         break;
                     case '/tasks':
@@ -285,7 +377,7 @@ export class MainComponent implements AfterViewInit, OnInit {
 
     }
 
-    changeRoute(e: any, bTitle: string, bIcon: string, title: string, link: string, icon: string): any {
+    changeRoute(e: any, bTitle: string, bIcon: string, title: string, link: string, icon: string, id: any): any {
         const el = this.elRef.nativeElement.querySelectorAll('.menu_item');
         el.forEach((cl: any) => {
             this.renderer.removeClass(cl, 'selected_side_nav');
@@ -336,20 +428,44 @@ export class MainComponent implements AfterViewInit, OnInit {
         }
 
         if (link !== '') {
-            this.router.navigateByUrl(link);
+            if (id === null) {
+                this.router.navigateByUrl(link);
+            } else {
+                const navigationExtras: NavigationExtras = {
+                    queryParams: {id: id}
+                };
+                this.router.navigate([link], navigationExtras);
+            }
+
         }
 
 
     }
 
     toggleBadgeVisibility(): void {
-        this.hidden = true;
-        this.menuTile = 'Notifications';
+        this.getReminder('open');
+
     }
 
     openMail(): void {
-        this.menuTile = 'You Have ' + this.tasksCount + ' tasks assigned';
-        this.itemData = this.tasks;
+        this.getTasks('open');
+
+    }
+
+    openAssignee(): void {
+        this.getAssignedStatus('open');
+
+    }
+
+    getApplicationStat(): void {
+        this.http.get<any>(this.apiUrl + 'applicationType/').subscribe({
+            next: data => {
+                this.applicationTracker = data.data;
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
     }
 
     searchTrigger(): void {
@@ -357,10 +473,34 @@ export class MainComponent implements AfterViewInit, OnInit {
             this.active = 'active';
         }
 
+        this.searchText = '';
+        this.getClients();
+
+    }
+
+
+    searchClient(e: any): void {
+        this.searchText = e;
+        if (e !== '') {
+            this.hasClient = 'has_client';
+            this.showResult = true;
+
+            this.searchContacts = this.contacts.filter((contact: any) => {
+                return contact.name.toLowerCase().includes(e.toLowerCase());
+            });
+
+            if (this.searchContacts.length === 0) {
+                this.hasClient = '';
+            }
+        } else {
+            this.hasClient = '';
+            this.showResult = false;
+        }
     }
 
     closeSearch(): void {
         this.active = '';
+        this.showResult = false;
     }
 
     @HostListener('window:resize')
@@ -429,6 +569,41 @@ export class MainComponent implements AfterViewInit, OnInit {
         });
     }
 
+    getAssignedStatus(openMenu: any): any {
+        this.http.get<any>(this.apiUrl + 'status/').subscribe({
+            next: data => {
+                this.assigne = data.data.filter((status: any) => {
+                    return status.assigned_to === localStorage.getItem('userName');
+                });
+
+                this.assignedClientCount = this.assigne.length;
+
+                this.assigne.forEach((cl: any, index: any) => {
+                    this.http.get<any>(this.apiUrl + 'users/' + cl.client_id).subscribe({
+                        next: res => {
+                            // console.log(res);
+                            cl.client_name = res.data.name;
+                        },
+                        error: error => {
+                            this.errorMessage = error.message;
+                        }
+                    });
+                });
+
+                this.menuTile = 'You have ' + this.assignedClientCount + ' assigned clients';
+                this.itemData = this.assigne;
+
+                if (openMenu === 'open') {
+                    this.assignTrigger.openMenu();
+                }
+
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
+    }
+
     getContacts(): any {
         this.http.get<any>(this.apiUrl + 'users/').subscribe({
             next: data => {
@@ -436,12 +611,27 @@ export class MainComponent implements AfterViewInit, OnInit {
                     this.contactCount = data.data.filter((contact: any) => {
                         return (contact.name !== localStorage.getItem('userName'));
                     }).length;
+
                 } else {
                     this.contactCount = data.data.filter((contact: any) => {
                         return (contact.role === 'Client');
                     }).length;
+
                 }
 
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
+    }
+
+    getClients(): any {
+        this.http.get<any>(this.apiUrl + 'users/').subscribe({
+            next: data => {
+                this.contacts = data.data.filter((contact: any) => {
+                    return (contact.role === 'Client');
+                });
             },
             error: error => {
                 this.errorMessage = error.message;
@@ -485,6 +675,29 @@ export class MainComponent implements AfterViewInit, OnInit {
 
     ngOnInit(): void {
         this.myStyles = {height: window.innerHeight + 'px'};
+        this.applicationService.onNavChanged.subscribe((type) => {
+            // console.log(type);
+          this.changeNav(type);
+        });
+        this.applicationService.onFormSubmitted.subscribe(() => {
+            this.getApplicationStat();
+        });
+    }
+
+    changeNav(type: any): any{
+        this.panelOpenStateTracker = true;
+        const el = this.elRef.nativeElement.querySelectorAll('.menu_item');
+        el.forEach((cl: any) => {
+            this.renderer.removeClass(cl, 'selected_side_nav');
+        });
+
+        const mainClass = '.list_' + type._id;
+        const sel = this.elRef.nativeElement.querySelector(mainClass);
+        this.renderer.addClass(sel, 'selected_side_nav');
+        this.menu[0].text = 'Application';
+        this.menu[0].icon = 'school';
+        this.menu[1].text = type.title;
+        this.menu[1].icon = 'history_edu';
     }
 
     private checkRoles(): any {
@@ -541,7 +754,7 @@ export class MainComponent implements AfterViewInit, OnInit {
         }
     }
 
-    private getTasks(): any {
+    private getTasks(openMenu: any): any {
         this.http.get<any>(this.apiUrl + 'tasks/').subscribe({
             next: data => {
                 this.tasks = data.data.filter((task: any) => {
@@ -558,6 +771,47 @@ export class MainComponent implements AfterViewInit, OnInit {
                     return task.isCompleted !== true;
                 });
                 this.tasksCount = this.tasks.length;
+
+                this.menuTile = 'You have ' + this.tasksCount + ' tasks assigned';
+                this.itemData = this.tasks;
+
+                if (openMenu === 'open') {
+                    this.taskTrigger.openMenu();
+                }
+
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
+    }
+
+    private getReminder(openMenu: any): any {
+        this.http.get<any>(this.apiUrl + 'notes/').subscribe({
+            next: data => {
+                this.reminder = data.data.filter((remind: any) => {
+                    return remind.isComplete === false;
+                });
+
+                this.reminder = this.reminder.filter((remind: any) => {
+                    return remind.reminder === true;
+                });
+
+                this.reminder = this.reminder.filter((remind: any) => {
+                    return remind.added_by === localStorage.getItem('userName') || remind.client_id === localStorage.getItem('userId');
+                });
+
+
+                this.reminderCount = this.reminder.length;
+
+                this.menuTile = 'You have ' + this.reminderCount + ' upcoming reminder';
+                this.itemData = this.reminder;
+
+                if (openMenu === 'open') {
+                    this.remindTrigger.openMenu();
+                }
+
+
             },
             error: error => {
                 this.errorMessage = error.message;
@@ -576,7 +830,42 @@ export class MainComponent implements AfterViewInit, OnInit {
         });
     }
 
-    navigateToView(): any{
-        this.router.navigate(['/tasks']);
+    navigateToView(nav: string): any {
+        switch (nav) {
+            case 'tasks':
+                this.router.navigate(['/tasks']);
+                break;
+            case 'client':
+                this.panelOpenState = true;
+                const selectedContact = this.elRef.nativeElement.querySelector('.view_contacts');
+                const el = this.elRef.nativeElement.querySelectorAll('.menu_item');
+                el.forEach((cl: any) => {
+                    this.renderer.removeClass(cl, 'selected_side_nav');
+                });
+                this.renderer.addClass(selectedContact, 'selected_side_nav');
+                this.router.navigate(['/contacts/all']);
+                break;
+        }
+    }
+
+    navigateToContact(clientId: string, type: string): any {
+        this.hasClient = '';
+        const navigationExtras: NavigationExtras = {
+            queryParams: {id: clientId}
+        };
+        this.router.navigate(['contacts/view'], navigationExtras);
+        this.panelOpenState = true;
+        const selectedContact = this.elRef.nativeElement.querySelector('.view_contacts');
+        const el = this.elRef.nativeElement.querySelectorAll('.menu_item');
+        el.forEach((cl: any) => {
+            this.renderer.removeClass(cl, 'selected_side_nav');
+        });
+        this.renderer.addClass(selectedContact, 'selected_side_nav');
+
+        if (type === 'search') {
+            this.searchText = '';
+            this.showResult = false;
+            this.active = '';
+        }
     }
 }

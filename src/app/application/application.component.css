@@ -1,0 +1,235 @@
+.tab_bar{
+    background: #333;
+    border-bottom: 4px solid #3f51b5;
+    font-size: 14px;
+}
+
+.text_right{
+    text-align: right;
+}
+
+.tab_head{
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    font-size: 12px;
+    min-width: auto;
+}
+
+.tab_head:hover{
+    background-color: #00c0ef;
+    opacity: unset;
+}
+
+.mat-tab-label-active{
+    background-color: #00c0ef;
+    opacity: unset;
+}
+
+.tab_title{
+    position: relative;
+    bottom: 2px;
+    left: 10px;
+}
+
+.card_header{
+    background: #00c0ef;
+    border-top: 2px solid #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #ffffff;
+}
+
+.application_summary{
+    border-radius: 5px;
+    padding: 0 !important;
+}
+
+.sub_card_header{
+    padding: 15px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.activity_detail .sub_card_header{
+    padding: 0 !important;
+}
+
+.count{
+    color: #6EC1E4;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.today{
+    background-color: #f44336;
+    border-bottom-left-radius: 5px;
+    color: white;
+}
+
+.weekly{
+    background-color: #00c0ef !important;
+    border-bottom-right-radius: 5px;
+    color: white;
+}
+
+.activity_detail{
+    border-top: 2px solid #3c8dbc;
+}
+
+.sub_card_header{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d2d6de;
+}
+
+.activity_body{
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 665px;
+}
+
+.activity_body::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.activity_body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.activity_body::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.activity_body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.activity_body button{
+    color: #ffffff !important;
+}
+
+.activity_timeline {
+    position: relative;
+    padding: 0;
+    list-style: none;
+}
+
+.activity_link{
+    color: #3f51b5;
+    cursor: pointer;
+}
+
+.activity_link:hover{
+    text-decoration: underline;
+}
+
+.activity_timeline:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #ddd;
+    left: 31px;
+    margin: 0;
+    border-radius: 2px;
+}
+
+.activity_timeline > li {
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    z-index: 99999999;
+}
+
+.activity_timeline > .activity_time-label > span {
+    font-weight: 600;
+    padding: 5px;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 4px;
+    color: white;
+}
+
+.activity_date{
+    background-color: #6EC1E4 !important;
+}
+
+.activity_timeline > li > .activity_time-item {
+    -webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+    border-radius: 3px;
+    margin-top: 0;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    color: #444;
+    margin-left: 60px;
+    margin-right: 15px;
+    padding: 0;
+    position: relative;
+}
+
+.activity_timeline > li > i{
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    position: absolute;
+    background: #d2d6de;
+    border-radius: 50%;
+    text-align: center;
+    left: 18px;
+    top: 0;
+}
+
+.maroon{
+    background-color: #6EC1E4 !important;
+    color: white !important;
+}
+
+.activity_timeline > li > .activity_time-item > .time {
+    color: #999;
+    float: right;
+    padding: 10px;
+    font-size: 12px;
+}
+
+
+
+.activity_timeline > li > .activity_time-item > .timeline-header {
+    margin: 0;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.1;
+}
+
+.small{
+    font-size: 15px !important;
+    position: relative;
+    top: 2px;
+}
+
+.mid{
+    font-size: 22px;
+    position: relative;
+    bottom: 1px;
+}
+
+.activity_timeline > li > .activity_time-item > .timeline-body, .activity_timeline > li > .activity_time-item > .timeline-footer {
+    padding: 10px;
+}
+
+
+.no_data{
+    margin-bottom: 15px !important;
+    margin-top: 15px !important;
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+}
+
+
+

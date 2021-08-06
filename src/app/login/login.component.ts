@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, AfterViewInit, HostListener} from '@angular/core';
 import {FormGroup, Validators, FormControl} from '@angular/forms';
 import {AuthService} from '../Services/auth.service';
 import {Router, ActivatedRoute} from '@angular/router';
@@ -11,11 +11,12 @@ import {Subscription} from 'rxjs';
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, AfterViewInit {
     hideLoginPass = true;
     hidePass = true;
     private subscription: Subscription | undefined;
     hideRePass = true;
+    myStyles: any;
     isAgent = false;
     isInForgotPassword = false;
     isSubmitted = false;
@@ -39,6 +40,7 @@ export class LoginComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        this.myStyles = {height: ((window.innerHeight) - 5) + 'px',  width: ((window.innerWidth) / 2) + 'px'};
     }
 
     toggleLogin(): void {
@@ -48,6 +50,17 @@ export class LoginComponent implements OnInit {
             this.isInForgotPassword = false;
         }
 
+    }
+
+    @HostListener('window:resize')
+    onWindowResize(): void {
+        if (window.innerWidth > 1000) {
+            this.myStyles = {height: ((window.innerHeight) - 5) + 'px', width: ((window.innerWidth) / 2) + 'px'};
+        } else {
+            this.myStyles = {};
+        }
+
+        // console.log(window.innerWidth);
     }
 
     login(): any {
@@ -101,6 +114,9 @@ export class LoginComponent implements OnInit {
 
     ngOnDestroy(): void {
         this.subscription?.unsubscribe();
+    }
+
+    ngAfterViewInit(): void {
     }
 
 }

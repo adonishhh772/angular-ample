@@ -37,6 +37,7 @@ export class AuthService {
             return this.http.post<LoginResult>(`${this.apiUrl}users/login`, {
                 email: email,
                 password: password
+                // this is the common approach for eevery api in every langugage look at rest api in flask
             }, {
                 headers:
                     {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
@@ -58,7 +59,6 @@ export class AuthService {
             })
                 .pipe(
                     map(result => {
-                        console.log(result);
                         this.setLocalStorage(result, true);
                         this.startTokenTimer();
                         return result;

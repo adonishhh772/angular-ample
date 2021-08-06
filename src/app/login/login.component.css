@@ -41,7 +41,7 @@
 }
 
 
-@media only screen and (min-width: 550px) {
+@media only screen and (min-width: 1000px) {
     .center{
         position: absolute;
         top: 50%;
@@ -52,7 +52,7 @@
 
 }
 
-@media only screen and (max-width: 550px) {
+@media only screen and (max-width: 1000px) {
     .image_placeholder{
         width: 100% !important;
     }

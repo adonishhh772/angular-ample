@@ -4,7 +4,7 @@
         <mat-label>Search</mat-label>
         <input matInput (keyup)="applyFilter($event)" #input>
     </mat-form-field>
-    <button mat-icon-button *ngIf="isDelete" (click)="deleteSelected()" class="ample_delete"><mat-icon class="delete">delete_outline</mat-icon></button>
+    <button mat-raised-button *ngIf="isDelete" (click)="deleteSelected()" class="ample_delete">Delete Selected Contacts</button>
     <button mat-raised-button class="add_contacts" routerLink="/contacts/add">Add Contacts</button>
 </div>
 
@@ -97,9 +97,12 @@
             <ng-container matColumnDef="actions">
                 <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
                 <td mat-cell *matCellDef="let row">
-                        <button mat-icon-button matTooltip="View Contacts" (click)="goToView(row.id)">
+                        <button *ngIf="row.type === 'Client'" mat-icon-button matTooltip="View Contacts" (click)="goToView(row.id)">
                             <mat-icon color="primary">remove_red_eye</mat-icon>
                         </button>
+                    <button mat-icon-button matTooltip="Edit Contacts" (click)="openDialog(row.id)">
+                        <mat-icon color="info">create</mat-icon>
+                    </button>
                         <button mat-icon-button matTooltip="Delete Contacts" (click)="openDialog(row.id)">
                             <mat-icon color="warn">delete</mat-icon>
                         </button>
@@ -117,6 +120,45 @@
         </table>
 
         <mat-paginator class="paginator" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+        <div *ngIf="isDelete" class="col-md-12 flex">
+            <div class="col-md-3 flex plr-15">
+                <div class="col-md-8">
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Convert To</mat-label>
+                        <mat-select ngDefaultControl (selectionChange)="covertValue($event.value)">
+                            <mat-option value="New Lead">
+                                New Lead
+                            </mat-option>
+                            <mat-option value="Follow Up">
+                                Follow Up
+                            </mat-option>
+                            <mat-option value="Closed">
+                                Closed
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <button mat-raised-button [disabled]="isProcessing" color="primary" (click)="updateStatus()" class="ml-10 ample_button">Apply</button>
+                </div>
+            </div>
+            <div class="col-md-3 flex plr-15">
+                <div class="col-md-8">
+                    <mat-form-field class="col-md-12">
+                        <mat-label>Assign To</mat-label>
+                        <mat-select ngDefaultControl (selectionChange)="assignValue($event.value)">
+                            <mat-option *ngFor="let assign of allAssignee" value="{{assign.name}}">
+                                {{assign.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <button mat-raised-button [disabled]="isProcessingAssignee" color="primary" (click)="updateAssignee()" class="ml-10 ample_button">Apply</button>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="exports_button">
         <button mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:'Ample_contact_'+date, sheet: 'all_contact', Props: {Author: 'Ample'}})">Excel</button>

@@ -69,10 +69,15 @@ export class TaskComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.getBranchByName();
+        if (this.branchName !== '') {
+            this.getBranchByName();
+        } else {
+            this.getTasks();
+        }
+
         this.getUsers();
         this.getBranch();
-        this.getTasks();
+
         if (this.route.snapshot.queryParamMap.get('isAdded') !== null) {
             this.isAddTask = true;
         } else {
@@ -126,7 +131,7 @@ export class TaskComponent implements OnInit, AfterViewInit {
                 if (this.totalTask > 0) {
                     this.hasTask = true;
                 }
-                this.incrementTasks(this.totalTask,allTaskLength);
+                this.incrementTasks(this.totalTask, allTaskLength);
                 this.allTasks.forEach((cl: any, index: any) => {
                     const due = new Date(cl.due_date);
                     if (today.getTime() === due.getTime() || today.getTime() > due.getTime()) {
@@ -252,7 +257,7 @@ export class TaskComponent implements OnInit, AfterViewInit {
         }
 
 
-        if (data.branch !== '') {
+        if (data.branch !== '' && data.branch !== undefined && data.branch !== null) {
             const branchArr = data.branch.split(',');
             const branchNameArr: any[] = [];
             branchArr.forEach((cl: any) => {
@@ -261,7 +266,7 @@ export class TaskComponent implements OnInit, AfterViewInit {
             this.assignedTo = branchNameArr.join(',');
         }
 
-        if (data.client !== '') {
+        if (data.client !== '' && data.client !== undefined && data.client !== null) {
             const clientArr = data.client.split(',');
             const clientNameArr: any[] = [];
             clientArr.forEach((cl: any) => {
@@ -270,7 +275,7 @@ export class TaskComponent implements OnInit, AfterViewInit {
             this.assignedClient = clientNameArr.join(',');
         }
 
-        if (data.user !== '') {
+        if (data.user !== '' && data.user !== undefined && data.user !== null) {
             const userArr = data.user.split(',');
             const userNameArr: any[] = [];
             userArr.forEach((cl: any) => {
@@ -292,25 +297,36 @@ export class TaskComponent implements OnInit, AfterViewInit {
             }
             return false;
         } else {
+            console.log(this.addTaskForm.value.branchArr.length);
             this.addTaskForm.value.isCompleted = false;
             this.addTaskForm.value.added_by = localStorage.getItem('userName');
-            if (this.addTaskForm.value.userArr.length > 0) {
-                this.addTaskForm.value.user = this.addTaskForm.value.userArr.join(',');
-            } else {
-                this.addTaskForm.value.user = '';
+
+            if (this.addTaskForm.value.userArr !== '') {
+                if (this.addTaskForm.value.userArr.length > 0) {
+                    this.addTaskForm.value.user = this.addTaskForm.value.userArr.join(',');
+                } else {
+                    this.addTaskForm.value.user = '';
+                }
             }
 
-            if (this.addTaskForm.value.branchArr.length > 0) {
-                this.addTaskForm.value.branch = this.addTaskForm.value.branchArr.join(',');
-            } else {
-                this.addTaskForm.value.branch = '';
+
+            if (this.addTaskForm.value.branchArr !== '') {
+                if (this.addTaskForm.value.branchArr.length > 0) {
+                    this.addTaskForm.value.branch = this.addTaskForm.value.branchArr.join(',');
+                } else {
+                    this.addTaskForm.value.branch = '';
+                }
             }
 
-            if (this.addTaskForm.value.clientArr.length > 0) {
-                this.addTaskForm.value.client = this.addTaskForm.value.branchArr.join(',');
-            } else {
-                this.addTaskForm.value.client = '';
+
+            if (this.addTaskForm.value.clientArr !== '') {
+                if (this.addTaskForm.value.clientArr.length > 0) {
+                    this.addTaskForm.value.client = this.addTaskForm.value.clientArr.join(',');
+                } else {
+                    this.addTaskForm.value.client = '';
+                }
             }
+
 
             delete this.addTaskForm.value.userArr;
             delete this.addTaskForm.value.branchArr;
@@ -489,6 +505,7 @@ export class TaskComponent implements OnInit, AfterViewInit {
         this.http.get<any>(this.apiUrl + 'branch/getBranch/' + this.branchName).subscribe({
             next: data => {
                 this.branchId = data.data[0]._id;
+                this.getTasks();
             },
             error: error => {
                 this.errorMessage = error.message;

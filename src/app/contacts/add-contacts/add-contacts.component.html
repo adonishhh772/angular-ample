@@ -1,5 +1,5 @@
 <div class="components_container contacts">
-    <h2 class="heading">Contacts Details</h2>
+    <h2 class="heading">{{title}}</h2>
     <div class="contacts_body">
         <form [formGroup]="addContactsForm" (ngSubmit)="addContacts()">
             <div class="row">
@@ -128,7 +128,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="row col-md-5L mb-10">
+                <div class="row col-md-5L mb-10" *ngIf="isClient">
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
                             <span class="material-icons">category</span>
@@ -136,21 +136,18 @@
                         <mat-form-field class="col-md-12">
                             <mat-label>Category</mat-label>
                             <mat-select formControlName="category" ngDefaultControl>
-                                <mat-option value="none">
+                                <mat-option value="None">
                                     None
                                 </mat-option>
-                                <mat-option value="visa">
-                                    Visa
-                                </mat-option>
-                                <mat-option value="college_application">
-                                    College Application
+                                <mat-option *ngFor="let cat of category" [value]="cat.name">
+                                   {{cat.name}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="isClient">
                 <div class="row col-md-5L mb-10">
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
@@ -182,17 +179,17 @@
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>User Type *</mat-label>
-                            <mat-select formControlName="role" ngDefaultControl>
-                                <mat-option *ngIf="userRole === 'Super Admin'" value="Super Admin">
+                            <mat-select formControlName="role" ngDefaultControl (selectionChange)="checkClient($event)">
+                                <mat-option *ngIf="userRole === 'Super Admin' && !isLeads" value="Super Admin">
                                     Super Admin
                                 </mat-option>
-                                <mat-option *ngIf="userRole === 'Super Admin' || userRole === 'Admin'" value="Admin">
+                                <mat-option *ngIf="(userRole === 'Super Admin' && !isLeads) || userRole === 'Admin' " value="Admin">
                                     Admin
                                 </mat-option>
-                                <mat-option *ngIf="userRole === 'Super Admin' || userRole === 'Admin'" value="Manager">
+                                <mat-option *ngIf="(userRole === 'Super Admin' && !isLeads) || userRole === 'Admin' || !isLeads" value="Manager">
                                     Marketing Manager
                                 </mat-option>
-                                <mat-option *ngIf="userRole === 'Super Admin' || userRole === 'Admin'" value="Admission Core">
+                                <mat-option *ngIf="(userRole === 'Super Admin' && !isLeads) || userRole === 'Admin' || !isLeads" value="Admission Core">
                                     Admission Core Team
                                 </mat-option>
                                 <mat-option value="Client">
@@ -205,7 +202,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="isClient || isLeads">
                 <div class="row col-md-5L mb-10">
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
@@ -239,7 +236,7 @@
             </div>
             <div class="row">
                 <div class="row col-md-5L mb-10">
-                    <div class="col-md-12 row border p-10">
+                    <div [className]="isSubmitted &&errorControl.branch.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
                         <div class="col-sm-2 pt-15">
                             <span class="material-icons">account_tree</span>
                         </div>
@@ -250,11 +247,13 @@
                                     {{branch.branch_name}}
                                 </mat-option>
                             </mat-select>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.branch.errors?.required">
+                            Branch is required.</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="isClient || isLeads">
                 <div class="row col-md-5L mb-10">
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
@@ -272,7 +271,7 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" *ngIf="isClient || isLeads">
                 <div class="row col-md-10 mb-10">
                     <div class="col-md-12 row p-10">
                         <mat-radio-group aria-label="Select an option" formControlName="hasVisa">

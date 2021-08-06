@@ -1,0 +1,98 @@
+.tab_bar{
+    background: #333;
+    border-bottom: 4px solid #3f51b5;
+    font-size: 14px;
+}
+
+.text_right{
+    text-align: right;
+}
+
+.tab_head{
+    color: #ffffff !important;
+    text-transform: uppercase !important;
+    font-size: 12px;
+    min-width: auto;
+}
+
+.tab_head:hover{
+    background-color: #00c0ef;
+    opacity: unset;
+}
+
+.mat-tab-label-active{
+    background-color: #00c0ef;
+    opacity: unset;
+}
+
+.tab_title{
+    position: relative;
+    bottom: 2px;
+    left: 10px;
+}
+
+
+.lead_viewer p {
+    line-height: 35px;
+    color: #fff;
+    background-color: #00c0ef;
+    position: relative;
+    font-size: 14px;
+    padding-left: 15px;
+    white-space: nowrap;
+}
+
+
+
+.card_header{
+    background: #00c0ef;
+    border-top: 2px solid #ffffff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color: #ffffff;
+}
+
+
+
+.lead_viewer{
+    cursor: pointer;
+}
+
+.lead_viewer:hover{
+    opacity: 0.7;
+}
+
+
+
+.card_content{
+    background: #f4f4f4;
+}
+
+.leads_summary{
+    border-radius: 5px;
+    padding: 0 !important;
+}
+
+.sub_card_header{
+    padding: 15px;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(0,0,0,0.2);
+}
+
+.count{
+    color: #6EC1E4;
+    font-size: 40px;
+    cursor: pointer;
+}
+
+.today{
+    background-color: #f44336;
+    border-bottom-left-radius: 5px;
+    color: white;
+}
+
+.weekly{
+    background-color: #00c0ef !important;
+    border-bottom-right-radius: 5px;
+    color: white;
+}

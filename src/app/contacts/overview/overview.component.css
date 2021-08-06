@@ -1,0 +1,154 @@
+
+
+.sub_card_header{
+    padding-bottom: 10px;
+    border-bottom: 1px solid #d2d6de;
+}
+
+.activity_body{
+    padding: 10px;
+    overflow-y: auto;
+    max-height: 665px;
+}
+
+.activity_body::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+.activity_body::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+/* Handle */
+.activity_body::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+/* Handle on hover */
+.activity_body::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+.activity_body button{
+    color: #ffffff !important;
+}
+
+.activity_timeline {
+    position: relative;
+    padding: 0;
+    list-style: none;
+}
+
+.activity_link{
+    color: #3f51b5;
+    cursor: pointer;
+}
+
+.activity_link:hover{
+    text-decoration: underline;
+}
+
+.activity_timeline:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 4px;
+    background: #ddd;
+    left: 31px;
+    margin: 0;
+    border-radius: 2px;
+}
+
+.activity_timeline > li {
+    position: relative;
+    margin-right: 10px;
+    margin-bottom: 15px;
+    z-index: 99999999;
+}
+
+.activity_timeline > .activity_time-label > span {
+    font-weight: 600;
+    padding: 5px;
+    display: inline-block;
+    background-color: #fff;
+    border-radius: 4px;
+    color: white;
+}
+
+.activity_date{
+    background-color: #6EC1E4 !important;
+}
+
+.activity_timeline > li > .activity_time-item {
+    -webkit-box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+    box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+    border-radius: 3px;
+    margin-top: 0;
+    background: #f0f0f0;
+    border: 1px solid #ddd;
+    color: #444;
+    margin-left: 60px;
+    margin-right: 15px;
+    padding: 0;
+    position: relative;
+}
+
+.activity_timeline > li > i{
+    width: 30px;
+    height: 30px;
+    font-size: 20px;
+    line-height: 30px;
+    position: absolute;
+    background: #d2d6de;
+    border-radius: 50%;
+    text-align: center;
+    left: 18px;
+    top: 0;
+}
+
+.maroon{
+    background-color: #6EC1E4 !important;
+    color: white !important;
+}
+
+.activity_timeline > li > .activity_time-item > .time {
+    color: #999;
+    float: right;
+    padding: 10px;
+    font-size: 12px;
+}
+
+
+
+.activity_timeline > li > .activity_time-item > .timeline-header {
+    margin: 0;
+    color: #555;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
+    font-size: 16px;
+    line-height: 1.1;
+}
+
+.small{
+    font-size: 15px !important;
+    position: relative;
+    top: 2px;
+}
+
+.mid{
+    font-size: 22px;
+    position: relative;
+    bottom: 1px;
+}
+
+.activity_timeline > li > .activity_time-item > .timeline-body, .activity_timeline > li > .activity_time-item > .timeline-footer {
+    padding: 10px;
+}
+
+
+
+
+
+

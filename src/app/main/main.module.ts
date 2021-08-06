@@ -12,6 +12,7 @@ import {MatInputModule} from '@angular/material/input';
 import { MainComponent } from './main.component';
 import {MainRoutingModule} from './main-routing';
 import {ComponentModule} from '../Components/component.module';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -21,6 +22,8 @@ import {ComponentModule} from '../Components/component.module';
       MatIconModule,
       MainRoutingModule,
       MatSidenavModule,
+      FormsModule,
+      ReactiveFormsModule,
       MatListModule,
       MatBadgeModule,
       MatExpansionModule,

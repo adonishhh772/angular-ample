@@ -1,5 +1,5 @@
 .side_menu {
-    width: 17%;
+    width: 18%;
     background: rgb(34, 45, 49);
     border: 1px;
     transition: 0.5s;
@@ -25,6 +25,10 @@ text-align-last: center;
     z-index: 10;
 }
 
+.search_box{
+    top: 50px;
+}
+
 .search{
     float: right;
 }
@@ -37,6 +41,18 @@ text-align-last: center;
 .menu_bar_footer {
     background: rgb(34, 45, 49);
     height: 50px;
+}
+
+.not_top{
+    top: 0 !important;
+}
+
+.search_item:hover{
+    background: #d2d6de !important;
+}
+
+.search_item_icon{
+    color: #2c3b41 !important;
 }
 
 .menu_item:hover {
@@ -542,4 +558,10 @@ button.close {
     top: 0 !important;
     left: 40px !important;
 }
+
+.has_client{
+    position: relative;
+    top: 5px;
+}
+
 

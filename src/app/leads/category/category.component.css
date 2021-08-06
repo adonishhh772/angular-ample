@@ -1,0 +1,25 @@
+.table_responsive{
+    width: 100%;
+    margin-top: -30px;
+}
+
+.category{
+    padding: 15px 15px 0 22px;
+}
+
+.ample_button{
+    position: relative;
+    top: 10px;
+}
+
+.category button{
+    float: right;
+}
+
+.add_category{
+    margin: 10px;
+}
+
+.category .add_category{
+    background:#6EC1E4 !important
+}

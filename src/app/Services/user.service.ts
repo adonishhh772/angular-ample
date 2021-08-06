@@ -43,4 +43,16 @@ export class UserService {
             })
         );
     }
+
+    updateCategory(data: any, id: any): Observable<any> {
+        return this.http.put<any>(`${this.apiUrl + 'updateCategory/' + id}`, data, {
+            headers:
+                {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'}
+        })
+            .pipe(
+                map(result => {
+                    return result;
+                })
+            );
+    }
 }

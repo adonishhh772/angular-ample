@@ -1,0 +1,258 @@
+<div class="components_container">
+    <nav mat-tab-nav-bar class="tab_bar col-md-12">
+        <div class="col-md-10">
+            <a mat-tab-link class="tab_head" disabled>Leads Manager
+                <mat-icon class="tab_title">groups</mat-icon>
+            </a>
+            <a mat-tab-link class="tab_head" *ngFor="let link of links"
+               (click)="changeTab(link)"
+               [active]="activeLink == link"> {{link}} </a>
+        </div>
+        <div class="col-md-2 pt-5">
+            <button mat-raised-button class="ample_button" (click)="goToAdd()">Add leads</button>
+        </div>
+
+    </nav>
+
+    <ng-container *ngIf="activeLink === 'Leads Dashboard' && loaded === true">
+        <div class="col-md-12 flex">
+            <div class="col-md-8 p-20">
+                <mat-card class="no_padding ample_blue_border">
+                    <mat-card-header>
+                        <mat-card-title class="card_header col-md-12">
+                            <div class="col-md-12 p-10">
+                                <mat-icon class="sub_header_icon">groups</mat-icon>
+                                Leads Summary
+                            </div>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="card_content">
+                        <div class="col-md-12 flex p-10">
+                            <div class="col-md-3L p-10">
+                                <mat-card class="leads_summary">
+                                    <mat-card-header>
+                                        <mat-card-title class="sub_card_header">
+                                            <span class="">Leads</span>
+                                        </mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <div class="sub_card_content">
+                                            <div class="col-md-10 count p-10">{{allLeads.length}}</div>
+                                            <div class="col-md-9XL p-10 border_btm">Leads</div>
+                                        </div>
+                                        <div class="sub_card_footer col-md-12 flex">
+                                            <div class="col-md-5L p-10 today">
+                                                <div class="col-md-10">{{leadsToday}}</div>
+                                                <div class="col-md-10 date">Today</div>
+                                            </div>
+                                            <div class="col-md-5L p-10 weekly">
+                                                <div class="col-md-10">{{leadsWeek}}</div>
+                                                <div class="col-md-10 date">This Week</div>
+                                            </div>
+
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-3L p-10">
+                                <mat-card class="leads_summary">
+                                    <mat-card-header>
+                                        <mat-card-title class="sub_card_header">
+                                            <span class="">Follow Up</span>
+                                        </mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <div class="sub_card_content">
+                                            <div class="col-md-10 count p-10">{{allFollowUp.length}}</div>
+                                            <div class="col-md-9XL p-10 border_btm">Follow Up</div>
+                                        </div>
+                                        <div class="sub_card_footer col-md-12 flex">
+                                            <div class="col-md-5L p-10 today">
+                                                <div class="col-md-10">{{followUpToday}}</div>
+                                                <div class="col-md-10 date">Today</div>
+                                            </div>
+                                            <div class="col-md-5L p-10 weekly">
+                                                <div class="col-md-10">{{followUpWeek}}</div>
+                                                <div class="col-md-10 date">This Week</div>
+                                            </div>
+
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-3L p-10">
+                                <mat-card class="leads_summary">
+                                    <mat-card-header>
+                                        <mat-card-title class="sub_card_header">
+                                            <span class="">Client</span>
+                                        </mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <div class="sub_card_content">
+                                            <div class="col-md-10 count p-10">{{allClient.length}}</div>
+                                            <div class="col-md-9XL p-10 border_btm">Client</div>
+                                        </div>
+                                        <div class="sub_card_footer col-md-12 flex">
+                                            <div class="col-md-5L p-10 today">
+                                                <div class="col-md-10">{{clientToday}}</div>
+                                                <div class="col-md-10 date">Today</div>
+                                            </div>
+                                            <div class="col-md-5L p-10 weekly">
+                                                <div class="col-md-10">{{clientWeek}}</div>
+                                                <div class="col-md-10 date">This Week</div>
+                                            </div>
+
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                            <div class="col-md-3L p-10">
+                                <mat-card class="leads_summary">
+                                    <mat-card-header>
+                                        <mat-card-title class="sub_card_header">
+                                            <span class="">Closed</span>
+                                        </mat-card-title>
+                                    </mat-card-header>
+                                    <mat-card-content>
+                                        <div class="sub_card_content">
+                                            <div class="col-md-10 count p-10">{{allClosed.length}}</div>
+                                            <div class="col-md-9XL p-10 border_btm">Closed</div>
+                                        </div>
+                                        <div class="sub_card_footer col-md-12 flex">
+                                            <div class="col-md-5L p-10 today">
+                                                <div class="col-md-10">{{closedToday}}</div>
+                                                <div class="col-md-10 date">Today</div>
+                                            </div>
+                                            <div class="col-md-5L p-10 weekly">
+                                                <div class="col-md-10">{{closedWeek}}</div>
+                                                <div class="col-md-10 date">This Week</div>
+                                            </div>
+
+                                        </div>
+                                    </mat-card-content>
+                                </mat-card>
+                            </div>
+                        </div>
+
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+            <div class="col-md-4 p-20">
+                <div class="ample_button lead_viewer">
+                    <p class="mb-0" (click)="changeTab('Leads Tracker')">New Lead <span>({{allLeads.length}})</span></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-11 p-10">
+            <mat-card class="ample_blue_border">
+                <mat-card-header>
+                    <mat-card-title class="col-md-12 pb-10">
+                            To Be Followed Up
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content class="mat-elevation-z8">
+                    <table matTableExporter mat-table [dataSource]="dataSourceFollow" matSort #exporter="matTableExporter"
+                           class="table_responsive">
+
+                        <!-- ID Column -->
+                        <ng-container matColumnDef="client_id">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Client ID</th>
+                            <td mat-cell *matCellDef="let row"> {{row.client_no}}</td>
+                        </ng-container>
+
+                        <!-- Progress Column -->
+                        <ng-container matColumnDef="client_name">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Client Name</th>
+                            <td mat-cell *matCellDef="let row"> {{row.client_name}}</td>
+                        </ng-container>
+
+
+                        <!-- Name Column -->
+                        <ng-container matColumnDef="phone">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Phone</th>
+                            <td mat-cell *matCellDef="let row"> {{row.phone}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="email">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.email}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="country">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Country</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.country}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="category">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Category</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.category}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="added">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Added By</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.added}}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="branch">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Branch</th>
+                            <td mat-cell *matCellDef="let row">
+                                {{row.branch}}
+                            </td>
+                        </ng-container>
+
+                        <!-- Color Column -->
+                        <ng-container matColumnDef="actions">
+                            <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Actions</th>
+                            <td mat-cell *matCellDef="let row">
+                                <button [disabled]="isProcessing" mat-icon-button matTooltip="Convert to Client" (click)="changeStatus('Client', row)">
+                                    <mat-icon color="primary">person</mat-icon>
+                                </button>
+                                <button [disabled]="isProcessing" mat-icon-button matTooltip="View FollowUp" (click)="goToView(row.id)">
+                                    <mat-icon color="primary">remove_red_eye</mat-icon>
+                                </button>
+                                <button [disabled]="isProcessing" mat-icon-button matTooltip="Delete Followup" (click)="openDialog(row.id)">
+                                    <mat-icon color="warn">delete</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                        <!-- Row shown when there is no matching data. -->
+                        <tr class="mat-row" *matNoDataRow>
+                            <td class="mat-cell" colspan="9">No data found</td>
+                        </tr>
+                    </table>
+                    <mat-paginator #pagination [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                    <div class="exports_button">
+                        <button mat-raised-button
+                                (click)="exporter.exportTable('xlsx', {fileName:'Ample_followup_'+date, sheet: 'all_follow', Props: {Author: 'Ample'}})">
+                            Excel
+                        </button>
+                        <button mat-raised-button (click)="exporter.exportTable('csv', {fileName:'Ample_followup_'+date})">Csv
+                        </button>
+                        <button mat-raised-button (click)="exporter.exportTable('txt', {fileName:'Ample_followup_'+date})">Txt
+                        </button>
+                    </div>
+                </mat-card-content>
+            </mat-card>
+            <!--<h3>To Be Followed Up</h3>-->
+            <!--<div>-->
+                <!---->
+            <!--</div>-->
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="activeLink === 'Leads Tracker'">
+        <app-tracker [allUser]="allUsers" (statusEvent)="feedData($event)" [leads]="allLeads" [followUp]="allFollowUp" [clients]="allClient" [closed]="allClosed"></app-tracker>
+    </ng-container>
+
+
+</div>

@@ -1,11 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import {MainComponent} from './main.component';
-import {BranchAddComponent} from '../branch/branch-add/branch-add.component';
-import {AllAgentComponent} from '../agent/all-agent/all-agent.component';
-import {AddAgentComponent} from '../agent/add-agent/add-agent.component';
-import {ViewAgentComponent} from '../agent/view-agent/view-agent.component';
-
 
 const routes: Routes = [
     {
@@ -18,6 +13,8 @@ const routes: Routes = [
             {path: 'institute', loadChildren: () => import('../institute/institute.module').then(m => m.InstituteModule)},
             {path: 'agent', loadChildren: () => import('../agent/agent.module').then(m => m.AgentModule)},
             {path: 'tasks', loadChildren: () => import('../task/task.module').then(m => m.TaskModule)},
+            {path: 'leads', loadChildren: () => import('../leads/leads.module').then(m => m.LeadsModule)},
+            {path: 'application', loadChildren: () => import('../application/application.module').then(m => m.ApplicationModule)},
             {path: 'contacts', loadChildren: () => import('../contacts/contacts.module').then(m => m.ContactsModule)},
             {path: 'profile-details', loadChildren: () => import('../profile-details/profile-details.module').then(m => m.ProfileDetailsModule)},
         ]

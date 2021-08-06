@@ -1,0 +1,86 @@
+<div class="col-md-12 flex">
+    <div class="col-md-4 p-10 components_container add_notes_container mat-elevation-z8">
+        <h2 class="sub_card_header"> Add Notes</h2>
+        <div class="add_notes_body p-10">
+            <form [formGroup]="addNotesForm" (ngSubmit)="addNotes()">
+                <div class="col-md-10">
+                    <mat-form-field class="col-md-12" appearance="outline">
+                        <mat-label>Description</mat-label>
+                        <textarea formControlName="notes" rows="5" matInput #input></textarea>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.notes.errors?.required">
+                            Notes required.</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-10 margin_bottom10">
+                    <mat-checkbox color="primary" (change)="setRemind($event.checked)" class="example-margin">Add a reminder</mat-checkbox>
+                </div>
+
+                <div class="col-md-10" *ngIf="isChecked">
+                    <mat-form-field class="col-md-12" appearance="outline">
+                        <mat-label>Reminder Date*</mat-label>
+                        <input formControlName="reminder_date" type="date" matInput #input>
+                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.reminder_date.errors?.required">
+                            Reminder date is required.</mat-hint>
+                    </mat-form-field>
+                </div>
+
+                <div class="col-md-10">
+                    <button mat-raised-button [disabled]="isProcessing" class="ample_button">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8 p-10 table_container">
+        <div class="mat-elevation-z8">
+            <table matTableExporter mat-table [dataSource]="dataSource" matSort #exporter="matTableExporter" class="table_responsive">
+                <!-- Progress Column -->
+                <ng-container matColumnDef="added_by">
+                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Added By </th>
+                    <td mat-cell *matCellDef="let row"> {{row.added_by}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="notes">
+                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Notes </th>
+                    <td mat-cell *matCellDef="let row"> {{row.notes}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="remind">
+                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Remind Me</th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.remind}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="remind_date">
+                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>Reminder Date</th>
+                    <td mat-cell *matCellDef="let row">
+                        {{row.remind_date  | date:'dd/MM/yyyy'}}
+                    </td>
+                </ng-container>
+                <!-- Color Column -->
+                <ng-container matColumnDef="actions">
+                    <th class="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> Actions </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button *ngIf="!row.isComplete" mat-icon-button matTooltip="Mark Complete" [disabled]="isProcessingComplete" (click)="completeNotes(row.id,row.notes)">
+                            <mat-icon color="info">done</mat-icon>
+                        </button>
+                        <button mat-icon-button matTooltip="Delete Notes" (click)="openDialog(row.id)">
+                            <mat-icon color="warn">delete</mat-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                <!-- Row shown when there is no matching data. -->
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="5">No notes found</td>
+                </tr>
+            </table>
+
+            <mat-paginator class="paginator" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+
+        </div>
+    </div>
+</div>

@@ -8,6 +8,10 @@ import {MatDialog} from '@angular/material/dialog';
 import {HttpClient} from '@angular/common/http';
 import {DialogComponent} from '../Components/dialog/dialog.component';
 import {NavigationExtras, Router} from '@angular/router';
+import {ClientStatusService} from '../Services/client-status.service';
+import {finalize} from 'rxjs/operators';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {ActivityService} from '../Services/activity.service';
 
 
 export interface Contacts {
@@ -32,12 +36,17 @@ export interface Contacts {
 export class ContactsComponent implements OnInit, AfterViewInit {
     displayedColumns: string[] = ['select', 'contact_id', 'name', 'phone', 'email', 'dob', 'country', 'referred', 'added', 'branch', 'type', 'actions'];
     selection = new SelectionModel<Contacts>(true, []);
-    private readonly apiUrl = `${environment.apiUrl}users/`;
+    private readonly apiUrl = `${environment.apiUrl}`;
     contacts = [];
+    allAssignee: any[] = [];
+    convert = '';
+    assignee = '';
     userRole = localStorage.getItem('userRole');
     contactId: string[] = [];
     isDelete = false;
     date = Date.now();
+    isProcessing = true;
+    isProcessingAssignee = true;
     contactCount = 0;
     numRows = 0;
     uName = localStorage.getItem('userName');
@@ -47,7 +56,14 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     @ViewChild(MatSort) sort!: MatSort;
 
-    constructor(private renderer: Renderer2, private router: Router, private elRef: ElementRef, private http: HttpClient, private matDialog: MatDialog) {
+    constructor(private renderer: Renderer2,
+                private router: Router,
+                private elRef: ElementRef,
+                public activityService: ActivityService,
+                private _snackBar: MatSnackBar,
+                private http: HttpClient,
+                private clientStatus: ClientStatusService,
+                private matDialog: MatDialog) {
     }
 
     ngOnInit(): void {
@@ -111,7 +127,7 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     }
 
     getAllContacts(): any {
-        this.http.get<any>(`${this.apiUrl}`).subscribe({
+        this.http.get<any>(this.apiUrl + 'users/').subscribe({
             next: data => {
 
                 if (this.userRole === 'Super Admin' || this.userRole === 'Admin') {
@@ -123,6 +139,11 @@ export class ContactsComponent implements OnInit, AfterViewInit {
                         return contact.role === 'Client';
                     });
                 }
+
+                this.allAssignee = data.data.filter((contact: any) => {
+                    return contact.role !== 'Client';
+                });
+
 
                 const contact = Array.from({length: this.contacts.length}, (_, k) => this.createContact(k, this.contacts));
                 this.contactCount = this.contacts.length;
@@ -204,10 +225,135 @@ export class ContactsComponent implements OnInit, AfterViewInit {
     }
 
     goToView(id: any): any {
-        let navigationExtras: NavigationExtras = {
+        const navigationExtras: NavigationExtras = {
             queryParams: {id: id}
         };
         this.router.navigate(['contacts/view'], navigationExtras);
+    }
+
+    covertValue(sel: string): any {
+        this.convert = sel;
+        if (this.convert !== '') {
+            this.isProcessing = false;
+        }
+    }
+
+    assignValue(sel: string): any {
+        this.assignee = sel;
+        if (this.assignee !== '') {
+            this.isProcessingAssignee = false;
+        }
+    }
+
+    updateStatus(): any {
+        this.isProcessing = true;
+        let activityDetails: any ;
+        this.selection.selected.forEach((value, index) => {
+            this.http.get<any>(this.apiUrl + 'status/' + value.id).subscribe({
+                next: data => {
+                    const statusId = data.data[0]._id;
+                    const clientName = value.name;
+                    let statusDetails;
+                    statusDetails = {
+                        status: this.convert,
+                        changed_by: localStorage.getItem('userName'),
+                    };
+                    activityDetails = {
+                        client_id: value.id,
+                        user_id: localStorage.getItem('userId'),
+                        title: 'Client Status Updated',
+                        description: 'Status of Client ' + clientName + ' changed to ' + this.convert + ' Updated By ' + localStorage.getItem('userName'),
+                        type: 'Client',
+                        name: clientName,
+                        added_by: localStorage.getItem('userName'),
+                    };
+                    this.clientStatus.updateStatus(statusDetails, statusId).pipe(finalize(() => {
+                        this.isProcessing = false;
+                    })).subscribe(
+                        (result) => {
+                            this._snackBar.open(result.message, '', {
+                                duration: 2000,
+                            });
+                            this.addActivity(activityDetails);
+                        },
+                        (error) => {
+                            if (error.error !== undefined) {
+                                this._snackBar.open(error.error.msg, '', {
+                                    duration: 2000,
+                                });
+                            }
+                        }
+                    );
+                },
+                error: error => {
+                    this.errorMessage = error.message;
+                }
+            });
+        });
+    }
+
+    updateAssignee(): any {
+        this.isProcessingAssignee = true;
+        let activityDetails: any ;
+        this.selection.selected.forEach((value, index) => {
+            this.http.get<any>(this.apiUrl + 'status/' + value.id).subscribe({
+                next: data => {
+                    const statusId = data.data[0]._id;
+                    const clientName = value.name;
+                    let statusDetails;
+                    statusDetails = {
+                        assigned_to: this.assignee,
+                        changed_by: localStorage.getItem('userName'),
+                    };
+                    activityDetails = {
+                        client_id: value.id,
+                        user_id: localStorage.getItem('userId'),
+                        title: 'Client Assigned to ' + this.assignee,
+                        description: this.assignee + 'Assigned to ' + clientName + ' By ' + localStorage.getItem('userName'),
+                        type: 'Assignee',
+                        name: clientName,
+                        added_by: localStorage.getItem('userName'),
+                    };
+                    this.clientStatus.updateAssignee(statusDetails, statusId).pipe(finalize(() => {
+                        this.isProcessingAssignee = false;
+                    })).subscribe(
+                        (result) => {
+                            this._snackBar.open(result.message, '', {
+                                duration: 2000,
+                            });
+                            this.addActivity(activityDetails);
+                        },
+                        (error) => {
+                            if (error.error !== undefined) {
+                                this._snackBar.open(error.error.msg, '', {
+                                    duration: 2000,
+                                });
+                            }
+                        }
+                    );
+                },
+                error: error => {
+                    this.errorMessage = error.message;
+                }
+            });
+        });
+    }
+
+    private addActivity(activity: any): any
+    {
+        this.activityService.add(activity).pipe(finalize(() => {
+        })).subscribe(
+            (res) => {
+            },
+            (error) => {
+                if (error.error !== undefined) {
+                    this._snackBar.open(error.error.msg, '', {
+                        duration: 2000,
+                    });
+                }
+            }
+        );
+
     }
 
 }

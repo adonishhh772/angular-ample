@@ -478,6 +478,10 @@ export class AddDialogComponent implements OnInit {
         });
     }
 
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
     private getAddressById(id: any): void {
         this.http.get<any>(this.apiUrl + id).subscribe({
             next: data => {

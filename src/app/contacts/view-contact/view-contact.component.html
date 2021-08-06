@@ -1,0 +1,59 @@
+<div class="contacts_container" *ngIf="isLoaded">
+    <div class="view_contacts_header col-md-12 flex">
+        <div class="col-md-2M">
+            <div class="profile_img">
+                <img src="../../../assets/avatar.png">
+            </div>
+        </div>
+        <div class="col-md-9L flex mtb-10">
+            <div class="col-md-2 plr-15">
+                <h4 class="upper_text">{{naviagtionData[0].name}}</h4>
+            </div>
+            <div class="col-md-2 plr-15">
+                <span class="regular_text">
+                    <i class="material-icons">phone</i>
+                    <span>PHONE</span>
+                </span><br>
+                <p class="blue_text">{{naviagtionData[0].phone}}</p>
+            </div>
+            <div class="col-md-4 plr-15">
+                <span class="regular_text">
+                    <i class="material-icons">mail</i>
+                    <span>EMAIL</span>
+                </span><br>
+                <p class="blue_text">{{naviagtionData[0].email}}</p>
+            </div>
+            <div class="col-md-4 plr-15">
+                <span class="regular_text">
+                    <i class="material-icons">home</i>
+                    <span>ADDRESS</span>
+                </span><br>
+                <p class="blue_text">{{naviagtionData[0].street}}</p>
+                <p class="blue_text">{{naviagtionData[0].state}}</p>
+                <p class="blue_text">{{naviagtionData[0].post_code}}</p>
+                <p class="blue_text">{{naviagtionData[0].country}}</p>
+            </div>
+            <div class="col-md-2L text_right">
+                <button mat-raised-button color="primary" [matMenuTriggerFor]="menu">Action</button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item><i class="material-icons menu_icons">update</i> Edit</button>
+                    <button mat-menu-item><i class="material-icons menu_icons">mail</i>Email</button>
+                </mat-menu>
+            </div>
+
+        </div>
+    </div>
+    <div class="col-md-12 flex">
+        <div class="col-md-2M"></div>
+        <div class="col-md-9L">
+            <nav mat-tab-nav-bar class="tab_bar">
+                <a mat-tab-link class="tab_head" *ngFor="let link of links"
+                   (click)="activeLink = link"
+                   [active]="activeLink == link">{{link}}</a>
+            </nav>
+        </div>
+    </div>
+    <app-general-info [client]="naviagtionData" (reminderEvent)="changeTabs($event)" [link]="activeLink"></app-general-info>
+
+
+</div>

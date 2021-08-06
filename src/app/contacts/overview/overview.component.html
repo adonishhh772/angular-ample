@@ -1,0 +1,31 @@
+
+        <div class="activity_body" *ngIf="hasActivity">
+            <ul class="activity_timeline" *ngFor="let activity of allActivity">
+                <li class="activity_time-label">
+                    <span class="activity_date">{{activity.created_date | date: 'longDate'}}</span>
+                </li>
+                <li>
+                    <i *ngIf="activity.type === 'Application'" class="material-icons maroon">school</i>
+                    <i *ngIf="activity.type === 'Client'" class="material-icons maroon">person</i>
+                    <i *ngIf="activity.type === 'Mail'" class="material-icons maroon">mail</i>
+                    <i *ngIf="activity.type === 'Assignee'" class="material-icons maroon">manage_accounts</i>
+                    <i *ngIf="activity.type === 'Category'" class="material-icons maroon">category</i>
+                    <i *ngIf="activity.type === 'Note'" class="material-icons maroon">assignment</i>
+                    <div class="activity_time-item">
+                                <span class="time"><i class="material-icons small">schedule</i>
+                                    {{activity.time}} | {{activity.created_date | date: 'h:mm'}}
+                                </span>
+                        <h3 class="timeline-header">{{activity.title}}</h3>
+                        <div *ngIf="activity.description !== ''" class="timeline-body">
+                            <p *ngFor="let desc of activity.description">{{desc}}</p>
+                        </div>
+                        <div class="timeline-footer" *ngIf="activity.description !== '' && activity.type == 'Application'">
+                            <button mat-raised-button class="btn-primary">
+                                <i class="material-icons mid">remove_red_eye</i>View Application
+                            </button>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+

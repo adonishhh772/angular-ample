@@ -1,4 +1,4 @@
-ample_delete.table_responsive{
+.table_responsive{
     width: 100%;
     margin-top: -30px;
 }
@@ -24,7 +24,7 @@ ample_delete.table_responsive{
 }
 
 .ample_delete{
-    margin-top: 8px !important;
+    margin-top: 10px !important;
     background-color: #f44336;
     color: white;
 }

@@ -115,7 +115,7 @@
             </div>
             <div class="row">
                 <div class="row col-md-5L mb-10">
-                    <div class="col-md-12 row border p-10">
+                    <div [className]="isSubmitted &&errorControl.password.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
                         <div class="col-sm-2 pt-15">
                             <span class="material-icons">password</span>
                         </div>
@@ -163,6 +163,13 @@
             <div class="row">
                 <div class="row col-md-5L mb-10">
                     <div class="col-md-12 row border p-10">
+                        <mat-slide-toggle [(ngModel)]="agent === undefined ? '' : agent.is_subAgent" formControlName="is_subAgent">Is Sub Agent</mat-slide-toggle>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
                             <span class="material-icons">alternate_email</span>
                         </div>
@@ -175,17 +182,19 @@
             </div>
             <div class="row">
                 <div class="row col-md-5L mb-10">
-                    <div class="col-md-12 row border p-10">
+                    <div [className]="isSubmitted &&errorControl.branch.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
                         <div class="col-sm-2 pt-15">
                             <span class="material-icons">mediation</span>
                         </div>
                         <mat-form-field class="col-md-12">
-                            <mat-label>Branch</mat-label>
+                            <mat-label>Branch *</mat-label>
                             <mat-select [(ngModel)]="agent === undefined ? '' : agent.branch" formControlName="branch" ngDefaultControl>
                                 <mat-option *ngFor="let branch of branches" [value]="branch.branch_name">
                                     {{branch.branch_name}}
                                 </mat-option>
                             </mat-select>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.branch.errors?.required">
+                                Branch is required.</mat-hint>
                         </mat-form-field>
                     </div>
                 </div>

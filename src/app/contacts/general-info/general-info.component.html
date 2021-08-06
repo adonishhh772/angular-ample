@@ -1,0 +1,198 @@
+<div class="col-md-12 flex">
+    <div class="col-md-4 p-10" *ngIf="link === 'Client Overview' || link === 'Personal Details'">
+        <div class="col-md-12">
+            <div class="general_container">
+                <mat-card class="status_detail" *ngIf="link === 'Client Overview'">
+                    <mat-card-header>
+                        <mat-card-title class="sub_card_header col-md-12">
+                            <div class="col-md-10">Status</div>
+                            <div class="col-md-2">
+                                <i *ngIf="hide" class="material-icons" (click)="toggleStatus()">add</i>
+                                <i *ngIf="!hide" class="material-icons" (click)="toggleStatus()">remove</i>
+                            </div>
+                        </mat-card-title>
+                    </mat-card-header>
+
+                    <mat-card-content class="status_container" *ngIf="!hide">
+                        <div class="col-md-12 status_body" *ngIf="isLoaded">
+                            <p class="status_head">{{allStatus[0].status}}</p>
+
+                            <div class="status_options">
+                                <button *ngIf="allStatus[0].status === 'Client' || allStatus[0].status === 'Follow Up'"
+                                        [disabled]="isProcessing" (click)="changeStatus('Closed')"
+                                        matTooltip="Convert to close" mat-mini-fab
+                                        class="ample_button small_button top mr-10">
+                                    <mat-icon class="small_icon">close</mat-icon>
+                                </button>
+                                <button *ngIf="allStatus[0].status === 'Follow Up'" (click)="changeStatus('Client')"
+                                        [disabled]="isProcessing" matTooltip="Convert to Clients" mat-mini-fab
+                                        class="ample_button small_button top mr-10">
+                                    <mat-icon class="small_icon">person</mat-icon>
+                                </button>
+                                <button *ngIf="allStatus[0].status === 'New Lead'" (click)="changeStatus('Follow Up')"
+                                        [disabled]="isProcessing" matTooltip="Convert to Follow Up" mat-mini-fab
+                                        class="ample_button small_button top mr-10">
+                                    <mat-icon class="small_icon">expand_less</mat-icon>
+                                </button>
+                                <button *ngIf="allStatus[0].assigned_to === ''" mat-raised-button
+                                        matTooltip="Assign Users"
+                                        (click)="openClientDialog('assign',null, null,client[0].name,null)"
+                                        class="ample_button">Assign Users
+                                </button>
+                                <button *ngIf="allStatus[0].assigned_to !== ''" mat-raised-button
+                                        matTooltip="Assign Users"
+                                        (click)="openClientDialog('assign',allStatus[0].assigned_to, allStatus[0].followUp,client[0].name,null)"
+                                        class="ample_button">{{allStatus[0].assigned_to}}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col-md-12 status_body">
+                            <p class="category_head">Category</p>
+
+                            <div class="category_options flex">
+                                <div class="col-md-10">
+                                    <p class="cat_name">{{categoryName}}</p>
+                                </div>
+                                <div class="col-md-2">
+                                    <button matTooltip="Update Category" mat-mini-fab
+                                            (click)="openClientDialog('category',null, null,client[0].name,categoryName)"
+                                            class="ample_button small_button mr-10">
+                                        <mat-icon class="small_icon">edit</mat-icon>
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+
+                <mat-card class="general_info" *ngIf="link === 'Client Overview' || link === 'Personal Details'">
+                    <mat-card-header>
+                        <mat-card-title class="general_card_header col-md-12">
+                            <div class="col-md-10">General Information</div>
+                            <div class="col-md-2">
+                                <button matTooltip="Update Information" mat-mini-fab
+                                        class="ample_button small_button mr-10">
+                                    <mat-icon class="small_icon">edit</mat-icon>
+                                </button>
+                            </div>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="general_body">
+                            <div class="col-md-12 prtb-10">
+                                <div class="col-md-12 header">
+                                    <span class="material-icons">person_add</span>
+                                    <span class="icon_text">Added By</span>
+                                </div>
+                                <div class="col-md-12 pl-30 text-disabled">{{client[0].added_by}}</div>
+                            </div>
+                            <div class="col-md-12 prtb-10">
+                                <div class="col-md-12 header">
+                                    <span class="material-icons">date_range</span>
+                                    <span class="icon_text">Created At</span>
+                                </div>
+                                <div class="col-md-12 pl-30 text-disabled">{{client[0].create_date | date:'longDate'}}
+                                </div>
+                            </div>
+                            <div class="col-md-12 prtb-10">
+                                <div class="col-md-12 header">
+                                    <span class="material-icons">mediation</span>
+                                    <span class="icon_text">Branch</span>
+                                </div>
+                                <div class="col-md-12 pl-30 text-disabled">{{client[0].branch}}</div>
+                            </div>
+                            <div class="col-md-12 prtb-10">
+                                <div class="col-md-12 header">
+                                    <span class="material-icons">how_to_reg</span>
+                                    <span class="icon_text">Referred By</span>
+                                </div>
+                                <div class="col-md-12 pl-30 text-disabled">{{client[0].referred}}</div>
+                            </div>
+                            <div class="col-md-12 prtb-10">
+                                <div class="col-md-12 header">
+                                    <span class="material-icons">article</span>
+                                    <span class="icon_text">Description</span>
+                                </div>
+                                <div class="col-md-12 pl-30 text-disabled">{{client[0].description}}</div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+
+                <mat-card class="reminder" *ngIf="link === 'Client Overview'">
+                    <mat-card-header>
+                        <mat-card-title class="general_card_header col-md-12">
+                            <div class="col-md-6">Reminder</div>
+                            <div class="col-md-6">
+                                <button (click)="goToNotes()" mat-raised-button matTooltip="Add Reminder" class="ample_button">Add Reminder</button>
+                            </div>
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="status_body">
+                            <p class="p-10">No Upcoming Reminders</p>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="col-md-8 p-10" *ngIf="link === 'Client Overview'">
+        <div>
+            <mat-card class="activity_detail">
+                <mat-card-header>
+                    <mat-card-title class="sub_card_header col-md-12">
+                        <div class="col-md-10">Overview</div>
+                    </mat-card-title>
+                </mat-card-header>
+                <mat-card-content>
+                    <div class="add_reminder p-10">
+                        <form [formGroup]="addCommentForm" (ngSubmit)="addComment()">
+                            <div class="col-md-12 flex">
+                                <div class="col-md-9 pr-10">
+                                    <mat-form-field class="col-md-12" appearance="outline">
+                                        <mat-label>Type a comment</mat-label>
+                                        <input formControlName="notes" type="text" matInput #input>
+                                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.notes.errors?.required">
+                                            Comment required.</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-md-3">
+                                    <button mat-raised-button [disabled]="isProcessingComment" color="primary" class="mr-10 button_comment">Post a comment
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="col-md-12 flex">
+                                <div class="col-md-3">
+                                    <mat-checkbox (change)="setAll($event.checked)" class="example-margin">Add a reminder
+                                    </mat-checkbox>
+                                </div>
+                                <div class="col-md-5" *ngIf="setReminder">
+                                    <mat-form-field class="col-md-12" appearance="outline">
+                                        <mat-label>Reminder Date</mat-label>
+                                        <input formControlName="reminder_date" type="date" matInput #input>
+                                        <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.reminder_date.errors?.required">
+                                            Reminder date is required.</mat-hint>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <app-overview [allActivity]="allActivity" [hasActivity]="hasActivity"></app-overview>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+
+    <div class="col-md-12" *ngIf="link === 'Notes'">
+        <app-notes [clientName]="client[0].name"></app-notes>
+    </div>
+
+    <div class="col-md-12" *ngIf="link === 'Personal Details'">
+        <app-personal-details [client]="client[0]"></app-personal-details>
+    </div>
+</div>

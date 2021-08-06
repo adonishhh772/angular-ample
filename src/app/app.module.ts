@@ -17,10 +17,13 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import {HashLocationStrategy, LocationStrategy} from '@angular/common';
+import {ApplicationTypeService} from './Services/application-type.service';
 
 export function tokenGetter() {
     return localStorage.getItem('access_token');
 }
+
+
 
 @NgModule({
     declarations: [
@@ -52,7 +55,7 @@ export function tokenGetter() {
 
     ],
     exports: [],
-    providers: [AuthService, AuthGuard, {provide: LocationStrategy, useClass: HashLocationStrategy}],
+    providers: [AuthService, ApplicationTypeService, AuthGuard, {provide: LocationStrategy, useClass: HashLocationStrategy}],
     bootstrap: [AppComponent]
 })
 export class AppModule {

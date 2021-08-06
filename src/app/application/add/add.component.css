@@ -1,0 +1,41 @@
+.application{
+    border-top: 2px solid #6EC1E4;
+    margin-bottom: 10px;
+}
+
+.application_body {
+    flex: 1 1 auto;
+    min-height: 1px;
+    padding: 1rem;
+}
+
+.application_footer {
+    border-top: 1px solid rgba(0, 0, 0, 0.13);
+    padding: 10px;
+    text-align: right;
+}
+
+.requirements{
+    background-color: #f5f5f5;
+    border: 1px solid #e3e3e3;
+    margin: 25px 20px 20px 20px;
+    border-radius: 5px;
+}
+
+.requirements h3{
+    margin: 0 !important;
+}
+
+.move_up{
+    bottom: 5px !important;
+    left: 15px;
+}
+
+.all_req{
+    list-style: circle;
+}
+
+.drag_down{
+    position: relative;
+    top: 7px;
+}

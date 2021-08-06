@@ -23,8 +23,8 @@ export class TasksComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.getTasks();
         this.getBranchByName();
+
     }
 
     goTo(nav: any): any {
@@ -112,6 +112,7 @@ export class TasksComponent implements OnInit {
         this.http.get<any>(this.apiUrl + 'branch/getBranch/' + this.branchName).subscribe({
             next: data => {
                 this.branchId = data.data[0]._id;
+                this.getTasks();
             },
             error: error => {
                 this.errorMessage = error.message;

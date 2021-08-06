@@ -1,0 +1,106 @@
+<div mat-dialog-title class="dialog_title col-md-12 flex">
+    <div class="col-md-10">
+        <h2 *ngIf="data.result === null" class="m0">Add Status</h2>
+        <h2 *ngIf="data.result !== null" class="m0">Edit Status</h2>
+    </div>
+    <div class="col-md-2 text_right">
+        <button mat-mini-fab (click)="onNoClick()" class="btn-top btn-hidden">
+            <mat-icon>highlight_off</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div mat-dialog-content class="mat-typography mat-dialog-content">
+    <form [formGroup]="data.result === null ? addTypesForm: data.statusType === 'type' ? updateTypesForm: updateStatusForm" >
+    <div class="col-md-12" *ngIf="data.statusType === 'type' || data.statusType === ''">
+
+            <div class="col-md-12">
+                <div class="row col-md-10 mb-10">
+                    <div [className]="isSubmitted &&errorControl.title.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">badge</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Title *</mat-label>
+                            <input formControlName="title" type="text" ngModel="{{data.result === null? '' : data.result.status}}" matInput #input>
+                            <mat-hint class="mat-error" align="start"
+                                      *ngIf="isSubmitted &&errorControl.title.errors?.required">
+                                Title is required.
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="row col-md-10 mb-10">
+                    <div [className]="isSubmitted &&errorControl.description.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">description</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Description *</mat-label>
+                            <textarea formControlName="description" ngModel="{{data.result === null? '' : data.result.description}}" matInput #input></textarea>
+                            <mat-hint class="mat-error" align="start"
+                                      *ngIf="isSubmitted &&errorControl.description.errors?.required">
+                                Description is required.
+                            </mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+    </div>
+    <div class="col-md-12" *ngIf="data.statusType === 'status' || data.statusType === ''">
+            <h3 class="m0">Enter Status</h3>
+            <table class="table table_responsive table_bordered table_striped">
+                <thead>
+                <tr>
+                    <th class="text-center">#</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Position</th>
+                    <th class="text-center"></th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr *ngFor="let stat of statusArr">
+                    <td>{{stat}}</td>
+                    <td class="status">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Status</mat-label>
+                            <input matInput placeholder="Enter Status" formControlName="status_{{stat}}" ngModel="{{allStatus[stat -1] === undefined? '' : allStatus[stat -1].status}}">
+                            <mat-hint class="mat-error" align="start"
+                                      *ngIf="isSubmitted &&errorControl['status_'+stat].errors?.required">
+                                Status is required.
+                            </mat-hint>
+                        </mat-form-field>
+                    </td>
+                    <td class="position">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Position</mat-label>
+                            <input matInput disabled placeholder="Enter Status" value="{{stat}}">
+                        </mat-form-field>
+                    </td>
+                    <td class="actions">
+                        <button mat-mini-fab color="warn" class="fab-button-small" *ngIf="stat !== 1 && stat === statusArr.length && allStatus[stat -1] === undefined"
+                                (click)="deleteStatusList(stat)">
+                            <mat-icon class="fab_icon_small">remove</mat-icon>
+                        </button>
+                        <button mat-mini-fab color="primary" class="fab-button-small" (click)="addStatusList(null, true)">
+                            <mat-icon class="fab_icon_small">add</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+                </tbody>
+
+            </table>
+    </div>
+    </form>
+</div>
+
+<div mat-dialog-actions class="col-md-12 mat-typography mat-dialog-content padding-top10" align="end">
+    <button class="ample_button" *ngIf="data.result === null" [disabled]="isProcessing" (click)="addTypes()" mat-button>Add</button>
+    <button class="ample_button" *ngIf="data.result !== null && data.statusType=== 'type'" [disabled]="isProcessing" (click)="updateTypes()" mat-button>Update</button>
+    <button class="ample_button" *ngIf="data.result !== null && data.statusType=== 'status'" [disabled]="isProcessing" (click)="updateStatus()" mat-button>Update</button>
+    <button mat-button [disabled]="isProcessing" (click)="onNoClick()" color="warn">Cancel</button>
+</div>

@@ -4,7 +4,7 @@
             <app-general-info [isLoaded]="isLoaded" [hideAgent]="hideAgent" [agentData]="agentData" [agentCount]="agentCount" [institute]="naviagtionData" [errorMessage]="errorMessage"></app-general-info>
         </div>
         <div class="col-md-8">
-            <mat-tab-group class="institute_tab" (selectedTabChange)="onTabChanged($event);">
+            <mat-tab-group class="institute_tab" [selectedIndex]="index"  (selectedTabChange)="onTabChanged($event);">
                 <mat-tab label="Dashboard">
                     <app-dashboard></app-dashboard>
                 </mat-tab>

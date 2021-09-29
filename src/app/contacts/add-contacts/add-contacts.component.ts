@@ -9,7 +9,7 @@ import {UserService} from '../../Services/user.service';
 import {ActivityService} from '../../Services/activity.service';
 import {ClientStatusService} from '../../Services/client-status.service';
 import {ClientPassportService} from '../../Services/client-passport.service';
-import {MatTableDataSource} from '@angular/material/table';
+
 
 @Component({
     selector: 'app-add-contacts',
@@ -139,13 +139,13 @@ export class AddContactsComponent implements OnInit {
                     if (this.addContactsForm.value.passport_no !== '') {
                         const passportDetail = {
                             client_id: result.data._id,
-                            passport: this.addContactsForm.value.passport_no,
+                            passport_no: this.addContactsForm.value.passport_no,
                             country: this.addContactsForm.value.country,
-                            birthPlace: '',
-                            nationality: '',
-                            placeOfIssue: '',
-                            dateOfIssue: '',
-                            dateOfexpiry: '',
+                            birthPlace: 'N/A',
+                            nationality: 'N/A',
+                            placeOfIssue: 'N/A',
+                            dateOfIssue: 'N/A',
+                            dateOfexpiry: 'N/A',
                             hasVisa: false,
                             added_by: localStorage.getItem('userName'),
                         };

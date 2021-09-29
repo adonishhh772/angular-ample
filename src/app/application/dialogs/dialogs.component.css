@@ -1,0 +1,22 @@
+.dialog_title{
+    border-bottom: 1px solid;
+    display: flex !important;
+}
+
+.text_right{
+    text-align: right;
+}
+
+.btn-hidden{
+    box-shadow: none !important;
+    background-color: transparent !important;
+    color: black !important;
+}
+
+.dialog_course{
+    width: 500px;
+}
+
+.dialog_intake, .dialog_address{
+    width: 525px;
+}

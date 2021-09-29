@@ -199,6 +199,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     margin: 10px;
 }
 
+.mbtlr-10{
+    margin: 10px 10px 20px 10px;
+}
+
 .mb-20{
     margin-bottom: 20px;
 }
@@ -241,6 +245,10 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .mr-10{
     margin-right: 10px !important;
+}
+
+.mr-40{
+    margin-right: 40px !important;
 }
 
 

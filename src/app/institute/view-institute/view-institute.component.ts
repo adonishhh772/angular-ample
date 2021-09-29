@@ -12,6 +12,7 @@ export class ViewInstituteComponent implements OnInit {
     naviagtionData: any[] = [];
     agentData: any[] = [];
     errorMessage = '';
+    index = 0;
     agentCount = 0;
     isLoaded = false;
     hideAgent = false;
@@ -22,6 +23,9 @@ export class ViewInstituteComponent implements OnInit {
 
   ngOnInit(): void {
       this.route.queryParams.subscribe(params => {
+          if (params.action){
+              this.index = 3;
+          }
           // console.log(params);
           this.http.get<any>(`${this.apiUrl + 'institute/' + params.id}`).subscribe({
               next: data => {

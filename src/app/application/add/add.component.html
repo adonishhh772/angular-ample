@@ -16,8 +16,10 @@
                                         {{appType.title}}
                                     </mat-option>
                                 </mat-select>
-                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.application_type.errors?.required">
-                                    Application Type is required.</mat-hint>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.application_type.errors?.required">
+                                    Application Type is required.
+                                </mat-hint>
                             </mat-form-field>
                         </div>
                     </div>
@@ -29,18 +31,23 @@
                             <div class="col-md-9 pr-15">
                                 <mat-form-field class="col-md-12">
                                     <mat-label>Select Client *</mat-label>
-                                    <mat-select formControlName="client" ngDefaultControl>
+                                    <mat-select formControlName="client" ngDefaultControl
+                                                (selectionChange)="setClientMail($event.value)">
                                         <mat-option *ngFor="let clients of allClients" [value]="clients.name">
                                             {{clients.name}} - {{clients.phone}}
                                         </mat-option>
                                     </mat-select>
-                                    <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.client.errors?.required">
-                                        Client is required.</mat-hint>
+                                    <mat-hint class="mat-error" align="start"
+                                              *ngIf="isSubmitted &&errorControl.client.errors?.required">
+                                        Client is required.
+                                    </mat-hint>
                                 </mat-form-field>
                             </div>
                             <div class="col-md-3">
-                                <button mat-raised-button class="ample_button drag_down">
-                                <mat-icon>add_circle</mat-icon> Add Client
+                                <button mat-raised-button class="ample_button drag_down"
+                                        (click)="openApplicationDialog('Client')">
+                                    <mat-icon>add_circle</mat-icon>
+                                    Add Client
                                 </button>
                             </div>
                         </div>
@@ -50,12 +57,29 @@
                             <div class="col-sm-2 pt-15">
                                 <span class="material-icons">foundation</span>
                             </div>
-                            <mat-form-field class="col-md-12">
-                                <mat-label>Select Institute *</mat-label>
-                                <input formControlName="institute" type="text" matInput #input>
-                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.institute.errors?.required">
-                                    Institute is required.</mat-hint>
-                            </mat-form-field>
+                            <div class="col-md-9 pr-15">
+                                <mat-form-field class="col-md-12">
+                                    <mat-label>Select Institute *</mat-label>
+                                    <mat-select formControlName="institute" ngDefaultControl
+                                                (selectionChange)="setInstituteDetail($event.value)">
+                                        <mat-option *ngFor="let institute of allInstitute"
+                                                    [value]="institute.institute_name">
+                                            {{institute.institute_name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-hint class="mat-error" align="start"
+                                              *ngIf="isSubmitted &&errorControl.institute.errors?.required">
+                                        Institute is required.
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <button mat-raised-button class="ample_button drag_down"
+                                        (click)="openApplicationDialog('Institute')">
+                                    <mat-icon>add_circle</mat-icon>
+                                    Add Institute
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row col-md-12 mb-10">
@@ -63,12 +87,28 @@
                             <div class="col-sm-2 pt-15">
                                 <span class="material-icons">subject</span>
                             </div>
-                            <mat-form-field class="col-md-12">
-                                <mat-label>Select Course *</mat-label>
-                                <input formControlName="course" type="number" matInput #input>
-                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.course.errors?.required">
-                                    Course is required.</mat-hint>
-                            </mat-form-field>
+                            <div class="col-md-9 pr-15">
+                                <mat-form-field class="col-md-12">
+                                    <mat-label>Select Course *</mat-label>
+                                    <mat-select formControlName="course" ngDefaultControl>
+                                        <mat-option *ngFor="let course of courses"
+                                                    [value]="course.name">
+                                            {{course.name}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-hint class="mat-error" align="start"
+                                              *ngIf="isSubmitted &&errorControl.course.errors?.required">
+                                        Course is required.
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <button mat-raised-button class="ample_button drag_down"
+                                        (click)="openApplicationDialog('Course')">
+                                    <mat-icon>add_circle</mat-icon>
+                                    Add Course
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row col-md-12 mb-10">
@@ -76,12 +116,28 @@
                             <div class="col-sm-2 pt-15">
                                 <span class="material-icons">event_available</span>
                             </div>
-                            <mat-form-field class="col-md-12">
-                                <mat-label>Select Start Date *</mat-label>
-                                <input formControlName="start_date" type="date" matInput #input>
-                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.start_date.errors?.required">
-                                    Start Date is required.</mat-hint>
-                            </mat-form-field>
+                            <div class="col-md-9 pr-15">
+                                <mat-form-field class="col-md-12">
+                                    <mat-label>Select Start Date *</mat-label>
+                                    <mat-select formControlName="start_date" ngDefaultControl>
+                                        <mat-option *ngFor="let intake of intakes"
+                                                    [value]="intake.intake_date">
+                                            {{intake.intake_date | date: 'dd/MM/yyyy'}} - {{intake.description}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-hint class="mat-error" align="start"
+                                              *ngIf="isSubmitted &&errorControl.start_date.errors?.required">
+                                        Start Date is required.
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <button mat-raised-button class="ample_button drag_down"
+                                        (click)="openApplicationDialog('Start Date')">
+                                    <mat-icon>add_circle</mat-icon>
+                                    Add Start Date
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row col-md-12 mb-10">
@@ -89,24 +145,42 @@
                             <div class="col-sm-2 pt-15">
                                 <span class="material-icons">place</span>
                             </div>
-                            <mat-form-field class="col-md-12">
-                                <mat-label>Select Location *</mat-label>
-                                <input formControlName="location" type="text" matInput #input>
-                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.location.errors?.required">
-                                    Location is required.</mat-hint>
-                            </mat-form-field>
+                            <div class="col-md-9 pr-15">
+                                <mat-form-field class="col-md-12">
+                                    <mat-label>Select Location *</mat-label>
+                                    <mat-select formControlName="location" ngDefaultControl>
+                                        <mat-option *ngFor="let locate of address"
+                                                    [value]="locate._id">
+                                            {{locate.street}}, {{locate.suburb}}, {{locate.state}} , {{locate.country}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <mat-hint class="mat-error" align="start"
+                                              *ngIf="isSubmitted &&errorControl.location.errors?.required">
+                                        Location is required.
+                                    </mat-hint>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-3">
+                                <button mat-raised-button class="ample_button drag_down"
+                                        (click)="openApplicationDialog('Location')">
+                                    <mat-icon>add_circle</mat-icon>
+                                    Add Location
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    <div class="row col-md-12 mb-10">
+                    <div class="row col-md-6 mb-10">
                         <div [className]="isSubmitted &&errorControl.finish_date.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
-                            <div class="col-sm-2 pt-15">
+                            <div class="col-sm-2 pt-15 pr-10">
                                 <span class="material-icons">today</span>
                             </div>
                             <mat-form-field class="col-md-12">
                                 <mat-label>Finish Date *</mat-label>
                                 <input formControlName="finish_date" type="date" matInput #input>
-                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.finish_date.errors?.required">
-                                    Finish Date is required.</mat-hint>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.finish_date.errors?.required">
+                                    Finish Date is required.
+                                </mat-hint>
                             </mat-form-field>
                         </div>
                     </div>
@@ -117,7 +191,8 @@
                             </div>
                             <mat-form-field class="col-md-12">
                                 <mat-label>Tution Fee</mat-label>
-                                <input formControlName="tution_fee" type="number" matInput #input>
+                                <input formControlName="tution_fee" type="number"
+                                       ngModel="{{courses.length === 0 ? '' : courses[0].tution_fee}}" matInput #input>
                             </mat-form-field>
                         </div>
                     </div>
@@ -137,10 +212,24 @@
                             <div class="col-sm-2 pt-15">
                                 <span class="material-icons">person_alt</span>
                             </div>
-                            <mat-form-field class="col-md-12">
-                                <mat-label>Super Agent</mat-label>
-                                <input matInput formControlName="super_agent" type="text">
-                            </mat-form-field>
+                            <div class="col-md-8 pr-15">
+                                <mat-form-field class="col-md-12">
+                                    <mat-label>Super Agent</mat-label>
+                                    <mat-select formControlName="super_agent" ngDefaultControl>
+                                        <mat-option *ngFor="let agent of allAgent"
+                                                    [value]="agent.company_name">
+                                            {{agent.company_name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <button mat-raised-button class="ample_button drag_down"
+                                        (click)="openApplicationDialog('Super Agent')">
+                                    <mat-icon>add_circle</mat-icon>
+                                    Add Super Agent
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row col-md-12 mb-10">
@@ -148,10 +237,24 @@
                             <div class="col-sm-2 pt-15">
                                 <span class="material-icons">support_agent</span>
                             </div>
-                            <mat-form-field class="col-md-12">
-                                <mat-label>Sub Agent</mat-label>
-                                <input matInput formControlName="sub_agent" type="text">
-                            </mat-form-field>
+                            <div class="col-md-8 pr-15">
+                                <mat-form-field class="col-md-12">
+                                    <mat-label>Sub Agent</mat-label>
+                                    <mat-select formControlName="sub_agent" ngDefaultControl>
+                                        <mat-option *ngFor="let sub of subAgent"
+                                                    [value]="sub.company_name">
+                                            {{sub.company_name}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-4">
+                                <button mat-raised-button class="ample_button drag_down"
+                                        (click)="openApplicationDialog('Sub Agent')">
+                                    <mat-icon>add_circle</mat-icon>
+                                    Add Sub Agent
+                                </button>
+                            </div>
                         </div>
                     </div>
                     <div class="row col-md-12 mb-10">
@@ -159,21 +262,22 @@
                             <div class="col-sm-2 pt-15">
                                 <span class="material-icons">face</span>
                             </div>
+
                             <mat-form-field class="col-md-12">
                                 <mat-label>Consultant</mat-label>
-                                <input matInput formControlName="consultant" type="text">
+                                <mat-select formControlName="consultant" ngDefaultControl>
+                                    <mat-option *ngFor="let consulte of consultant"
+                                                [value]="consulte.name">
+                                        {{consulte.name}}
+                                    </mat-option>
+                                </mat-select>
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="row col-md-12 mb-10">
+
+                    <div class="row col-md-12 mb-10" *ngIf="notify">
                         <div class="col-md-12 row border p-10">
-                            <div class="col-sm-2 pt-15">
-                                <span class="material-icons">add_business</span>
-                            </div>
-                            <mat-form-field class="col-md-12">
-                                <mat-label>notify</mat-label>
-                                <input matInput formControlName="notify" type="text">
-                            </mat-form-field>
+                            <mat-slide-toggle formControlName="notify">Notify ({{email}})</mat-slide-toggle>
                         </div>
                     </div>
                 </form>
@@ -183,41 +287,44 @@
             <div class="requirements">
                 <div class="col-md-12 flex p-15">
                     <h3>Requirements</h3>
-                    <button mat-mini-fab color="primary" class="fab-button-small move_up" matTooltip="Edit Requirements">
+                    <button *ngIf="editRequirement" mat-mini-fab color="primary" class="fab-button-small move_up"
+                            matTooltip="Edit Requirements" (click)="goToInstitute()">
                         <mat-icon class="fab_icon_small">create</mat-icon>
                     </button>
                 </div>
                 <div class="col-md-12 p-lrt15">
                     <p>Turnaround Time</p>
                     <ul class="all_req">
-                        <li></li>
+                        <li [innerHTML]="requirement.length === 1 ? requirement[0].turnaround_time : ''"></li>
                     </ul>
 
                     <p>Documents Required</p>
                     <ul class="all_req">
-                        <li></li>
+                        <li [innerHTML]="requirement.length === 1 ? requirement[0].document_requirement: ''"></li>
                     </ul>
 
                     <p>Minimum Requirements</p>
                     <ul class="all_req">
-                        <li></li>
+                        <li [innerHTML]="requirement.length === 1 ? requirement[0].minimum_requirement : ''"></li>
                     </ul>
 
                     <p>Lodgement Procedure</p>
                     <ul class="all_req">
-                        <li></li>
+                        <li [innerHTML]="requirement.length === 1 ?requirement[0].lodgement_procedure : ''"></li>
                     </ul>
 
                     <p>Commission Processing Timeframe</p>
                     <ul class="all_req">
-                        <li></li>
+                        <li [innerHTML]="requirement.length === 1 ? requirement[0].commission_time : ''"></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
     <div class="application_footer">
-        <button mat-raised-button [disabled]="isProcessing" color="primary" (click)="addApplication()" class="mr-10">Add</button>
+        <button mat-raised-button [disabled]="isProcessing" color="primary" (click)="addApplication()" class="mr-10">
+            Add
+        </button>
         <button mat-raised-button [disabled]="isProcessing" color="warn">Cancel</button>
     </div>
 </div>

@@ -1,0 +1,1040 @@
+<div mat-dialog-title class="dialog_title col-md-12">
+    <div class="col-md-10">
+        <h2 class="m0">Add {{data.dialogType}}</h2>
+    </div>
+    <div class="col-md-2 text_right">
+        <button mat-mini-fab (click)="onNoClick()" class="btn-top btn-hidden">
+            <mat-icon>highlight_off</mat-icon>
+        </button>
+    </div>
+</div>
+
+<div mat-dialog-content class="mat-typography mat-dialog-content">
+    <div [className]="data.dialogType === 'Course' ? 'dialog_course' : data.dialogType === 'Start Date' ? 'dialog_intake' : data.dialogType === 'Location' ? 'dialog_address' : ''">
+        <form [formGroup]="data.dialogType === 'Client' ? addClientForm : data.dialogType === 'Institute' ? addInstituteForm: data.dialogType === 'Course' ? addCourseForm: data.dialogType === 'Location' ? addAddressForm: data.dialogType == 'Start Date' ? addIntakesForm : addAgentForm">
+            <div class="col-md-12" *ngIf="data.dialogType === 'Client'">
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40">
+                        <h3>Client Details</h3>
+                    </div>
+                    <div class="col-md-5L mr-40">
+                        <h3>Address Details</h3>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControl.name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">person</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Name *</mat-label>
+                                <input formControlName="name" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.name.errors?.required">
+                                    Name is required.
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">directions_subway</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Street</mat-label>
+                                <input formControlName="street" type="text" value="{{streetName}}" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControl.gender.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">transgender</span>
+                            </div>
+                            <mat-radio-group aria-label="Select an option" formControlName="gender">
+                                <h6 class="mb-0">Sex *</h6>
+                                <mat-radio-button class="pr-10" value="male">Male</mat-radio-button>
+                                <mat-radio-button value="female">Female</mat-radio-button>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.gender.errors?.required">
+                                    Sex is required.
+                                </mat-hint>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">location_city</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>State</mat-label>
+                                <input formControlName="state" type="text" value="{{state}}" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControl.email.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">mail</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Email *</mat-label>
+                                <input formControlName="email" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.email.errors?.required">
+                                    Email is required.
+                                </mat-hint>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.email.errors?.pattern">
+                                    Email not valid.
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">local_shipping</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Post Code</mat-label>
+                                <input formControlName="post_code" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControl.phone.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">stay_current_portrait</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Phone Number *</mat-label>
+                                <input formControlName="phone" type="number" matInput #input>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.phone.errors?.required">
+                                    Phone Number is required.
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">flag</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Country</mat-label>
+                                <mat-select [(ngModel)]="countryName" formControlName="country" ngDefaultControl>
+                                    <mat-option *ngFor="let con of country" [value]="con.name">
+                                        {{con.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControl.birthday.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">event_available</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>DOB *</mat-label>
+                                <input formControlName="birthday" type="date" matInput #input>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.birthday.errors?.required">
+                                    Birthday is required.
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20" *ngIf="isClient">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">category</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Category</mat-label>
+                                <mat-select formControlName="category" ngDefaultControl>
+                                    <mat-option value="None">
+                                        None
+                                    </mat-option>
+                                    <mat-option *ngFor="let cat of category" [value]="cat.name">
+                                        {{cat.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">wysiwyg</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Passport Number</mat-label>
+                                <input formControlName="passport_no" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">article</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Description</mat-label>
+                                <textarea formControlName="description" matInput #input></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">how_to_reg</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Referred By</mat-label>
+                                <input formControlName="referred" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">password</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Password *</mat-label>
+                                <input matInput formControlName="password" #password maxlength="8"
+                                       [type]="hidePass ? 'password' : 'text'">
+                                <div matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'"
+                                     class="no-border-btn" [attr.aria-pressed]="hidePass">
+                                    <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </div>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.password.errors?.required">
+                                    Password is required.
+                                </mat-hint>
+                                <mat-hint align="start" class="mat-error"
+                                          *ngIf="isSubmitted && errorControl.password.errors?.minlength">Max 8 characters
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mb-20">
+                        <div [className]="isSubmitted &&errorControl.branch.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">account_tree</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Branch</mat-label>
+                                <mat-select formControlName="branch" ngDefaultControl>
+                                    <mat-option *ngFor="let branch of branches" [value]="branch.branch_name">
+                                        {{branch.branch_name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControl.branch.errors?.required">
+                                    Branch is required.
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">add_business</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Marketing Manager</mat-label>
+                                <mat-select formControlName="marketing_manager" ngDefaultControl>
+                                    <mat-option *ngFor="let manager of managers" [value]="manager.manager">
+                                        {{manager.manager_name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-10 mb-20">
+                        <div class="col-md-12 p-10">
+                            <mat-radio-group aria-label="Select an option" formControlName="hasVisa">
+                                <h6 class="mb-0">Do you currently hold / Have you held a visa for your intended country of visit?</h6>
+                                <mat-radio-button class="pr-10" value="true" [checked]='true'>Yes</mat-radio-button>
+                                <mat-radio-button value="false">No</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="data.dialogType === 'Institute'">
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40">
+                        <h3>Institute Details</h3>
+                    </div>
+                    <div class="col-md-5L mr-40">
+                        <h3>Address Details</h3>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControlInstitute.institute_name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">business</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Institute Name *</mat-label>
+                                <input formControlName="institute_name" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControlInstitute.institute_name.errors?.required">
+                                    Institute name is required.
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">traffic</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Street</mat-label>
+                                <input formControlName="street" type="text" ngModel="{{streetName}}" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControlInstitute.short_name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">mail</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Short Name *</mat-label>
+                                <input formControlName="short_name" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlInstitute.short_name.errors?.required">
+                                    Short Name is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">directions_subway</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Suburb</mat-label>
+                                <input formControlName="suburb" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControlInstitute.phoneNo.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">stay_current_portrait</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Phone Number *</mat-label>
+                                <input formControlName="phoneNo" type="number" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.phoneNo.errors?.required">
+                                    Phone Number is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">location_city</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>State</mat-label>
+                                <input formControlName="state" type="text" ngModel="{{state}}" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControlInstitute.website.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">language</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Website *</mat-label>
+                                <input formControlName="website" type="url" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlInstitute.website.errors?.required">
+                                    Website is required.</mat-hint>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlInstitute.website.errors?.pattern">
+                                    Invalid Web Address.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">local_shipping</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Post Code</mat-label>
+                                <input formControlName="post_code" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControlInstitute.invoice_to.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">email</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Invoice to *</mat-label>
+                                <input formControlName="invoice_to" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlInstitute.invoice_to.errors?.required">
+                                    Invoice is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">flag</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Country</mat-label>
+                                <mat-select [(ngModel)]="countryName" formControlName="country" ngDefaultControl>
+                                    <mat-option *ngFor="let con of country" [value]="con.name">
+                                        {{con.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControlInstitute.logo.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                                <div class="col-sm-2 pt-15">
+                                    <span class="material-icons">image</span>
+                                </div>
+                                <div class="col-md-12 pt-15">
+                                    <input formControlName="logo" (change)="fileChange($event)" type="file" accept="image/png, image/jpeg, image/jpg" #input>
+                                </div>
+                            <div class="col-md-12 pl-45">
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlInstitute.logo.errors?.required">
+                                    Logo is required.</mat-hint>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorControlInstitute.email.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">alternate_email</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Email Address</mat-label>
+                                <input formControlName="email" type="email" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlInstitute.email.errors?.pattern">
+                                    Invalid Email address.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="data.dialogType === 'Course'">
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40">
+                        <h3>Course Details</h3>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10 mb-10">
+                        <div [className]="isSubmitted &&errorControlCourse.name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">business</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Course Name *</mat-label>
+                                <input formControlName="name" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start"
+                                          *ngIf="isSubmitted &&errorControlCourse.name.errors?.required">
+                                    Course name is required.
+                                </mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10 mb-10">
+                        <div [className]="isSubmitted &&errorControlCourse.level.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">brightness_1</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Level *</mat-label>
+                                <mat-select formControlName="level" ngDefaultControl>
+                                    <mat-option value="English">
+                                        English
+                                    </mat-option>
+                                    <mat-option value="Advanced Diploma">
+                                        Advanced Diploma
+                                    </mat-option>
+                                    <mat-option value="Certificate I">
+                                        Certificate I
+                                    </mat-option>
+                                    <mat-option value="Certificate II">
+                                        Certificate II
+                                    </mat-option>
+                                    <mat-option value="Certificate III">
+                                        Certificate III
+                                    </mat-option>
+                                    <mat-option value="Certificate IV">
+                                        Certificate IV
+                                    </mat-option>
+                                    <mat-option value="Diploma">
+                                        Diploma
+                                    </mat-option>
+                                    <mat-option value="Bachelor Degree">
+                                        Bachelor Degree
+                                    </mat-option>
+                                    <mat-option value="Associate Degree">
+                                        Associate Degree
+                                    </mat-option>
+                                    <mat-option value="Graduate Certificate">
+                                        Graduate Certificate
+                                    </mat-option>
+                                    <mat-option value="Graduate Diploma">
+                                        Graduate Diploma
+                                    </mat-option>
+                                    <mat-option value="Master Degree">
+                                        Master Degree
+                                    </mat-option>
+                                    <mat-option value="Professional Year">
+                                        Professional Year
+                                    </mat-option>
+                                    <mat-option value="Non AQF Year">
+                                        Non AQF Year
+                                    </mat-option>
+                                    <mat-option value="NAATI">
+                                        NAATI
+                                    </mat-option>
+                                    <mat-option value="Others">
+                                        Others
+                                    </mat-option>
+                                </mat-select>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlCourse.level.errors?.required">
+                                    Level is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10 mb-10">
+                        <div [className]="isSubmitted &&errorControlCourse.tution_fee.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">local_atm</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Tution Fee *</mat-label>
+                                <input formControlName="tution_fee" type="number" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted && errorControlCourse.tution_fee.errors?.required">
+                                    Tution Fee is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10 mb-10">
+                        <div [className]="isSubmitted &&errorControlCourse.coe_fee.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">paid</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Fee for COE *</mat-label>
+                                <input formControlName="coe_fee" type="number" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlCourse.coe_fee.errors?.required">
+                                    Fee for COE is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10 mb-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">trending_up</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Commission</mat-label>
+                                <input formControlName="commission" type="number" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10 mb-10">
+                        <div [className]="isSubmitted &&errorControlCourse.broad_field.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">nfc</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Board Field *</mat-label>
+                                <mat-select (selectionChange)="changeField($event.value)" formControlName="broad_field" ngDefaultControl>
+                                    <mat-option value="None">
+                                        None
+                                    </mat-option>
+                                    <mat-option value="Natural and Physical Sciences">
+                                        Natural and Physical Sciences
+                                    </mat-option>
+                                    <mat-option value="Information Technology">
+                                        Information Technology
+                                    </mat-option>
+                                    <mat-option value="Engineering and Related Technologies">
+                                        Engineering and Related Technologies
+                                    </mat-option>
+                                    <mat-option value="Architecture and Building">
+                                        Architecture and Building
+                                    </mat-option>
+                                    <mat-option value="Agriculture, Environmental and Related Studies">
+                                        Agriculture, Environmental and Related Studies
+                                    </mat-option>
+                                    <mat-option value="Health">
+                                        Health
+                                    </mat-option>
+                                    <mat-option value="Education">
+                                        Education
+                                    </mat-option>
+                                    <mat-option value="Management and Commerce">
+                                        Management and Commerce
+                                    </mat-option>
+                                    <mat-option value="Society and Culture">
+                                        Society and Culture
+                                    </mat-option>
+                                    <mat-option value="Creative Arts">
+                                        Creative Arts
+                                    </mat-option>
+                                    <mat-option value="Food, Hospitality and Personal Services">
+                                        Food, Hospitality and Personal Services
+                                    </mat-option>
+                                    <mat-option value="Mixed Field Programmes">
+                                        Mixed Field Programmes
+                                    </mat-option>
+                                </mat-select>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlCourse.broad_field.errors?.required">
+                                    Board Field is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10 mb-10">
+                        <div [className]="isSubmitted &&errorControlCourse.narrow_field.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">door_front</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Narrow Field *</mat-label>
+                                <mat-select formControlName="narrow_field" ngDefaultControl>
+                                    <mat-option *ngFor="let narrow of narrowField" [value]="narrow" >
+                                        {{narrow}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControlCourse.narrow_field.errors?.required">
+                                    Narrow Field is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10 mbtlr-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">description</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Description</mat-label>
+                                <textarea formControlName="description" type="text" rows="10" cols="50" matInput #input></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="data.dialogType === 'Start Date'">
+                <div class="col-md-12">
+                    <div class="row col-md-10 margin_bottom10">
+                        <div [className]="isSubmitted &&errorIntakesControl.intake_date.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">calendar_today</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Intake Date *</mat-label>
+                                <input formControlName="intake_date" type="date" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorIntakesControl.intake_date.errors?.required">
+                                    Intake Date is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">description</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Description</mat-label>
+                                <textarea formControlName="description" type="text" rows="10" cols="50" matInput #input></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="data.dialogType === 'Location'">
+                <div class="col-md-12">
+                    <div class="row col-md-10">
+                        <div class="col-md-12 row p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">add_road</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Street</mat-label>
+                                <input formControlName="street" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10">
+                        <div class="col-md-12 row p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">train</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Suburb</mat-label>
+                                <input formControlName="suburb" type="text" ngModel="{{streetName}}" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10">
+                        <div class="col-md-12 row p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">foundation</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>State</mat-label>
+                                <input formControlName="state" type="text" ngModel="{{state}}" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10">
+                        <div class="col-md-12 row p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">local_shipping</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Post Code</mat-label>
+                                <input formControlName="post_code" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10">
+                        <div class="col-md-12 row p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">flag</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Country</mat-label>
+                                <mat-select [(ngModel)]="countryName" formControlName="country" ngDefaultControl>
+                                    <mat-option *ngFor="let con of country" [value]="con.name">
+                                        {{con.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row col-md-10">
+                        <div [className]="isSubmitted &&errorAddressControl.phone.errors ? 'col-md-12 row error p-10' : 'col-md-12 row p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">stay_current_portrait</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Phone Number *</mat-label>
+                                <input formControlName="phone" type="number" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAddressControl.phone.errors?.required">
+                                    Phone Number is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row col-md-10">
+                        <div [className]="isSubmitted &&errorAddressControl.email.errors ? 'col-md-12 row error p-10' : 'col-md-12 row p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">email</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Email *</mat-label>
+                                <input formControlName="email" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAddressControl.email.errors?.pattern">
+                                    Invalid Email Address.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12" *ngIf="data.dialogType === 'Super Agent' || data.dialogType === 'Sub Agent'">
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorAgentControl.company_name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">business</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Company Name *</mat-label>
+                                <input formControlName="company_name" (focusout)="assignInvoice()" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAgentControl.company_name.errors?.required">
+                                    Company Name is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div  class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">traffic</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Street</mat-label>
+                                <input formControlName="street" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorAgentControl.email.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">mail</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Email *</mat-label>
+                                <input formControlName="email" type="text" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAgentControl.email.errors?.required">
+                                    Agent Email is required.</mat-hint>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAgentControl.email.errors?.pattern">
+                                    Agent Email not valid.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">directions_subway</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Suburb</mat-label>
+                                <input formControlName="suburb" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorAgentControl.phoneNo.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">stay_current_portrait</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Phone Number *</mat-label>
+                                <input formControlName="phoneNo" type="number" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAgentControl.phoneNo.errors?.required">
+                                    Phone Number is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">location_city</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>State</mat-label>
+                                <input formControlName="state" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorAgentControl.agent_commisson.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">trending_up</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Agent Commission *</mat-label>
+                                <input formControlName="agent_commisson" type="number" min="0" max="100" matInput #input>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAgentControl.agent_commisson.errors?.required">
+                                    Agent Commission is required.</mat-hint>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAgentControl.agent_commisson.errors?.max">
+                                    Agent Commission should not be more than 100.</mat-hint>
+                            </mat-form-field>
+                            <div class="pt-15">
+                                <span> %</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">local_shipping</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Post Code</mat-label>
+                                <input formControlName="post_code"type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorAgentControl.password.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">password</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Password *</mat-label>
+                                <input matInput formControlName="password" #password maxlength="8" [type]="hidePass ? 'password' : 'text'">
+                                <div matSuffix (click)="hidePass = !hidePass" [attr.aria-label]="'Hide password'" class="no-border-btn" [attr.aria-pressed]="hidePass">
+                                    <mat-icon>{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </div>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAgentControl.password.errors?.required">
+                                    Password is required.</mat-hint>
+                                <mat-hint align="start" class="mat-error" *ngIf="isSubmitted && errorAgentControl.password.errors?.minlength">Max 8 characters</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">flag</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Country</mat-label>
+                                <mat-select formControlName="country" ngDefaultControl>
+                                    <mat-option *ngFor="let con of country" [value]="con.name">
+                                        {{con.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">language</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Website</mat-label>
+                                <input formControlName="website" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">alternate_email</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Invoice to</mat-label>
+                                <input formControlName="invoice_to" type="text" matInput #input>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div [className]="isSubmitted &&errorAgentControl.branch.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">mediation</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Branch *</mat-label>
+                                <mat-select formControlName="branch" ngDefaultControl>
+                                    <mat-option *ngFor="let branch of branches" [value]="branch.branch_name">
+                                        {{branch.branch_name}}
+                                    </mat-option>
+                                </mat-select>
+                                <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorAgentControl.branch.errors?.required">
+                                    Branch is required.</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row col-md-12">
+                    <div class="col-md-5L mr-40 mb-20">
+                        <div class="col-md-12 row border p-10">
+                            <div class="col-sm-2 pt-15">
+                                <span class="material-icons">description</span>
+                            </div>
+                            <mat-form-field class="col-md-12">
+                                <mat-label>Agent Description</mat-label>
+                                <textarea formControlName="description" type="text" rows="10" cols="50" matInput #input></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div mat-dialog-actions class="col-md-12 mat-typography mat-dialog-content padding-top10" align="end">
+    <button class="ample_button" [disabled]="isProcessing" *ngIf="data.dialogType === 'Client'" (click)="addContacts()" mat-button>Add</button>
+    <button class="ample_button" [disabled]="isProcessing" *ngIf="data.dialogType === 'Institute'" (click)="addInstitute()" mat-button>Add</button>
+    <button class="ample_button" [disabled]="isProcessing" *ngIf="data.dialogType === 'Course'" (click)="addTypes()" mat-button>Add</button>
+    <button class="ample_button" [disabled]="isProcessing" *ngIf="data.dialogType === 'Start Date'" (click)="addTypes()" mat-button>Add</button>
+    <button class="ample_button" [disabled]="isProcessing" *ngIf="data.dialogType === 'Location'" (click)="addTypes()" mat-button>Add</button>
+    <button class="ample_button" [disabled]="isProcessing" *ngIf="data.dialogType === 'Super Agent'" (click)="addTypes()" mat-button>Add</button>
+    <button class="ample_button" [disabled]="isProcessing" *ngIf="data.dialogType === 'Sub Agent'" (click)="addTypes()" mat-button>Add</button>
+    <button mat-button [disabled]="isProcessing" (click)="onNoClick()" color="warn">Cancel</button>
+</div>

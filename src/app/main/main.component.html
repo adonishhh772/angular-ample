@@ -35,31 +35,31 @@
                     </mat-expansion-panel>
                 </mat-accordion>
                 <mat-accordion *ngIf="!hasShrunk && (!isClient)">
-                    <mat-expansion-panel title="Leads Manager" class="menu_item_accordian"
+                    <mat-expansion-panel title="Students Manager" class="menu_item_accordian"
                                          (opened)="panelOpenStateOther = true"
                                          (closed)="panelOpenStateOther = false">
                         <mat-expansion-panel-header class="menu_accordian_header">
                             <mat-panel-title class="menu_accordian_title">
                                 <mat-icon matSuffix>groups</mat-icon>
-                                <span class="menu_title">Leads Manager</span>
+                                <span class="menu_title">Applicant</span>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <mat-list-item class="menu_item view_leads"
-                                       (click)="changeRoute($event,'Leads Manager','groups','Leads Dashboard','leads','dashboard', null)">
+                                       (click)="changeRoute($event,'Students','groups','Applicants Dashboard','leads','dashboard', null)">
                             <mat-icon matSuffix>dashboard</mat-icon>
-                            <span class="menu_title">Leads Dashboard</span>
+                            <span class="menu_title">Applicant Dashboard</span>
                         </mat-list-item>
                         <mat-list-item class="menu_item track_leads"
-                                       (click)="changeRoute($event,'Leads Manager','groups','Leads Tracker','leads/tracker','leaderboard', null)">
+                                       (click)="changeRoute($event,'Applicant','groups','Applicant Tracker','leads/tracker','leaderboard', null)">
                             <mat-icon matSuffix>leaderboard</mat-icon>
-                            <span class="menu_title">Leads Tracker</span></mat-list-item>
+                            <span class="menu_title">Applicant Tracker</span></mat-list-item>
                         <mat-list-item class="menu_item add_leads"
-                                       (click)="changeRoute($event,'Leads Manager','groups','Add Leads','leads/add','add_circle', null)">
+                                       (click)="changeRoute($event,'Leads','groups','Add Leads','leads/add','add_circle', null)">
                             <mat-icon matSuffix>add_circle</mat-icon>
-                            <span class="menu_title">Add Leads</span>
+                            <span class="menu_title">Add Applicant</span>
                         </mat-list-item>
                         <mat-list-item class="menu_item leads_category"
-                                       (click)="changeRoute($event,'Leads Manager','groups','Category','leads/category','category', null)">
+                                       (click)="changeRoute($event,'Leads','groups','Category','leads/category','category', null)">
                             <mat-icon matSuffix>category</mat-icon>
                             <span class="menu_title">Category</span>
                         </mat-list-item>
@@ -72,11 +72,11 @@
                         <mat-expansion-panel-header class="menu_accordian_header">
                             <mat-panel-title class="menu_accordian_title">
                                 <mat-icon matSuffix>school</mat-icon>
-                                <span class="menu_title">Application Manager</span>
+                                <span class="menu_title">Application</span>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <mat-list-item class="menu_item view_application"
-                                       (click)="changeRoute($event,'Application Manager','school','Dashboard','application','dashboard', null)">
+                                       (click)="changeRoute($event,'Application','school','Dashboard','application','dashboard', null)">
                             <mat-icon matSuffix>dashboard</mat-icon>
                             <span class="menu_title">Application Dashboard</span>
                         </mat-list-item>
@@ -97,7 +97,7 @@
                             </mat-expansion-panel>
                         </mat-accordion>
                         <mat-list-item class="menu_item"
-                                       (click)="changeRoute($event,'Application Manager','school','Types','application/types','merge_type',null)">
+                                       (click)="changeRoute($event,'Application','school','Types','application/types','merge_type',null)">
                             <mat-icon matSuffix>merge_type</mat-icon>
                             <span class="menu_title">Application Types</span></mat-list-item>
                         <mat-list-item class="menu_item add_application"
@@ -145,7 +145,7 @@
                         <mat-expansion-panel-header class="menu_accordian_header">
                             <mat-panel-title class="menu_accordian_title">
                                 <mat-icon matSuffix>account_tree</mat-icon>
-                                <span class="menu_title">Branch Manager</span>
+                                <span class="menu_title">Branches</span>
                             </mat-panel-title>
                             <mat-panel-description>
                                 <span class="menu_badge branch_badge" matBadge="{{branchCount}}"
@@ -153,22 +153,22 @@
                             </mat-panel-description>
                         </mat-expansion-panel-header>
                         <mat-list-item class="menu_item"
-                                       (click)="changeRoute($event,'Branch Manager','account_tree','All Branches','branch/all','view_list', null)">
+                                       (click)="changeRoute($event,'Branches','account_tree','All Branches','branch/all','view_list', null)">
                             <mat-icon matSuffix>view_list</mat-icon>
                             <span class="menu_title">All Branch</span>
                             <div class="col-md-4"></div>
                         </mat-list-item>
                         <mat-list-item class="menu_item"
-                                       (click)="changeRoute($event,'Branch Manager','account_tree','Add Branch','branch/add','add_circle', null)">
+                                       (click)="changeRoute($event,'Branches','account_tree','Add Branch','branch/add','add_circle', null)">
                             <mat-icon matSuffix>add_circle</mat-icon>
                             <span class="menu_title">Add Branch</span></mat-list-item>
                     </mat-expansion-panel>
                 </mat-accordion>
 
                 <mat-list-item *ngIf="!isClient" title="Task Manager" class="menu_item task_manager"
-                               (click)="changeRoute($event,'','','Task Manager','tasks','task', null)">
+                               (click)="changeRoute($event,'','','Task Notification','tasks','task', null)">
                     <mat-icon matSuffix>task</mat-icon>
-                    <span class="menu_title">Task Manager</span>
+                    <span class="menu_title">Task Notification</span>
                     <span class="menu_badge task_badge" matBadge="{{tasksCount}}"
                           matBadgeOverlap="false"></span>
                 </mat-list-item>

@@ -10,6 +10,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatDialogModule} from '@angular/material/dialog';
 import {MatSortModule} from '@angular/material/sort';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
@@ -17,16 +18,18 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatTableModule} from '@angular/material/table';
 import {MatCardModule} from '@angular/material/card';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatTableExporterModule} from 'mat-table-exporter';
 import {MatInputModule} from '@angular/material/input';
 import { AddDialogComponent } from './add-dialog/add-dialog.component';
 import {ApplicationComponent} from './application.component';
+import { DialogsComponent } from './dialogs/dialogs.component';
 
 
 @NgModule({
-    declarations: [ApplicationComponent, TrackerComponent, AddComponent, TypesComponent, AddDialogComponent],
+    declarations: [ApplicationComponent, TrackerComponent, AddComponent, TypesComponent, AddDialogComponent, DialogsComponent],
     imports: [
         ApplicationRoutingModule,
         MatInputModule,
@@ -35,6 +38,7 @@ import {ApplicationComponent} from './application.component';
         MatPaginatorModule,
         MatSortModule,
         MatMenuModule,
+        MatDialogModule,
         MatRadioModule,
         MatButtonModule,
         MatSlideToggleModule,
@@ -44,6 +48,7 @@ import {ApplicationComponent} from './application.component';
         MatSelectModule,
         MatIconModule,
         MatTooltipModule,
+        MatProgressSpinnerModule,
         MatTabsModule,
         FormsModule,
         ReactiveFormsModule,

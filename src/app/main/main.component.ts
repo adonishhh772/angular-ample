@@ -72,7 +72,6 @@ export class MainComponent implements AfterViewInit, OnInit {
                 private router: Router, private renderer: Renderer2, private elRef: ElementRef, private http: HttpClient) {
         this.router.navigate(['dashboard']);
         this.checkRoles();
-        this.getReminder('');
         this.getBranchByName();
         if (this.isSuperAdmin || this.isAdmin) {
             this.getBranch();
@@ -96,6 +95,7 @@ export class MainComponent implements AfterViewInit, OnInit {
             this.getContacts();
             this.getApplicationStat();
         }
+        this.getReminder('');
         this.router.events.subscribe(val => {
             if (val instanceof NavigationStart) {
                 const finalUrl = val.url.split('?');

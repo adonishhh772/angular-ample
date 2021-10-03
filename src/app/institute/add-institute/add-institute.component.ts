@@ -27,6 +27,8 @@ export class AddInstituteComponent implements OnInit {
     instituteDetails = {};
     instituteAddress = {};
     streetName = '';
+    changeFlag = false;
+    img = '';
     state = '';
     private readonly apiUrl = `${environment.apiUrl}`;
     addInstituteForm = new FormGroup({
@@ -186,7 +188,7 @@ export class AddInstituteComponent implements OnInit {
 
 
     private getAllCountries(): any {
-        this.http.get<any>('https://restcountries.eu/rest/v2/all').subscribe({
+        this.http.get<any>('https://restcountries.com/v3.1/all').subscribe({
             next: data => {
                 this.country = data;
             },
@@ -195,6 +197,19 @@ export class AddInstituteComponent implements OnInit {
             }
         });
     }
+
+    addFilter(countryName: string) {
+        this.img = this.country.filter((country: any) => {
+            return country.name.common === countryName;
+        })[0].flags.svg;
+
+        this.changeFlag = true;
+    }
+
+    updateFlag(event: any): any {
+        this.addFilter(event.value);
+    }
+
 
     private getCountryInfo(): any {
         this.http.get<any>('http://ip-api.com/json').subscribe({

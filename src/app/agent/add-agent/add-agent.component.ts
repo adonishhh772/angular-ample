@@ -26,6 +26,8 @@ export class AddAgentComponent implements OnInit {
     countryName = '';
     branches: any[] = [];
     streetName = '';
+    changeFlag = false;
+    img = '';
     state = '';
     addAgentForm = new FormGroup({
         agent_no: new FormControl(''),
@@ -106,6 +108,15 @@ export class AddAgentComponent implements OnInit {
 
   }
 
+  
+  addFilter(countryName: string) {
+    this.img = this.country.filter((country: any) => {
+        return country.name.common === countryName;
+    })[0].flags.svg;
+
+    this.changeFlag = true;
+}
+
     updateAgent(): any {
         this.isSubmitted = true;
         if (!this.addAgentForm.valid) {
@@ -168,7 +179,7 @@ export class AddAgentComponent implements OnInit {
     }
 
     private getAllCountries(): any {
-        this.http.get<any>('https://restcountries.eu/rest/v2/all').subscribe({
+        this.http.get<any>('https://restcountries.com/v3.1/all').subscribe({
             next: data => {
                 this.country = data;
             },
@@ -182,6 +193,7 @@ export class AddAgentComponent implements OnInit {
         this.http.get<any>('http://ip-api.com/json').subscribe({
             next: data => {
                 this.countryName = data.country;
+                this.addFilter(this.countryName);
                 this.streetName = data.city;
                 this.state = data.regionName;
                 // this.currentCountry = ;
@@ -191,6 +203,11 @@ export class AddAgentComponent implements OnInit {
             }
         });
     }
+
+    updateFlag(event: any): any {
+        this.addFilter(event.value);
+    }
+
 
     getBranch(): any {
         this.http.get<any>(this.apiUrl + 'branch/').subscribe({

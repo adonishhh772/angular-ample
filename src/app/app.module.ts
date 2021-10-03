@@ -46,10 +46,10 @@ export function tokenGetter() {
         JwtModule.forRoot({
             config: {
                 tokenGetter: tokenGetter,
-                allowedDomains: ['api.myunistudy.com'],
-                disallowedRoutes: ['https://api.myunistudy.com/api/v1/']
-                // allowedDomains: ['localhost:3000'],
-                // disallowedRoutes: ['http://localhost:3000/api/v1/']
+                // allowedDomains: ['api.myunistudy.com'],
+                // disallowedRoutes: ['https://api.myunistudy.com/api/v1/']
+                allowedDomains: ['localhost:3000'],
+                disallowedRoutes: ['http://localhost:3000/api/v1/']
             }
         })
 

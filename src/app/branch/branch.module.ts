@@ -9,6 +9,7 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
 import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
+import {MatSelectModule} from '@angular/material/select';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import {BranchAddComponent} from './branch-add/branch-add.component';
@@ -27,6 +28,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
         MatPaginatorModule,
         MatInputModule,
         MatFormFieldModule,
+        MatSelectModule,
         MatSortModule,
         MatButtonModule,
         MatIconModule,

@@ -20,7 +20,7 @@ import { UploadDocumentComponent } from './upload-document/upload-document.compo
 
 FullCalendarModule.registerPlugins([ // register FullCalendar plugins
     dayGridPlugin,
-    interactionPlugin
+    // interactionPlugin
 ]);
 
 @NgModule({

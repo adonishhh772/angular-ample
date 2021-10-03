@@ -1,7 +1,7 @@
 <div mat-dialog-title class="dialog_title col-md-12 flex">
     <div class="col-md-10">
-        <h2 *ngIf="data.result === null" class="m0">Add Status</h2>
-        <h2 *ngIf="data.result !== null" class="m0">Edit Status</h2>
+        <h2 *ngIf="data.result === null" class="m0">Add Steps</h2>
+        <h2 *ngIf="data.result !== null" class="m0">Edit Steps</h2>
     </div>
     <div class="col-md-2 text_right">
         <button mat-mini-fab (click)="onNoClick()" class="btn-top btn-hidden">
@@ -51,12 +51,12 @@
 
     </div>
     <div class="col-md-12" *ngIf="data.statusType === 'status' || data.statusType === ''">
-            <h3 class="m0">Enter Status</h3>
+            <h3 class="m0">Enter Steps</h3>
             <table class="table table_responsive table_bordered table_striped">
                 <thead>
                 <tr>
                     <th class="text-center">#</th>
-                    <th class="text-center">Status</th>
+                    <th class="text-center">Steps</th>
                     <th class="text-center">Position</th>
                     <th class="text-center"></th>
                 </tr>

@@ -100,13 +100,14 @@
                 <div class="row col-md-5L mb-10">
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">
-                            <span class="material-icons">flag</span>
+                            <span *ngIf="!changeFlag" class="material-icons">flag</span>
+                            <img class="" height="20px" width="28px" *ngIf="changeFlag" [src]="img"> 
                         </div>
                         <mat-form-field class="col-md-12">
                             <mat-label>Country</mat-label>
-                            <mat-select [(ngModel)]="countryName" formControlName="country" ngDefaultControl>
-                                <mat-option *ngFor="let con of country" [value]="con.name">
-                                    {{con.name}}
+                            <mat-select [(ngModel)]="countryName" (selectionChange)="updateFlag($event)" formControlName="country" ngDefaultControl>
+                                <mat-option *ngFor="let con of country" [value]="con.name.common">
+                                    {{con.name.common}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -133,7 +134,7 @@
                             <span class="material-icons">category</span>
                         </div>
                         <mat-form-field class="col-md-12">
-                            <mat-label>Category</mat-label>
+                            <mat-label>Visa Type</mat-label>
                             <mat-select formControlName="category" ngDefaultControl>
                                 <mat-option value="None">
                                     None
@@ -192,7 +193,7 @@
                                     Admission Core Team
                                 </mat-option>
                                 <mat-option value="Client">
-                                    Clients
+                                    Applicant
                                 </mat-option>
                             </mat-select>
                             <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.role.errors?.required">

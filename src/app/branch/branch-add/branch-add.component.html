@@ -31,6 +31,68 @@
                 </div>
             </div>
             <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.number.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">looks_one</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Branch Number</mat-label>
+                            <input formControlName="number" ngModel="{{branch === undefined ? '' : branch.number}}" type="number" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.number.errors?.required">
+                                Branch Number is required.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.authorised_name.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">perm_identity</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Authorised Person Name</mat-label>
+                            <input formControlName="authorised_name" ngModel="{{branch === undefined ? '' : branch.authorised_name}}" type="text" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.authorised_name.errors?.required">
+                                Branch Authorised name is required.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.email.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span class="material-icons">email</span>
+                        </div>
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Authorised Email</mat-label>
+                            <input formControlName="email" ngModel="{{branch === undefined ? '' : branch.email}}" type="text" matInput #input>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.email.errors?.required">
+                                Authorised Email is required.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row col-md-5L mb-10">
+                    <div [className]="isSubmitted &&errorControl.assigned_country.errors ? 'col-md-12 row border error p-10' : 'col-md-12 row border p-10'">
+                        <div class="col-sm-2 pt-15">
+                            <span *ngIf="!changeFlag" class="material-icons">flag</span>
+                            <img class="" height="20px" width="28px" *ngIf="changeFlag" [src]="img"> 
+                        </div>
+
+                        <mat-form-field class="col-md-12">
+                            <mat-label>Country</mat-label>
+                            <mat-select [(ngModel)]="countryName" (selectionChange)="updateFlag($event)" formControlName="assigned_country" ngDefaultControl>
+                                <mat-option *ngFor="let con of country" [value]="con.name.common">
+                                    {{con.name.common}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-hint class="mat-error" align="start" *ngIf="isSubmitted &&errorControl.assigned_country.errors?.required">
+                                Authorised Country should be selected.</mat-hint>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
                 <div class="row col-md-5L mb-10 secondary_branch">
                     <div class="col-md-12 row border p-10">
                         <div class="col-sm-2 pt-15">

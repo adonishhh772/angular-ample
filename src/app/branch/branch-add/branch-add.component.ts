@@ -4,6 +4,7 @@ import {finalize} from 'rxjs/operators';
 import {BranchService} from '../../Services/branch.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Router} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-branch-add',
@@ -14,15 +15,26 @@ export class BranchAddComponent implements OnInit {
     isSubmitted = false;
     totalBranch = 0;
     branch: any;
+    country: any[] = [];
+    countryName = '';
     isEdit = false;
+    changeFlag = false;
+    img = '';
+    errorMessage = '';
     isProcessing = false;
     addBranchForm = new FormGroup({
         branch_name: new FormControl('', [Validators.required]),
         branch_address: new FormControl('', [Validators.required]),
         is_secondary: new FormControl(''),
+        number:  new FormControl('', [Validators.required]),
+        authorised_name:  new FormControl('', [Validators.required]),
+        email:  new FormControl('', [Validators.required]),
+        assigned_country:  new FormControl('', [Validators.required]),
     });
 
-    constructor(public router: Router, public branchSerivce: BranchService, private _snackBar: MatSnackBar, private elRef: ElementRef, private renderer: Renderer2) {
+    constructor(public router: Router, public http: HttpClient, public branchSerivce: BranchService, private _snackBar: MatSnackBar, private elRef: ElementRef, private renderer: Renderer2) {
+        this.getCountryInfo();
+        this.getAllCountries();
     }
 
     ngOnInit(): void {
@@ -30,6 +42,7 @@ export class BranchAddComponent implements OnInit {
             this.isEdit = true;
             this.branch = history.state.data;
         }
+
         this.getBranchLength();
     }
 
@@ -77,6 +90,10 @@ export class BranchAddComponent implements OnInit {
         }
     }
 
+    updateFlag(event: any): any {
+        this.addFilter(event.value);
+    }
+
     getBranchLength(): any {
         const selector = this.elRef.nativeElement.parentElement.parentElement.parentElement.parentElement;
         const el = selector.querySelector('.branch_badge');
@@ -96,6 +113,40 @@ export class BranchAddComponent implements OnInit {
     get errorControl(): any {
         return this.addBranchForm.controls;
     }
+
+    private getAllCountries(): any {
+        this.http.get<any>('https://restcountries.com/v3.1/all').subscribe({
+            next: data => {
+                this.country = data;
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
+    }
+
+    private getCountryInfo(): any {
+        this.countryName = 'Loading';
+        this.http.get<any>('http://ip-api.com/json').subscribe({
+            next: data => {
+                this.countryName = data.country;
+                this.addFilter(this.countryName);
+                // this.currentCountry = ;
+            },
+            error: error => {
+                this.errorMessage = error.message;
+            }
+        });
+    }
+
+    addFilter(countryName: string) {
+        this.img = this.country.filter((country: any) => {
+            return country.name.common === countryName;
+        })[0].flags.svg;
+
+        this.changeFlag = true;
+    }
+
 
     updateBranch(): any {
         this.isSubmitted = true;

@@ -33,6 +33,8 @@ export class AddContactsComponent implements OnInit {
     managers: any[] = [];
     category: any[] = [];
     streetName = '';
+    changeFlag = false;
+    img = '';
     state = '';
     addContactsForm = new FormGroup({
         name: new FormControl('', [Validators.required]),
@@ -214,7 +216,7 @@ export class AddContactsComponent implements OnInit {
     }
 
     private getAllCountries(): any {
-        this.http.get<any>('https://restcountries.eu/rest/v2/all').subscribe({
+        this.http.get<any>('https://restcountries.com/v3.1/all').subscribe({
             next: data => {
                 this.country = data;
             },
@@ -228,6 +230,7 @@ export class AddContactsComponent implements OnInit {
         this.http.get<any>('http://ip-api.com/json').subscribe({
             next: data => {
                 this.countryName = data.country;
+                this.addFilter(this.countryName);
                 this.streetName = data.city;
                 this.state = data.regionName;
                 // this.currentCountry = ;
@@ -236,6 +239,14 @@ export class AddContactsComponent implements OnInit {
                 this.errorMessage = error.message;
             }
         });
+    }
+
+    addFilter(countryName: string) {
+        this.img = this.country.filter((country: any) => {
+            return country.name.common === countryName;
+        })[0].flags.svg;
+
+        this.changeFlag = true;
     }
 
     getBranch(): any {
@@ -255,6 +266,10 @@ export class AddContactsComponent implements OnInit {
         } else {
             this.isClient = false;
         }
+    }
+
+    updateFlag(event: any): any {
+        this.addFilter(event.value);
     }
 
     getManager(): any {
